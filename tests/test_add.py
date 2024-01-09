@@ -1,6 +1,6 @@
 """Test addition module."""
 
-from space_collector.add import add
+from space_collector.game.add import add
 
 
 def test_add() -> None:

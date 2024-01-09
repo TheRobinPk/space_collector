@@ -17,7 +17,7 @@ readme = "README.md"
 keywords = ["space", "collector", "game"]
 license = "BSD-3-Clause"
 requires-python = ">=3.10"
-dependencies = ["httpx >=0,<1"]
+dependencies = ["arcade==2.6.17"]
 
 [project.urls]
 "Source code" = "https://github.com/vpoulailleau/space_collector"
@@ -42,7 +42,7 @@ exclude = [".gitignore", "/.github", "/docs"]
 packages = ["space_collector"]
 
 [[tool.hatch.envs.default.matrix]]
-python = ["3.11", "3.12"]
+python = ["3.11"]
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -56,6 +56,7 @@ dependencies = [
 test = "pytest --cov-config=pyproject.toml {args}"
 format = "black {args}"
 lint = "ruff check {args}"
+viewer = "python -m space_collector.viewer"
 
 [tool.interrogate]
 fail-under = 100
@@ -65,7 +66,7 @@ ignore-regex = ["^test_.*$"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -q  -s -vv --cov=space_collector --cov-branch --cov-report=term-missing --cov-fail-under=100"
+addopts = "-ra -q  -s -vv --cov=space_collector.game --cov-branch --cov-report=term-missing --cov-fail-under=100"
 testpaths = ["tests"]
 
 [tool.ruff.format]
