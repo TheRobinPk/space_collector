@@ -32,16 +32,10 @@ class Window(arcade.Window):
             find_image_files("space_collector/viewer/images/backgrounds")
         )
         background = arcade.Sprite(background_image)
-        background_width = background.width
-        background_height = background.height
-        for x in range(0, SCREEN_WIDTH, background_width):
-            for y in range(0, SCREEN_HEIGHT, background_height):
-                background = arcade.Sprite(background_image)
-                background.position = (
-                    x + background_width // 2,
-                    y + background_height // 2,
-                )
-                self.background_list.append(background)
+        background.position = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
+        background.width = SCREEN_WIDTH
+        background.height = SCREEN_HEIGHT
+        self.background_list.append(background)
 
     def on_draw(self):
         if not self.input_queue.empty():
