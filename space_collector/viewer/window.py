@@ -22,7 +22,7 @@ class Window(arcade.Window):
         self.score = Score()
         self.input_queue: Queue = Queue()
         self.spaceships: list[SpaceShip] = [Attacker() for _ in range(5)]
-        self.spaceships.extend([Collector() for _ in range(5)])
+        self.spaceships.extend([Collector() for _ in range(30)])
         self.spaceships.extend([Explorator() for _ in range(5)])
         # self.spaceships_sprite_list = arcade.SpriteList()
 
