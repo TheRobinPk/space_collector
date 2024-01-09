@@ -1,0 +1,83 @@
+[project]
+name = "space_collector"
+version = "0.0.1"
+description = "Description"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+]
+authors = [{ name = "Vincent Poulailleau", email = "vpoulailleau@gmail.com" }]
+readme = "README.md"
+keywords = ["space", "collector", "game"]
+license = "BSD-3-Clause"
+requires-python = ">=3.10"
+dependencies = ["httpx >=0,<1"]
+
+[project.urls]
+"Source code" = "https://github.com/vpoulailleau/space_collector"
+Repository = "https://github.com/vpoulailleau/space_collector"
+Documentation = "https://github.com/vpoulailleau/space_collector/README.md"
+
+[tool.bandit.assert_used]
+skips = ["*_test.py", "*test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
+
+[tool.flake8]
+no-accept-encodings = true
+max-line-length = 88
+extend-ignore = ["AAA05", "ANN101", "ANN102", "PLC116", "SCS108"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [".gitignore", "/.github", "/docs"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["space_collector"]
+
+[[tool.hatch.envs.default.matrix]]
+python = ["3.11", "3.12"]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "python-dev-tools >= 2023",
+    "pre-commit >=3,<4",
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest --cov-config=pyproject.toml {args}"
+format = "black {args}"
+lint = "ruff check {args}"
+
+[tool.interrogate]
+fail-under = 100
+verbose = 2
+ignore-init-module = true
+ignore-regex = ["^test_.*$"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q  -s -vv --cov=space_collector --cov-branch --cov-report=term-missing --cov-fail-under=100"
+testpaths = ["tests"]
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+# Enable D400 on top of the Google convention for docstrings.
+extend-select = ["D400"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
