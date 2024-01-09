@@ -1,4 +1,6 @@
 import logging
+import random
+from pathlib import Path
 from queue import Queue
 
 import arcade
@@ -8,22 +10,38 @@ SCREEN_WIDTH = 1777
 SCREEN_TITLE = "Space collector"
 
 
+def find_image_files(directory: Path | str) -> list[Path]:
+    if isinstance(directory, str):
+        directory = Path(directory)
+    return [
+        path
+        for path in directory.iterdir()
+        if path.is_file() and path.suffix in (".jpg", ".png", ".jpeg")
+    ]
+
+
 class Window(arcade.Window):
     def __init__(self) -> None:
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.csscolor.BLACK)
         self.input_queue: Queue = Queue()
 
-    def setup(self):
+    def setup(self) -> None:
         self.background_list = arcade.SpriteList()
-        # grass = arcade.Sprite("space_collector/viewer/images/grass.jpeg")
-        # grass_width = grass.width
-        # grass_height = grass.height
-        # for x in range(0, SCREEN_WIDTH, grass_width):
-        #     for y in range(0, SCREEN_HEIGHT, grass_height):
-        #         grass = arcade.Sprite("chronobio/viewer/images/grass.jpeg")
-        #         grass.position = x + grass_width // 2, y + grass_height // 2
-        #         self.background_list.append(grass)
+        background_image = random.choice(
+            find_image_files("space_collector/viewer/images/backgrounds")
+        )
+        background = arcade.Sprite(background_image)
+        background_width = background.width
+        background_height = background.height
+        for x in range(0, SCREEN_WIDTH, background_width):
+            for y in range(0, SCREEN_HEIGHT, background_height):
+                background = arcade.Sprite(background_image)
+                background.position = (
+                    x + background_width // 2,
+                    y + background_height // 2,
+                )
+                self.background_list.append(background)
 
     def on_draw(self):
         if not self.input_queue.empty():

@@ -1,6 +1,6 @@
 SKIP_UPDATE=$1
 
-PORT=$(python -c "import random; print(random.randint(2000, 3000))")
+PORT=$(python -c "import random; print(random.randint(2000, 4000))")
 echo "La compétition se passe sur 127.0.0.1:$PORT"
 
 python killall.py
