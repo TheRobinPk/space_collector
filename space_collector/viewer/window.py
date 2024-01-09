@@ -1,13 +1,17 @@
 import logging
 import random
-from pathlib import Path
 from queue import Queue
 
 import arcade
 
-from space_collector.viewer.constants import SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
+from space_collector.viewer.constants import (
+    SCREEN_HEIGHT,
+    SCREEN_TITLE,
+    SCREEN_WIDTH,
+)
 from space_collector.viewer.space_background import SpaceBackground
 from space_collector.viewer.score import Score
+from space_collector.viewer.spaceship import Attacker, Collector, Explorator, SpaceShip
 
 
 class Window(arcade.Window):
@@ -17,10 +21,17 @@ class Window(arcade.Window):
         self.background = SpaceBackground()
         self.score = Score()
         self.input_queue: Queue = Queue()
+        self.spaceships: list[SpaceShip] = [Attacker() for _ in range(5)]
+        self.spaceships.extend([Collector() for _ in range(5)])
+        self.spaceships.extend([Explorator() for _ in range(5)])
+        # self.spaceships_sprite_list = arcade.SpriteList()
 
     def setup(self) -> None:
         self.background.setup()
         self.score.setup()
+        # self.spaceships_sprite_list.clear()
+        # for spaceship in self.spaceships:
+        #     self.spaceships_sprite_list.append(spaceship.sprite)
 
     def on_draw(self):
         if not self.input_queue.empty():
@@ -32,12 +43,11 @@ class Window(arcade.Window):
 
         self.clear()
         self.background.draw()
+        for spaceship in self.spaceships:
+            spaceship.animate()
+            spaceship.sprite.draw()
+        # self.spaceships_sprite_list.draw()
         self.score.draw()
-        # for farm_background in self.farm_backgrounds:
-        #     farm_background.draw()
-        # for farm in self.farms:
-        #     farm.draw()
-        # self.score.draw()
 
 
 def gui_thread(window):
