@@ -57,6 +57,7 @@ test = "pytest --cov-config=pyproject.toml {args}"
 format = "black {args}"
 lint = "ruff check {args}"
 viewer = "python -m space_collector.viewer"
+server = "python -m space_collector.game.server"
 
 [tool.interrogate]
 fail-under = 100
