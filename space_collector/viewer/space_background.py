@@ -9,12 +9,6 @@ from space_collector.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCORE_
 from space_collector.viewer.utils import random_sprite
 
 
-def alpha(frame: int, period: int, max_value: int) -> int:
-    frame %= period
-    value = abs(frame / period - 0.5) * 2
-    return int(max_value * value)
-
-
 class Comet:
     FADE_IN_DURATION = 0.3
 
@@ -52,7 +46,7 @@ class Comet:
             ],
         )
 
-    def animate(self, frame: int) -> None:
+    def animate(self) -> None:
         if perf_counter() - self.start_time > 2 * self.duration:
             self.new_trajectory()
         self.sprite.position = (self.x.value, self.y.value)
@@ -62,7 +56,8 @@ class Comet:
 class SpaceBackground:
     def __init__(self):
         self.sprite_list = arcade.SpriteList()
-        self.frame_index = 0
+        self.starfield_alpha1 = AnimatedValue(0)
+        self.starfield_alpha2 = AnimatedValue(0)
 
     def setup(self) -> None:
         self.sprite_list = arcade.SpriteList()
@@ -78,10 +73,29 @@ class SpaceBackground:
         self.comet2 = Comet()
         self.sprite_list.append(self.comet2.sprite)
 
+    def animate(self):
+        self.comet1.animate()
+        self.comet2.animate()
+
+        if not self.starfield_alpha1:
+            self.starfield_alpha1.add_animations(
+                initial_value=0,
+                steps=[
+                    Step(value=30, duration=3),
+                    Step(value=0, duration=3),
+                ],
+            )
+        if not self.starfield_alpha2:
+            self.starfield_alpha2.add_animations(
+                initial_value=0,
+                steps=[
+                    Step(value=40, duration=4.1),
+                    Step(value=0, duration=4),
+                ],
+            )
+
     def draw(self) -> None:
-        self.frame_index += 1
-        self.comet1.animate(self.frame_index)
-        self.comet2.animate(self.frame_index)
-        self.starfield1.alpha = alpha(self.frame_index, 202, 30)
-        self.starfield2.alpha = alpha(self.frame_index, 507, 40)
+        self.animate()
+        self.starfield1.alpha = self.starfield_alpha1.value
+        self.starfield2.alpha = self.starfield_alpha2.value
         self.sprite_list.draw()

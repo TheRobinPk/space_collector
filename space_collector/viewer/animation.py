@@ -41,6 +41,9 @@ class AnimatedValue:
         self._animations: list[Animation] = []
         self._last_value = initial_value
 
+    def __len__(self) -> int:
+        return len(self._animations)
+
     @property
     def value(self) -> int:
         current_time = perf_counter()
