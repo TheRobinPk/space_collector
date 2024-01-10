@@ -15,10 +15,6 @@ def alpha(frame: int, period: int, max_value: int) -> int:
     return int(max_value * value)
 
 
-def linear(alpha: float, min_value: int, max_value: int) -> int:
-    return min_value + int((max_value - min_value) * alpha)
-
-
 class Comet:
     FADE_IN_DURATION = 0.3
 
@@ -60,8 +56,7 @@ class Comet:
         if perf_counter() - self.start_time > 2 * self.duration:
             self.new_trajectory()
         self.sprite.position = (self.x.value, self.y.value)
-        logging.info(self.alpha.value)
-        self.sprite.alpha = min(max(0, self.alpha.value), 255)  # TODO virer ce min max
+        self.sprite.alpha = self.alpha.value
 
 
 class SpaceBackground:
