@@ -4,6 +4,7 @@ import logging
 
 import arcade
 
+from space_collector.viewer.animation import AnimatedValue, Animation
 from space_collector.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCORE_WIDTH
 from space_collector.viewer.utils import random_sprite
 
@@ -21,29 +22,37 @@ def linear(alpha: float, min_value: int, max_value: int) -> int:
 class Comet:
     def __init__(self) -> None:
         self.sprite = arcade.Sprite("space_collector/viewer/images/comet.png")
+        self.x = AnimatedValue(random.randint(SCORE_WIDTH, SCREEN_WIDTH))
+        self.y = AnimatedValue(random.randint(0, SCREEN_HEIGHT))
         self.new_trajectory(0)
 
     def new_trajectory(self, start_frame: int) -> None:
-        logging.info(start_frame)
-        self.start_x = random.randint(SCORE_WIDTH, SCREEN_WIDTH)
-        self.start_y = random.randint(SCORE_WIDTH, SCREEN_HEIGHT)
-        self.end_x = random.randint(0, SCREEN_WIDTH)
-        self.end_y = random.randint(0, SCREEN_HEIGHT)
-        self.period = random.randint(30, 100)
+        self.duration = random.random() * 3
+        self.period = int(self.duration * 60)  # TODO à virer
+        self.x.add_animation(
+            Animation(
+                start_value=self.x.value,
+                end_value=random.randint(SCORE_WIDTH, SCREEN_WIDTH),
+                duration=self.duration,
+            )
+        )
+        self.y.add_animation(
+            Animation(
+                start_value=self.y.value,
+                end_value=random.randint(0, SCREEN_HEIGHT),
+                duration=self.duration,
+            )
+        )
         self.start_frame = start_frame
 
     def animate(self, frame: int) -> None:
-        logging.info(frame)
         value = (frame - self.start_frame) / self.period
         if value >= 1:
             self.sprite.alpha = 0
             if value >= 2:
                 self.new_trajectory(frame)
             return
-        self.sprite.position = (
-            linear(value, self.start_x, self.end_x),
-            linear(value, self.start_y, self.end_y),
-        )
+        self.sprite.position = (self.x.value, self.y.value)
         self.sprite.alpha = int((1 - abs(value - 0.5) * 2) * 255)
 
 
