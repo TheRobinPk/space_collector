@@ -8,8 +8,8 @@ from typing import Iterable
 class Animation:
     def __init__(
         self,
-        start_value: float,
-        end_value: float,
+        start_value: int,
+        end_value: int,
         duration: float = 1.0,
         start_time: float | None = None,
     ) -> None:
@@ -47,7 +47,9 @@ class AnimatedValue:
         to_be_removed = []
         for animation in self._animations:
             if animation.end_time < current_time:
+                self._last_value = animation.end_value
                 to_be_removed.append(animation)  # already finished
+                continue
             if animation.start_time > current_time:
                 continue  # not yet started
             self._last_value = animation.value(current_time)
