@@ -5,25 +5,7 @@ import logging
 import arcade
 
 from space_collector.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCORE_WIDTH
-
-
-def find_image_files(directory: Path | str) -> list[Path]:
-    if isinstance(directory, str):
-        directory = Path(directory)
-    return [
-        path
-        for path in directory.iterdir()
-        if path.is_file() and path.suffix in (".jpg", ".png", ".jpeg")
-    ]
-
-
-def random_image(path: str) -> arcade.Sprite:
-    sprite_image = random.choice(find_image_files(path))
-    sprite = arcade.Sprite(sprite_image)
-    sprite.position = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
-    sprite.width = SCREEN_WIDTH
-    sprite.height = SCREEN_HEIGHT
-    return sprite
+from space_collector.viewer.utils import random_sprite
 
 
 def alpha(frame: int, period: int, max_value: int) -> int:
@@ -73,11 +55,11 @@ class SpaceBackground:
     def setup(self) -> None:
         self.sprite_list = arcade.SpriteList()
         self.sprite_list.append(
-            random_image("space_collector/viewer/images/backgrounds")
+            random_sprite("space_collector/viewer/images/backgrounds")
         )
-        self.starfield1 = random_image("space_collector/viewer/images/starfields")
+        self.starfield1 = random_sprite("space_collector/viewer/images/starfields")
         self.sprite_list.append(self.starfield1)
-        self.starfield2 = random_image("space_collector/viewer/images/starfields")
+        self.starfield2 = random_sprite("space_collector/viewer/images/starfields")
         self.sprite_list.append(self.starfield2)
         self.comet1 = Comet()
         self.sprite_list.append(self.comet1.sprite)

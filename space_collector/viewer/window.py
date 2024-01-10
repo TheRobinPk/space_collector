@@ -1,6 +1,7 @@
 import logging
 import random
 from queue import Queue
+from typing import NoReturn
 
 import arcade
 
@@ -9,6 +10,7 @@ from space_collector.viewer.constants import (
     SCREEN_TITLE,
     SCREEN_WIDTH,
 )
+from space_collector.viewer.planet import Planet
 from space_collector.viewer.space_background import SpaceBackground
 from space_collector.viewer.score import Score
 from space_collector.viewer.spaceship import Attacker, Collector, Explorator, SpaceShip
@@ -24,11 +26,16 @@ class Window(arcade.Window):
         self.spaceships: list[SpaceShip] = [Attacker() for _ in range(5)]
         self.spaceships.extend([Collector() for _ in range(30)])
         self.spaceships.extend([Explorator() for _ in range(5)])
+        self.planets: list[Planet] = [Planet("foo") for _ in range(20)]
         # self.spaceships_sprite_list = arcade.SpriteList()
 
     def setup(self) -> None:
         self.background.setup()
         self.score.setup()
+        for spaceship in self.spaceships:
+            spaceship.setup()
+        for planet in self.planets:
+            planet.setup()
         # self.spaceships_sprite_list.clear()
         # for spaceship in self.spaceships:
         #     self.spaceships_sprite_list.append(spaceship.sprite)
@@ -43,14 +50,15 @@ class Window(arcade.Window):
 
         self.clear()
         self.background.draw()
+        for planet in self.planets:
+            planet.draw()
         for spaceship in self.spaceships:
-            spaceship.animate()
-            spaceship.sprite.draw()
+            spaceship.draw()
         # self.spaceships_sprite_list.draw()
         self.score.draw()
 
 
-def gui_thread(window):
+def gui_thread(window: Window) -> None:
     try:
         window.setup()
         arcade.run()
