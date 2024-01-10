@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from time import perf_counter
+from typing import Iterable
 
 
 class Animation:
@@ -25,8 +27,13 @@ class Animation:
 
     def value(self, time: float) -> int:
         factor = (time - self.start_time) / self.duration
-
         return int(self.start_value + (self.end_value - self.start_value) * factor)
+
+
+@dataclass
+class Step:
+    duration: float
+    value: float
 
 
 class AnimatedValue:
@@ -50,3 +57,30 @@ class AnimatedValue:
 
     def add_animation(self, animation: Animation) -> None:
         self._animations.append(animation)
+
+    def add_animations(
+        self,
+        initial_value: float,
+        steps: Iterable[Step],
+        start_time: float | None = None,
+    ) -> None:
+        if not steps:
+            return
+        self._animations.append(
+            Animation(
+                start_value=initial_value,
+                start_time=start_time,
+                end_value=steps[0].value,
+                duration=steps[0].duration,
+            )
+        )
+        for step in steps[1:]:
+            last_animation = self._animations[-1]
+            self._animations.append(
+                Animation(
+                    start_value=last_animation.end_value,
+                    start_time=last_animation.end_time,
+                    end_value=step.value,
+                    duration=step.duration,
+                )
+            )

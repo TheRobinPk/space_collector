@@ -1,10 +1,10 @@
-import random
-from pathlib import Path
 import logging
+import random
+from time import perf_counter
 
 import arcade
 
-from space_collector.viewer.animation import AnimatedValue, Animation
+from space_collector.viewer.animation import AnimatedValue, Animation, Step
 from space_collector.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCORE_WIDTH
 from space_collector.viewer.utils import random_sprite
 
@@ -20,15 +20,19 @@ def linear(alpha: float, min_value: int, max_value: int) -> int:
 
 
 class Comet:
+    FADE_IN_DURATION = 0.3
+
     def __init__(self) -> None:
         self.sprite = arcade.Sprite("space_collector/viewer/images/comet.png")
         self.x = AnimatedValue(random.randint(SCORE_WIDTH, SCREEN_WIDTH))
         self.y = AnimatedValue(random.randint(0, SCREEN_HEIGHT))
-        self.new_trajectory(0)
+        self.alpha = AnimatedValue(0)
+        self.new_trajectory()
 
-    def new_trajectory(self, start_frame: int) -> None:
-        self.duration = random.random() * 3
-        self.period = int(self.duration * 60)  # TODO à virer
+    def new_trajectory(self) -> None:
+        self.duration = random.random() * 2 + 2 * self.FADE_IN_DURATION
+        self.start_time = perf_counter()
+
         self.x.add_animation(
             Animation(
                 start_value=self.x.value,
@@ -43,17 +47,21 @@ class Comet:
                 duration=self.duration,
             )
         )
-        self.start_frame = start_frame
+        self.alpha.add_animations(
+            initial_value=self.alpha.value,
+            steps=[
+                Step(value=255, duration=self.FADE_IN_DURATION),
+                Step(value=255, duration=self.duration - 2 * self.FADE_IN_DURATION),
+                Step(value=0, duration=self.FADE_IN_DURATION),
+            ],
+        )
 
     def animate(self, frame: int) -> None:
-        value = (frame - self.start_frame) / self.period
-        if value >= 1:
-            self.sprite.alpha = 0
-            if value >= 2:
-                self.new_trajectory(frame)
-            return
+        if perf_counter() - self.start_time > 2 * self.duration:
+            self.new_trajectory()
         self.sprite.position = (self.x.value, self.y.value)
-        self.sprite.alpha = int((1 - abs(value - 0.5) * 2) * 255)
+        logging.info(self.alpha.value)
+        self.sprite.alpha = min(max(0, self.alpha.value), 255)  # TODO virer ce min max
 
 
 class SpaceBackground:
