@@ -11,7 +11,7 @@ from space_collector.viewer.constants import (
 )
 
 
-def map_coord_to_window_coord(x, y) -> tuple[int, int]:
+def map_coord_to_window_coord(x: float, y: float) -> tuple[int, int]:
     return (
         int(x / MAP_DIMENSION * (SCREEN_WIDTH - SCORE_WIDTH)) + SCORE_WIDTH,
         int(y / MAP_DIMENSION * SCREEN_HEIGHT),
