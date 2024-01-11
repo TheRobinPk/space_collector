@@ -23,6 +23,10 @@ class GameServer(Server):
     def players(self):
         return [client for client in self.clients if not client.spectator]
 
+    @property
+    def spectators(self):
+        return [client for client in self.clients if client.spectator]
+
     def remove_client(self: "GameServer", client: ClientData) -> None:
         self.clients.remove(client)
         if not client.spectator:
@@ -67,7 +71,8 @@ class GameServer(Server):
                     continue
                 command = self.read(player)
                 self.write(player, self.game.manage_command(command))
-            # TODO post update for spectators
+            for spectator in self.spectators:
+                self.write(spectator, json.dumps(self.game.state()))
         sys.exit(0)
 
 
