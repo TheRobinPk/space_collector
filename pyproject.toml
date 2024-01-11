@@ -56,8 +56,8 @@ dependencies = [
 test = "pytest --cov-config=pyproject.toml {args}"
 format = "black {args}"
 lint = "ruff check {args}"
-viewer = "python -m space_collector.viewer"
-server = "python -m space_collector.game.server"
+viewer = "python -m space_collector.viewer {args}"
+server = "python -m space_collector.game.server {args}"
 
 [tool.interrogate]
 fail-under = 100
