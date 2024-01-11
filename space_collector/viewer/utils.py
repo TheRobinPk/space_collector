@@ -5,16 +5,23 @@ import arcade
 
 from space_collector.viewer.constants import (
     MAP_DIMENSION,
+    MAP_MIN_X,
+    MAP_MAX_X,
+    MAP_MIN_Y,
+    MAP_MAX_Y,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
     SCORE_WIDTH,
 )
 
+MAP_WIDTH = MAP_MAX_X - MAP_MIN_X
+MAP_HEIGHT = MAP_MAX_Y - MAP_MIN_Y
+
 
 def map_coord_to_window_coord(x: float, y: float) -> tuple[int, int]:
     return (
-        int(x / MAP_DIMENSION * (SCREEN_WIDTH - SCORE_WIDTH)) + SCORE_WIDTH,
-        int(y / MAP_DIMENSION * SCREEN_HEIGHT),
+        int(x / MAP_DIMENSION * MAP_WIDTH) + MAP_MIN_X,
+        int(y / MAP_DIMENSION * MAP_HEIGHT) + MAP_MIN_Y,
     )
 
 
