@@ -46,7 +46,6 @@ class DataHandler:
 
     def readline(self: "DataHandler", timeout: int = DEFAULT_TIMEOUT) -> str:
         start = perf_counter()
-        logging.debug("readline")
         while "\n" not in self._input:
             if perf_counter() - start > timeout:
                 logging.debug("timeout")
