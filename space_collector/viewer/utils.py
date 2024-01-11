@@ -1,7 +1,9 @@
 import random
+import uuid
 from pathlib import Path
 
 import arcade
+from PIL import Image
 
 from space_collector.game.constants import MAP_DIMENSION
 from space_collector.viewer.constants import (
@@ -41,3 +43,15 @@ def random_sprite(path: str) -> arcade.Sprite:
     sprite.width = SCREEN_WIDTH
     sprite.height = SCREEN_HEIGHT
     return sprite
+
+
+def hue_changed_texture(image_path: str, target_hue: int) -> arcade.Texture:
+    original_image = Image.open(image_path)
+    alpha_channel = original_image.split()[-1]
+    hsv_image = original_image.convert("HSV")
+    h, s, v = hsv_image.split()
+    hue_data = h.point(lambda i: (i + target_hue) % 256)
+    adjusted_hue_image = Image.merge("HSV", (hue_data, s, v))
+    adjusted_hue_image_rgb = adjusted_hue_image.convert("RGB")
+    final_image = Image.merge("RGBA", (*adjusted_hue_image_rgb.split(), alpha_channel))
+    return arcade.Texture(name=str(uuid.uuid4()), image=final_image)
