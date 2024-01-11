@@ -34,6 +34,9 @@ class Client:
     def read_json(self) -> object:
         return self._data_handler.read_json()
 
+    def readline(self) -> str:
+        return self._data_handler.readline()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Game client.")
