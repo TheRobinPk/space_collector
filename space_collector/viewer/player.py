@@ -1,9 +1,11 @@
+import logging
+
 from space_collector.viewer.spaceship import SpaceShip, Collector, Attacker, Explorator
 
 type_name_to_class = {
     "collector": Collector,
     "attacker": Attacker,
-    "exlorator": Explorator,
+    "explorer": Explorator,
 }
 
 
@@ -15,7 +17,15 @@ class Player:
         self.spaceships: list[SpaceShip] = []
         self.team = team
 
-    def update(self, server_data: dict, time: float) -> None:
+    def setup(self) -> None:
+        pass
+
+    def draw(self) -> None:
+        for spaceship in self.spaceships:
+            spaceship.draw()
+
+    def update(self, server_data: dict, date: float) -> None:
+        logging.info("update player at %f: %s", date, str(server_data))
         self.name = server_data["name"]
         self.blocked = self.blocked
         if not self.spaceships:
@@ -29,5 +39,6 @@ class Player:
                         self.team,
                     )
                 )
+                self.spaceships[-1].setup()
         for index, spaceship_data in enumerate(server_data["spaceships"]):
-            self.spaceships[index].update(spaceship_data, time)
+            self.spaceships[index].update(spaceship_data, date)
