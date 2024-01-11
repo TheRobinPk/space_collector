@@ -41,6 +41,9 @@ class DataHandler:
         receive_thread = Thread(target=self._receive_data, args=(), daemon=True)
         receive_thread.start()
 
+    def input_empty(self) -> bool:
+        return "\n" not in self._input
+
     def readline(self: "DataHandler", timeout: int = DEFAULT_TIMEOUT) -> str:
         start = perf_counter()
         logging.debug("readline")
