@@ -18,6 +18,8 @@ class GameServer(Server):
         super().__init__(host, port)
         self.game = Game()
         self._wait_connections()
+        for player_name in {player.name for player in self.players}:
+            self.game.add_player(player_name)
 
     @property
     def players(self):
@@ -57,6 +59,8 @@ class GameServer(Server):
         return text
 
     def write(self, client: ClientData, text: str) -> None:
+        if not text.endswith("\n"):
+            text += "\n"
         logging.debug("sending to %s", client.name)
         try:
             client.network.write(text)
