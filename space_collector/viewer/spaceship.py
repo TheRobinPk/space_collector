@@ -4,7 +4,7 @@ import arcade
 
 from space_collector.viewer.animation import AnimatedValue, Animation, Step
 from space_collector.viewer.utils import map_coord_to_window_coord, hue_changed_texture
-from space_collector.viewer.constants import TEAM_COLORS
+from space_collector.viewer.constants import TEAM_HUES
 
 
 class SpaceShip:
@@ -20,7 +20,7 @@ class SpaceShip:
 
     def setup(self) -> None:
         self.sprite = arcade.Sprite(
-            texture=hue_changed_texture(self.image_path, self.team * 90)
+            texture=hue_changed_texture(self.image_path, TEAM_HUES[self.team])
         )
         self.sprite.width = self.width
         self.sprite.height = self.height

@@ -9,6 +9,12 @@ TEAM_COLORS = {
     2: (255, 255, 0, 255),
     3: (32, 196, 255, 255),
 }
+TEAM_HUES = {
+    0: 0,
+    1: 30,
+    2: 65,
+    3: 130,
+}
 
 MAP_MARGIN = 100
 MAP_MIN_X = SCORE_WIDTH + MAP_MARGIN
