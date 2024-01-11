@@ -4,11 +4,11 @@ from dataclasses import dataclass
 @dataclass
 class Spaceship:
     id: int
-    x: float
-    y: float
+    x: int
+    y: int
     angle: int
     speed: int
-    broken: float
+    broken: bool
     type: str
 
     def state(self) -> dict:
@@ -24,15 +24,15 @@ class Spaceship:
 
 
 class Collector(Spaceship):
-    def __init__(self, id_: int, x: float, y: float, angle: int) -> None:
+    def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
         super().__init__(id_, x, y, angle, 0, False, "collector")
 
 
 class Attacker(Spaceship):
-    def __init__(self, id_: int, x: float, y: float, angle: int) -> None:
+    def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
         super().__init__(id_, x, y, angle, 0, False, "attacker")
 
 
 class Explorer(Spaceship):
-    def __init__(self, id_: int, x: float, y: float, angle: int) -> None:
+    def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
         super().__init__(id_, x, y, angle, 0, False, "explorer")

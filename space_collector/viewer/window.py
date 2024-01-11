@@ -23,22 +23,13 @@ class Window(arcade.Window):
         self.background = SpaceBackground()
         self.score = Score()
         self.input_queue: Queue = Queue()
-        self.spaceships: list[SpaceShip] = [Attacker() for _ in range(5)]
-        self.spaceships.extend([Collector() for _ in range(30)])
-        self.spaceships.extend([Explorator() for _ in range(5)])
         self.planets: list[Planet] = [Planet("foo") for _ in range(20)]
-        # self.spaceships_sprite_list = arcade.SpriteList()
 
     def setup(self) -> None:
         self.background.setup()
         self.score.setup()
-        for spaceship in self.spaceships:
-            spaceship.setup()
         for planet in self.planets:
             planet.setup()
-        # self.spaceships_sprite_list.clear()
-        # for spaceship in self.spaceships:
-        #     self.spaceships_sprite_list.append(spaceship.sprite)
 
     def on_draw(self):
         if not self.input_queue.empty():
@@ -52,9 +43,6 @@ class Window(arcade.Window):
         self.background.draw()
         for planet in self.planets:
             planet.draw()
-        for spaceship in self.spaceships:
-            spaceship.draw()
-        # self.spaceships_sprite_list.draw()
         self.score.draw()
 
 
