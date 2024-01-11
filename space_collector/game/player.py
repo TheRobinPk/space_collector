@@ -48,7 +48,12 @@ class Player:
             Collector(9, base_x - 6000 * dx, base_y - 6000 * dy, angle),
         ]
         for planet_x, planet_y in planet_positions:
-            self.planets.append(Planet(base_x + planet_x * dx, base_y + planet_y * dy))
+            self.planets.append(
+                Planet(
+                    base_x + planet_x * dx,  # TODO rotation
+                    base_y + planet_y * dy,
+                )
+            )
 
     def state(self) -> dict:
         return {
