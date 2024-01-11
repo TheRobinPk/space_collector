@@ -15,7 +15,9 @@ class Game:
     def add_player(self, player_name: str) -> None:
         if len(self.players) >= 4:
             return
-        self.players.append(Player(player_name))
+        player = Player(player_name)
+        player.reset_spaceships(len(self.players))
+        self.players.append(player)
 
     def state(self) -> dict:
         return {

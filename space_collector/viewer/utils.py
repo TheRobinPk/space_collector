@@ -3,15 +3,14 @@ from pathlib import Path
 
 import arcade
 
+from space_collector.game.constants import MAP_DIMENSION
 from space_collector.viewer.constants import (
-    MAP_DIMENSION,
     MAP_MIN_X,
     MAP_MAX_X,
     MAP_MIN_Y,
     MAP_MAX_Y,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    SCORE_WIDTH,
 )
 
 MAP_WIDTH = MAP_MAX_X - MAP_MIN_X
