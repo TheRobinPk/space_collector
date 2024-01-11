@@ -25,7 +25,7 @@ class Player:
             spaceship.draw()
 
     def update(self, server_data: dict, date: float) -> None:
-        logging.info("update player at %f: %s", date, str(server_data))
+        # logging.info("update player at %f: %s", date, str(server_data))
         self.name = server_data["name"]
         self.blocked = self.blocked
         if not self.spaceships:
