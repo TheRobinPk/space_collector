@@ -66,13 +66,8 @@ class Server:
         print(" - Name", name)
         client = ClientData(spectator=spectator, name=name, network=data_handler)
         self.clients.add(client)
-        self.write(client, "OK\n")
+        client.network.write("OK\n")
         print(" - New client connected", client, flush=True)
-
-    @staticmethod
-    def write(client: ClientData, message: str) -> None:
-        # assume client is connected
-        client.network.write(message)
 
 
 if __name__ == "__main__":
