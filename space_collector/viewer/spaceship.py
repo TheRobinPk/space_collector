@@ -1,6 +1,4 @@
 import logging
-import random
-import math
 
 import arcade
 
@@ -16,7 +14,7 @@ class SpaceShip:
         self.team = team
         self.x = AnimatedValue(x)
         self.y = AnimatedValue(y)
-        self.angle = angle  # TODO animation ?
+        self.angle = angle  # TODO animation compliquée avec modulo ?
         self.width = 100
         self.height = 100
 
@@ -34,7 +32,7 @@ class SpaceShip:
         self.animate()
         self.sprite.draw()
 
-    def update(self, server_data: dict, time: float) -> None:
+    def update(self, server_data: dict, date: float) -> None:
         pass  # TODO
 
 
