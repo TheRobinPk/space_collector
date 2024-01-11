@@ -81,7 +81,7 @@ class SpaceBackground:
             self.starfield_alpha1.add_animations(
                 initial_value=0,
                 steps=[
-                    Step(value=30, duration=3),
+                    Step(value=50, duration=3),
                     Step(value=0, duration=3),
                 ],
             )
@@ -89,7 +89,7 @@ class SpaceBackground:
             self.starfield_alpha2.add_animations(
                 initial_value=0,
                 steps=[
-                    Step(value=40, duration=4.1),
+                    Step(value=70, duration=4.1),
                     Step(value=0, duration=4),
                 ],
             )
