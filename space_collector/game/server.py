@@ -3,7 +3,7 @@ import contextlib
 import json
 import logging
 import sys
-from time import sleep
+from time import sleep, perf_counter
 
 from space_collector.game.game import Game
 from space_collector.network.data_handler import NetworkError
@@ -72,11 +72,14 @@ class GameServer(Server):
 
     def run(self: "GameServer") -> None:
         while True:
-            for player in self.players:
-                if player.network.input_empty():
-                    continue
-                command = self.read(player)
-                self.write(player, self.game.manage_command(command))
+            start = perf_counter()
+            # refresh spectators every 33 ms
+            while perf_counter() - start < 0.033:
+                for player in self.players:
+                    if player.network.input_empty():
+                        continue
+                    command = self.read(player)
+                    self.write(player, self.game.manage_command(command))
             for spectator in self.spectators:
                 self.write(spectator, json.dumps(self.game.state()))
         sys.exit(0)
