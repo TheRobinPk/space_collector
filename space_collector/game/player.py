@@ -34,14 +34,14 @@ class Player:
         base_x, base_y = self.base_position
         self.spaceships = [
             Attacker(1, base_x, base_y, angle),
-            Attacker(2, base_x + 1000 * dx, base_y + 1000 * dy, angle),
-            Attacker(3, base_x - 1000 * dx, base_y - 1000 * dy, angle),
-            Attacker(4, base_x + 2000 * dx, base_y + 2000 * dy, angle),
-            Attacker(5, base_x - 2000 * dx, base_y - 2000 * dy, angle),
-            Explorer(6, base_x + 3000 * dx, base_y + 3000 * dy, angle),
-            Explorer(7, base_x - 3000 * dx, base_y - 3000 * dy, angle),
-            Collector(8, base_x + 4000 * dx, base_y + 4000 * dy, angle),
-            Collector(9, base_x - 4000 * dx, base_y - 4000 * dy, angle),
+            Attacker(2, base_x + 1500 * dx, base_y + 1500 * dy, angle),
+            Attacker(3, base_x - 1500 * dx, base_y - 1500 * dy, angle),
+            Attacker(4, base_x + 3000 * dx, base_y + 3000 * dy, angle),
+            Attacker(5, base_x - 3000 * dx, base_y - 3000 * dy, angle),
+            Explorer(6, base_x + 4500 * dx, base_y + 4500 * dy, angle),
+            Explorer(7, base_x - 4500 * dx, base_y - 4500 * dy, angle),
+            Collector(8, base_x + 6000 * dx, base_y + 6000 * dy, angle),
+            Collector(9, base_x - 6000 * dx, base_y - 6000 * dy, angle),
         ]
 
     def state(self) -> dict:
