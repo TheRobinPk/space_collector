@@ -1,3 +1,4 @@
+import random
 from time import perf_counter
 
 
@@ -8,6 +9,10 @@ class Game:
     def __init__(self) -> None:
         self.start_time = perf_counter()
         self.players: list[Player] = []
+        self.planet_positions = [  # TODO
+            (random.randint(-3000, 3000), random.randint(3000, 17000))
+            for _ in range(random.randint(2, 5))
+        ]
 
     def manage_command(self, command: str) -> str:
         return "OK"
@@ -16,7 +21,7 @@ class Game:
         if len(self.players) >= 4:
             return
         player = Player(player_name)
-        player.reset_spaceships(len(self.players))
+        player.reset_spaceships_and_planets(len(self.players), self.planet_positions)
         self.players.append(player)
 
     def state(self) -> dict:

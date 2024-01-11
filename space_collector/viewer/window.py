@@ -24,15 +24,12 @@ class Window(arcade.Window):
         self.background = SpaceBackground()
         self.score = Score()
         self.players: list[Player] = [Player(team) for team in range(4)]
-        self.planets: list[Planet] = [Planet("foo") for _ in range(20)]
 
     def setup(self) -> None:
         self.background.setup()
         self.score.setup()
         for player in self.players:
             player.setup()
-        for planet in self.planets:
-            planet.setup()
 
     def on_draw(self):
         if not self.input_queue.empty():
@@ -47,8 +44,6 @@ class Window(arcade.Window):
 
         self.clear()
         self.background.draw()
-        for planet in self.planets:
-            planet.draw()
         for player in self.players:
             player.draw()
         self.score.draw()

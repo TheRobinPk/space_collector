@@ -1,5 +1,6 @@
 from space_collector.game.spaceship import Spaceship, Collector, Attacker, Explorer
 from space_collector.game.constants import MAP_DIMENSION
+from space_collector.game.planet import Planet
 
 
 class Player:
@@ -7,9 +8,12 @@ class Player:
         self.name = name
         self.blocked = False
         self.spaceships: list[Spaceship] = []
+        self.planets: list[Planet] = []
         self.base_position = (0, 0)
 
-    def reset_spaceships(self, team: int) -> None:
+    def reset_spaceships_and_planets(
+        self, team: int, planet_positions: list[tuple[int, int]]
+    ) -> None:
         if team == 0:
             self.base_position = (MAP_DIMENSION // 2, 0)
             angle = 90
@@ -43,6 +47,8 @@ class Player:
             Collector(8, base_x + 6000 * dx, base_y + 6000 * dy, angle),
             Collector(9, base_x - 6000 * dx, base_y - 6000 * dy, angle),
         ]
+        for planet_x, planet_y in planet_positions:
+            self.planets.append(Planet(base_x + planet_x * dx, base_y + planet_y * dy))
 
     def state(self) -> dict:
         return {
@@ -50,4 +56,5 @@ class Player:
             "blocked": self.blocked,
             "base_position": self.base_position,
             "spaceships": [spaceship.state() for spaceship in self.spaceships],
+            "planets": [planet.state() for planet in self.planets],
         }
