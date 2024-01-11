@@ -10,7 +10,7 @@ from space_collector.network.data_handler import NetworkError
 from space_collector.network.server import ClientData, Server
 
 MAX_NB_PLAYERS = 4
-SERVER_CONNECTION_TIMEOUT = 5
+SERVER_CONNECTION_TIMEOUT = 1  # TODO remettre 5
 
 
 class GameServer(Server):
@@ -46,6 +46,8 @@ class GameServer(Server):
             if len(self.players) == MAX_NB_PLAYERS:
                 break
             sleep(1)
+
+        print("Players ready: START!!!")
 
     def read(self, client: ClientData) -> str:
         try:
