@@ -3,6 +3,7 @@ from time import perf_counter
 
 
 from space_collector.game.player import Player
+from space_collector.game.planet import Planet
 
 
 class Game:
@@ -10,8 +11,13 @@ class Game:
         self.start_time = perf_counter()
         self.last_update_time = self.start_time
         self.players: list[Player] = []
-        self.planet_positions = [  # TODO
-            (random.randint(-3000, 3000), random.randint(3000, 17000))
+        self.planet_positions = [
+            Planet(
+                x=random.randint(-3000, 3000),
+                y=random.randint(3000, 17000),
+                size=random.randint(30, 80),
+                id=random.randint(1, 65535),
+            )
             for _ in range(random.randint(2, 5))
         ]
 

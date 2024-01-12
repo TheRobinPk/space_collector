@@ -15,7 +15,7 @@ class Player:
         self.base_position = (0, 0)
 
     def reset_spaceships_and_planets(
-        self, team: int, planet_positions: list[tuple[int, int]]
+        self, team: int, planets_data: list[Planet]
     ) -> None:
         if team == 0:
             self.base_position = (MAP_DIMENSION // 2, 0)
@@ -49,9 +49,12 @@ class Player:
             Collector(9, base_x - 6000 * x_unit.x, base_y - 6000 * x_unit.y, angle),
         ]
         base_vector = Vector(self.base_position)
-        for planet_position in planet_positions:
-            rotated_planet = matrix @ Vector(planet_position)
-            self.planets.append(Planet(*(base_vector + rotated_planet)))
+        for planet_data in planets_data:
+            rotated_planet = matrix @ Vector([planet_data.x, planet_data.y])
+            planet = Planet(
+                *(base_vector + rotated_planet), planet_data.size, planet_data.id
+            )
+            self.planets.append(planet)
 
     def state(self) -> dict:
         return {
