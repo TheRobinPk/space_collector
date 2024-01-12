@@ -15,7 +15,7 @@ class Game:
             Planet(
                 x=random.randint(-3000, 3000),
                 y=random.randint(3000, 17000),
-                size=random.randint(30, 80),
+                size=random.randint(10, 60),
                 id=random.randint(1, 65535),
             )
             for _ in range(random.randint(2, 5))

@@ -11,6 +11,7 @@ class Planet:
         self.team = team
         self.x = AnimatedValue(x)
         self.y = AnimatedValue(y)
+        self.size = AnimatedValue(200)
         logging.info("planet %d, %d", x, y)
 
     def setup(self) -> None:
@@ -20,10 +21,32 @@ class Planet:
 
     def animate(self) -> None:
         self.sprite.position = map_coord_to_window_coord(self.x.value, self.y.value)
+        self.sprite.width = self.size.value
+        self.sprite.height = self.size.value
 
     def draw(self) -> None:
         self.animate()
         self.sprite.draw()
 
     def update(self, server_data: dict, duration: float) -> None:
-        pass  # TODO
+        self.x.add_animation(
+            Animation(
+                start_value=self.x.value,
+                end_value=server_data["x"],
+                duration=duration,
+            )
+        )
+        self.y.add_animation(
+            Animation(
+                start_value=self.y.value,
+                end_value=server_data["y"],
+                duration=duration,
+            )
+        )
+        self.size.add_animation(
+            Animation(
+                start_value=self.size.value,
+                end_value=server_data["size"],
+                duration=duration,
+            )
+        )
