@@ -8,6 +8,7 @@ from space_collector.game.player import Player
 class Game:
     def __init__(self) -> None:
         self.start_time = perf_counter()
+        self.last_update_time = self.start_time
         self.players: list[Player] = []
         self.planet_positions = [  # TODO
             (random.randint(-3000, 3000), random.randint(3000, 17000))
@@ -23,6 +24,13 @@ class Game:
         player = Player(player_name)
         player.reset_spaceships_and_planets(len(self.players), self.planet_positions)
         self.players.append(player)
+
+    def update(self) -> None:
+        delta_time = perf_counter() - self.last_update_time
+        for player in self.players:
+            for spaceship in player.spaceships:
+                spaceship.x += 1000 * delta_time
+        self.last_update_time += delta_time
 
     def state(self) -> dict:
         return {

@@ -80,6 +80,7 @@ class GameServer(Server):
                         continue
                     command = self.read(player)
                     self.write(player, self.game.manage_command(command))
+            self.game.update()
             for spectator in self.spectators:
                 self.write(spectator, json.dumps(self.game.state()))
         sys.exit(0)
