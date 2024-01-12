@@ -54,6 +54,7 @@ class Player:
                     Planet(
                         planet_data["x"],
                         planet_data["y"],
+                        planet_data["id"],
                         self.team,
                     )
                 )
