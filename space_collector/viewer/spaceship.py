@@ -33,8 +33,21 @@ class SpaceShip:
         self.animate()
         self.sprite.draw()
 
-    def update(self, server_data: dict, date: float) -> None:
-        pass  # TODO
+    def update(self, server_data: dict, duration: float) -> None:
+        self.x.add_animation(
+            Animation(
+                start_value=self.x.value,
+                end_value=server_data["x"],
+                duration=duration,
+            )
+        )
+        self.y.add_animation(
+            Animation(
+                start_value=self.y.value,
+                end_value=server_data["y"],
+                duration=duration,
+            )
+        )
 
 
 class Attacker(SpaceShip):

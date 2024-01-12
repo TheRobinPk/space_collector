@@ -28,8 +28,8 @@ class Player:
         for spaceship in self.spaceships:
             spaceship.draw()
 
-    def update(self, server_data: dict, date: float) -> None:
-        # logging.info("update player at %f: %s", date, str(server_data))
+    def update(self, server_data: dict, duration: float) -> None:
+        # logging.info("update player for %f: %s", duration, str(server_data))
         self.name = server_data["name"]
         self.blocked = self.blocked
 
@@ -46,7 +46,7 @@ class Player:
                 )
                 self.spaceships[-1].setup()
         for index, spaceship_data in enumerate(server_data["spaceships"]):
-            self.spaceships[index].update(spaceship_data, date)
+            self.spaceships[index].update(spaceship_data, duration)
 
         if not self.planets:
             for planet_data in server_data["planets"]:
@@ -59,4 +59,4 @@ class Player:
                 )
                 self.planets[-1].setup()
         for index, planet_data in enumerate(server_data["planets"]):
-            self.planets[index].update(planet_data, date)
+            self.planets[index].update(planet_data, duration)

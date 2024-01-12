@@ -4,6 +4,18 @@ from dataclasses import dataclass
 from time import perf_counter
 from typing import Iterable
 
+_date_offset: float = 0
+
+
+def date() -> float:
+    return perf_counter() + _date_offset
+
+
+def set_date(date: float) -> None:
+    global _date_offset
+    if _date_offset == 0:
+        _date_offset = date - perf_counter()
+
 
 class Animation:
     def __init__(
@@ -15,7 +27,7 @@ class Animation:
     ) -> None:
         self.duration = duration
         if start_time is None:
-            self.start_time = perf_counter()
+            self.start_time = date()
         else:
             self.start_time = start_time
         self.start_value = start_value
@@ -46,7 +58,7 @@ class AnimatedValue:
 
     @property
     def value(self) -> int:
-        current_time = perf_counter()
+        current_time = date()
         to_be_removed = []
         for animation in self._animations:
             if animation.end_time < current_time:

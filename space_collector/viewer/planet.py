@@ -25,5 +25,5 @@ class Planet:
         self.animate()
         self.sprite.draw()
 
-    def update(self, server_data: dict, date: float) -> None:
+    def update(self, server_data: dict, duration: float) -> None:
         pass  # TODO
