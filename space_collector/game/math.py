@@ -3,7 +3,7 @@ from __future__ import annotations
 
 class Vector:
     def __init__(self, data: list) -> None:
-        self.data = data
+        self.data = list(data)
 
     def __repr__(self) -> str:
         return "Vector(" + ", ".join(str(item) for item in self.data) + ")"
@@ -13,6 +13,11 @@ class Vector:
 
     def __getitem__(self, index):
         return self.data[index]
+
+    def __add__(self, other: Vector) -> Vector:
+        if isinstance(other, Vector):
+            return Vector(s + o for s, o in zip(self, other))
+        raise NotImplemented
 
     @property
     def x(self):
