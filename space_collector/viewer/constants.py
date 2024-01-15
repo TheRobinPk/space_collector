@@ -3,12 +3,6 @@ SCREEN_WIDTH = 1777
 SCREEN_TITLE = "Space collector"
 SCORE_WIDTH = 500
 SCORE_HEIGHT = SCREEN_HEIGHT
-TEAM_COLORS = {
-    0: (255, 128, 128, 255),
-    1: (64, 255, 64, 255),
-    2: (255, 255, 0, 255),
-    3: (32, 196, 255, 255),
-}
 TEAM_HUES = {
     0: 0,
     1: 30,
