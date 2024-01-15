@@ -11,14 +11,17 @@ class Game:
         self.start_time = perf_counter()
         self.last_update_time = self.start_time
         self.players: list[Player] = []
+
+        nb_planets = random.randint(2, 10)
+
         self.planet_positions = [
             Planet(
                 x=random.randint(-3000, 3000),
                 y=random.randint(3000, 17000),
-                size=random.randint(10, 60),
+                size=random.randint(20, 40),
                 id=random.randint(1, 65535),
             )
-            for _ in range(random.randint(2, 5))
+            for _ in range(nb_planets)
         ]
 
     def manage_command(self, command: str) -> str:

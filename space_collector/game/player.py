@@ -4,6 +4,7 @@ from space_collector.game.spaceship import Spaceship, Collector, Attacker, Explo
 from space_collector.game.constants import MAP_DIMENSION
 from space_collector.game.planet import Planet
 from space_collector.game.math import Matrix, Vector
+from space_collector.game.player_orientations import player_orientations
 
 
 class Player:
@@ -17,26 +18,13 @@ class Player:
     def reset_spaceships_and_planets(
         self, team: int, planets_data: list[Planet]
     ) -> None:
-        if team == 0:
-            self.base_position = (MAP_DIMENSION // 2, 0)
-            angle = 90
-            matrix = Matrix([[1, 0], [0, 1]])
-        elif team == 1:
-            self.base_position = (0, MAP_DIMENSION // 2)
-            angle = 0
-            matrix = Matrix([[0, 1], [-1, 0]])
-        elif team == 2:
-            self.base_position = (MAP_DIMENSION // 2, MAP_DIMENSION)
-            angle = 270
-            matrix = Matrix([[-1, 0], [0, -1]])
-        else:
-            self.base_position = (MAP_DIMENSION, MAP_DIMENSION // 2)
-            angle = 180
-            matrix = Matrix([[0, -1], [1, 0]])
+        orientation = player_orientations[team]
+        angle = orientation.angle
+        self.base_position = orientation.base_position
 
         base_x, base_y = self.base_position
         origin_x_unit = Vector([1, 0])
-        x_unit = matrix @ origin_x_unit
+        x_unit = orientation.matrix @ origin_x_unit
         self.spaceships = [
             Attacker(1, base_x, base_y, angle),
             Attacker(2, base_x + 1500 * x_unit.x, base_y + 1500 * x_unit.y, angle),
@@ -50,7 +38,7 @@ class Player:
         ]
         base_vector = Vector(self.base_position)
         for planet_data in planets_data:
-            rotated_planet = matrix @ Vector([planet_data.x, planet_data.y])
+            rotated_planet = orientation.matrix @ Vector([planet_data.x, planet_data.y])
             planet = Planet(
                 *(base_vector + rotated_planet), planet_data.size, planet_data.id
             )
