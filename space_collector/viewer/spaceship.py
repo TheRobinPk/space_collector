@@ -48,6 +48,7 @@ class SpaceShip:
                 duration=duration,
             )
         )
+        self.angle = server_data["angle"]
 
 
 class Attacker(SpaceShip):
