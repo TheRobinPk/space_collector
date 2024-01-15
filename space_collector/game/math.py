@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from typing import Iterable
+
 
 class Vector:
-    def __init__(self, data: list) -> None:
+    def __init__(self, data: Iterable) -> None:
         self.data = list(data)
 
     def __repr__(self) -> str:
