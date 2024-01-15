@@ -44,6 +44,8 @@ class Player:
             self.planets.append(planet)
 
     def manage_command(self, command_str: str) -> str:
+        if self.blocked:
+            return "BLOCKED"
         command = command_str.split()
         for command_type in ("MOVE",):
             if command[0] == command_type:
@@ -58,6 +60,8 @@ class Player:
         return "OK"
 
     def update(self, delta_time: float) -> None:
+        if self.blocked:
+            return
         for spaceship in self.spaceships:
             spaceship.update(delta_time)
 

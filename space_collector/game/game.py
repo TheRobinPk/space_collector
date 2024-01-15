@@ -40,7 +40,11 @@ class Game:
     def manage_command(self, player_id: int, command: str) -> str:
         if player_id >= len(self.players):
             raise ValueError(f"Unknown player ID: {player_id}")
-        return self.players[player_id].manage_command(command)
+        try:
+            return self.players[player_id].manage_command(command)
+        except ValueError:
+            self.players[player_id].blocked = True
+            return "BLOCKED"
 
     def add_player(self, player_name: str) -> None:
         if len(self.players) >= 4:
