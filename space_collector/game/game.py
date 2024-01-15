@@ -48,11 +48,7 @@ class Game:
         self.players.append(player)
 
     def update(self) -> None:
-        delta_time = perf_counter() - self.last_update_time
-        for player in self.players:
-            for spaceship in player.spaceships:
-                spaceship.x += 1000 * delta_time
-        self.last_update_time += delta_time
+        pass
 
     def state(self) -> dict:
         return {
