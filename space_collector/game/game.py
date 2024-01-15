@@ -4,6 +4,8 @@ from time import perf_counter
 
 from space_collector.game.player import Player
 from space_collector.game.planet import Planet
+from space_collector.game.player_orientations import player_orientations
+from space_collector.game.math import Vector
 
 
 class Game:
@@ -13,16 +15,27 @@ class Game:
         self.players: list[Player] = []
 
         nb_planets = random.randint(2, 10)
-
-        self.planet_positions = [
-            Planet(
-                x=random.randint(-3000, 3000),
-                y=random.randint(3000, 17000),
+        all_planets_positions = set()
+        self.planets_positions = []
+        while len(self.planets_positions) < nb_planets:
+            planets_positions = set()
+            planet = Planet(
+                x=random.randrange(-7000, 7001, 1000),
+                y=random.randrange(3000, 17001, 1000),
                 size=random.randint(20, 40),
                 id=random.randint(1, 65535),
             )
-            for _ in range(nb_planets)
-        ]
+            planet_vector = Vector([planet.x, planet.y])
+            for orientation in player_orientations:
+                player_planet_position = orientation.rotate_around_base(planet_vector)
+                planets_positions.add(tuple(player_planet_position))
+            if len(planets_positions) < len(player_orientations):
+                continue
+            if planets_positions & all_planets_positions:
+                # conflict with existing planets
+                continue
+            all_planets_positions.update(planets_positions)
+            self.planets_positions.append(planet)
 
     def manage_command(self, command: str) -> str:
         return "OK"
@@ -31,7 +44,7 @@ class Game:
         if len(self.players) >= 4:
             return
         player = Player(player_name)
-        player.reset_spaceships_and_planets(len(self.players), self.planet_positions)
+        player.reset_spaceships_and_planets(len(self.players), self.planets_positions)
         self.players.append(player)
 
     def update(self) -> None:
