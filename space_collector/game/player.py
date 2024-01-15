@@ -47,16 +47,27 @@ class Player:
         if self.blocked:
             return "BLOCKED"
         command = command_str.split()
-        for command_type in ("MOVE",):
+        for command_type in ("MOVE", "FIRE"):
             if command[0] == command_type:
                 return getattr(self, command_type.lower())(command[1:])
         raise ValueError(f"Unknown command: {command_str}")
 
+    def spaceship_by_id(self, id_: int) -> Spaceship:
+        try:
+            return self.spaceships[id_ - 1]
+        except IndexError:
+            raise ValueError(f"Wrong spaceship ID: {id_}")
+
     def move(self, parameters: list[str]) -> str:
         ship_id, angle, speed = (int(param) for param in parameters)
-        ship_index = ship_id - 1  # TODO faire un getter
-        self.spaceships[ship_index].angle = angle
-        self.spaceships[ship_index].speed = speed
+        spaceship = self.spaceship_by_id(ship_id)
+        spaceship.move(angle, speed)
+        return "OK"
+
+    def fire(self, parameters: list[str]) -> str:
+        ship_id, angle = (int(param) for param in parameters)
+        spaceship = self.spaceship_by_id(ship_id)
+        spaceship.fire(angle)
         return "OK"
 
     def update(self, delta_time: float) -> None:
