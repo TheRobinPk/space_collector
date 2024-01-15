@@ -1,3 +1,4 @@
+import logging
 import random
 from time import perf_counter
 
@@ -42,8 +43,9 @@ class Game:
             raise ValueError(f"Unknown player ID: {player_id}")
         try:
             return self.players[player_id].manage_command(command)
-        except ValueError:
+        except ValueError as e:
             self.players[player_id].blocked = True
+            logging.warning("Problem for %s: %s", self.players[player_id].name, str(e))
             return "BLOCKED"
 
     def add_player(self, player_name: str) -> None:
