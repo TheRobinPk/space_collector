@@ -1,11 +1,10 @@
 import logging
 import random
-import colorsys
 
 import arcade
 
 from space_collector.viewer.animation import AnimatedValue, Animation
-from space_collector.viewer.constants import TEAM_HUES
+from space_collector.viewer.constants import TEAM_HUES, TEAM_COLORS
 from space_collector.viewer.utils import (
     hue_changed_texture,
     map_coord_to_window_coord,
@@ -37,17 +36,11 @@ class Planet:
 
     def draw(self) -> None:
         self.animate()
-        color_rgb = colorsys.hsv_to_rgb(TEAM_HUES[self.team] / 360, 1, 1)
         arcade.draw_circle_outline(
             self.sprite.position[0],
             self.sprite.position[1],
             self.size.value // 2 + 2,
-            (
-                int(color_rgb[0] * 255),
-                int(color_rgb[1] * 255),
-                int(color_rgb[2] * 255),
-                150,
-            ),
+            (*TEAM_COLORS[self.team], 150),
             4,
         )
         self.sprite.draw()
