@@ -1,4 +1,5 @@
 import logging
+import math
 
 import arcade
 
@@ -11,7 +12,7 @@ from space_collector.viewer.utils import (
 )
 from space_collector.viewer.constants import TEAM_HUES
 
-HIGH_ENERGY_LENGTH = int(2000 / MAP_DIMENSION * MAP_WIDTH)
+HIGH_ENERGY_LENGTH = int(5000 / MAP_DIMENSION * MAP_WIDTH)
 
 
 class SpaceShip:
@@ -79,7 +80,7 @@ class Attacker(SpaceShip):
                 "space_collector/viewer/images/high_energy.png", TEAM_HUES[self.team]
             )
         )
-        self.lightning_sprite.width = 40
+        self.lightning_sprite.width = 20
         self.lightning_sprite.height = 1
 
     def update(self, server_data: dict, duration: float) -> None:
@@ -104,10 +105,14 @@ class Attacker(SpaceShip):
     def animate(self) -> None:
         super().animate()
         self.lightning_sprite.angle = int(self.fire_angle - 90)
-        self.lightning_sprite.position = map_coord_to_window_coord(
-            self.x.value, self.y.value
-        )
         self.lightning_sprite.height = self.lightning_length.value + 1
+        fire_angle = math.radians(self.fire_angle)
+        radius = self.lightning_sprite.height // 2
+        center_x, center_y = map_coord_to_window_coord(self.x.value, self.y.value)
+        self.lightning_sprite.position = (
+            center_x + radius * math.cos(fire_angle),
+            center_y + radius * math.sin(fire_angle),
+        )
 
     def draw(self) -> None:
         super().draw()
