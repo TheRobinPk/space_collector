@@ -36,12 +36,11 @@ class Player:
             Collector(8, base_x + 6000 * x_unit.x, base_y + 6000 * x_unit.y, angle),
             Collector(9, base_x - 6000 * x_unit.x, base_y - 6000 * x_unit.y, angle),
         ]
-        base_vector = Vector(self.base_position)
+
         for planet_data in planets_data:
-            rotated_planet = orientation.matrix @ Vector([planet_data.x, planet_data.y])
-            planet = Planet(
-                *(base_vector + rotated_planet), planet_data.size, planet_data.id
-            )
+            planet_position = Vector([planet_data.x, planet_data.y])
+            rotated_planet = orientation.rotate_around_base(planet_position)
+            planet = Planet(*(rotated_planet), planet_data.size, planet_data.id)
             self.planets.append(planet)
 
     def state(self) -> dict:
