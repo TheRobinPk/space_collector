@@ -2,6 +2,10 @@
 
 Space collector game
 
+## TODO
+
+- tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
+
 ## Rules
 
 - Square 20 000 x 20 000 kms
@@ -9,7 +13,7 @@ Space collector game
   - Slow speed
 - Attack enemies with your three attackers
   - Fast speed
-  - High energy attack < 2 000 kms
+  - High energy attack < 5 000 kms
     - choose angle
     - 1 second to wait between fires
 - Explore with your explorer
@@ -34,13 +38,19 @@ Space collector game
   - 8, 9: collectors
 - `{parameters}`: parameters of the command
   - `{angle}`: integer, degrees, between 0 and 359, counter clockwise, 0 pointing right
-  - `{speed}`: integer, between 0 and 2000 kms/s
+  - `{speed}`: integer, between 0 and 2 000 kms/s
 
 ### Move
 
 `MOVE {ship_id} {angle} {speed}`
 
 Changes the speed and angle of the spaceship.
+
+### Fire
+
+`Fire {ship_id} {angle}`
+
+Fire a high energy attack, at `{angle}` angle. Length of the attack is 5 000 kms.
 
 ## Commands
 
