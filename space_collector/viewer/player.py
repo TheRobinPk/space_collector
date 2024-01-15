@@ -32,7 +32,7 @@ class Player:
     def update(self, server_data: dict, duration: float) -> None:
         # logging.info("update player for %f: %s", duration, str(server_data))
         self.name = server_data["name"]
-        self.blocked = self.blocked
+        self.blocked = server_data["blocked"]
 
         if not self.spaceships:
             for spaceship_data in server_data["spaceships"]:
