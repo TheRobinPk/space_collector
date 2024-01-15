@@ -53,7 +53,7 @@ class GameServer(Server):
         try:
             text = client.network.readline()
         except NetworkError:
-            logging.exception("timeout")
+            logging.exception("timeout for client %s", client.name)
             self.remove_client(client)
             return ""
 
