@@ -1,5 +1,6 @@
 import logging
 import random
+import colorsys
 
 import arcade
 
@@ -36,6 +37,19 @@ class Planet:
 
     def draw(self) -> None:
         self.animate()
+        color_rgb = colorsys.hsv_to_rgb(TEAM_HUES[self.team] / 360, 1, 1)
+        arcade.draw_circle_outline(
+            self.sprite.position[0],
+            self.sprite.position[1],
+            self.size.value // 2 + 2,
+            (
+                int(color_rgb[0] * 255),
+                int(color_rgb[1] * 255),
+                int(color_rgb[2] * 255),
+                150,
+            ),
+            4,
+        )
         self.sprite.draw()
 
     def update(self, server_data: dict, duration: float) -> None:
