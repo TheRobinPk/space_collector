@@ -15,7 +15,7 @@ class Game:
         self.last_update_time = self.start_time
         self.players: list[Player] = []
 
-        nb_planets = random.randint(2, 10)
+        nb_planets = random.randint(2, 8)
         all_planets_positions = set()
         self.planets_positions = []
         while len(self.planets_positions) < nb_planets:
