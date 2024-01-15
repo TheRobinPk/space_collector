@@ -25,8 +25,9 @@ class Player:
     def draw(self) -> None:
         for planet in self.planets:
             planet.draw()
-        for spaceship in self.spaceships:
-            spaceship.draw()
+        if not self.blocked:
+            for spaceship in self.spaceships:
+                spaceship.draw()
 
     def update(self, server_data: dict, duration: float) -> None:
         # logging.info("update player for %f: %s", duration, str(server_data))
