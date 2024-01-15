@@ -84,6 +84,7 @@ class Attacker(SpaceShip):
         self.lightning_sprite.height = 1
 
     def update(self, server_data: dict, duration: float) -> None:
+        super().update(server_data, duration)
         if server_data["fire"]:
             self.lightning_alpha.add_animations(
                 initial_value=self.lightning_alpha.value,
