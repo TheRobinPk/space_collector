@@ -10,6 +10,11 @@ class PlayerOrientation:
     angle: int
     matrix: Matrix
 
+    def rotate_around_base(self, vector: Vector) -> Vector:
+        base_vector = Vector(self.base_position)
+        rotated_vector = self.matrix @ Vector([vector.x, vector.y])
+        return base_vector + rotated_vector
+
 
 player_orientations = [
     PlayerOrientation(
