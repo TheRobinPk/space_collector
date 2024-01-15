@@ -46,6 +46,12 @@ Space collector game
 
 Changes the speed and angle of the spaceship.
 
+Maximum speed:
+
+- 1 000 kms/s for collectors
+- 2 000 kms/s for explorers
+- 3 000 kms/s for attackers
+
 ### Fire
 
 `Fire {ship_id} {angle}`

@@ -60,7 +60,12 @@ class Player:
 
     def move(self, parameters: list[str]) -> str:
         ship_id, angle, speed = (int(param) for param in parameters)
+        angle %= 360
         spaceship = self.spaceship_by_id(ship_id)
+        if speed > spaceship.MAX_SPEED:
+            raise ValueError(f"Max speed excedeed {speed}/{spaceship.MAX_SPEED}")
+        if speed < 0:
+            raise ValueError("Negative speed not allowed")
         spaceship.move(angle, speed)
         return "OK"
 

@@ -1,11 +1,13 @@
 import math
 from dataclasses import dataclass
+from typing import ClassVar
 
 from space_collector.game.constants import MAP_DIMENSION
 
 
 @dataclass
 class Spaceship:
+    MAX_SPEED: ClassVar[input]
     id: int
     x: float
     y: float
@@ -47,15 +49,21 @@ class Spaceship:
 
 
 class Collector(Spaceship):
+    MAX_SPEED = 1000
+
     def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
         super().__init__(id_, x, y, angle, 0, False, "collector")
 
 
 class Attacker(Spaceship):
+    MAX_SPEED = 3000
+
     def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
         super().__init__(id_, x, y, angle, 0, False, "attacker")
 
 
 class Explorer(Spaceship):
+    MAX_SPEED = 2000
+
     def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
         super().__init__(id_, x, y, angle, 0, False, "explorer")
