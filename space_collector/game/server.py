@@ -75,11 +75,11 @@ class GameServer(Server):
             start = perf_counter()
             # refresh spectators every 33 ms
             while perf_counter() - start < 0.033:
-                for player in self.players:
+                for player_id, player in enumerate(self.players):
                     if player.network.input_empty():
                         continue
                     command = self.read(player)
-                    self.write(player, self.game.manage_command(command))
+                    self.write(player, self.game.manage_command(player_id, command))
             self.game.update()
             for spectator in self.spectators:
                 self.write(spectator, json.dumps(self.game.state()))

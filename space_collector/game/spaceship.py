@@ -1,15 +1,24 @@
+import math
 from dataclasses import dataclass
+
+from space_collector.game.constants import MAP_DIMENSION
 
 
 @dataclass
 class Spaceship:
     id: int
-    x: int
-    y: int
+    x: float
+    y: float
     angle: int
     speed: int
     broken: bool
     type: str
+
+    def update(self, delta_time: float) -> None:
+        self.x += delta_time * self.speed * math.cos(math.radians(self.angle))
+        self.x = max(0, min(self.x, MAP_DIMENSION))
+        self.y += delta_time * self.speed * math.sin(math.radians(self.angle))
+        self.y = max(0, min(self.y, MAP_DIMENSION))
 
     def state(self) -> dict:
         return {

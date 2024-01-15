@@ -43,6 +43,24 @@ class Player:
             planet = Planet(*(rotated_planet), planet_data.size, planet_data.id)
             self.planets.append(planet)
 
+    def manage_command(self, command_str: str) -> str:
+        command = command_str.split()
+        for command_type in ("MOVE",):
+            if command[0] == command_type:
+                return getattr(self, command_type.lower())(command[1:])
+        raise ValueError(f"Unknown command: {command_str}")
+
+    def move(self, parameters: list[str]) -> str:
+        ship_id, angle, speed = (int(param) for param in parameters)
+        ship_index = ship_id - 1  # TODO faire un getter
+        self.spaceships[ship_index].angle = angle
+        self.spaceships[ship_index].speed = speed
+        return "OK"
+
+    def update(self, delta_time: float) -> None:
+        for spaceship in self.spaceships:
+            spaceship.update(delta_time)
+
     def state(self) -> dict:
         return {
             "name": self.name,

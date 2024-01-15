@@ -37,8 +37,10 @@ class Game:
             all_planets_positions.update(planets_positions)
             self.planets_positions.append(planet)
 
-    def manage_command(self, command: str) -> str:
-        return "OK"
+    def manage_command(self, player_id: int, command: str) -> str:
+        if player_id >= len(self.players):
+            raise ValueError(f"Unknown player ID: {player_id}")
+        return self.players[player_id].manage_command(command)
 
     def add_player(self, player_name: str) -> None:
         if len(self.players) >= 4:
@@ -48,7 +50,10 @@ class Game:
         self.players.append(player)
 
     def update(self) -> None:
-        pass
+        delta_time = perf_counter() - self.last_update_time
+        for player in self.players:
+            player.update(delta_time)
+        self.last_update_time += delta_time
 
     def state(self) -> dict:
         return {
