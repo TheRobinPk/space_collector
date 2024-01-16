@@ -77,7 +77,7 @@ class Collector(Spaceship):
                     planet = p
                     break
             if planet is None:
-                logging.error("Collected planet not found: %d", p.id)
+                logging.error("Collected planet not found: %d", self.collected)
             else:
                 planet.x = self.x
                 planet.y = self.y
