@@ -41,6 +41,7 @@ class Player:
                 angle,
                 self.planets,
                 self.all_spaceships,
+                self.base_position,
             ),
             Explorer(
                 7,
@@ -49,6 +50,7 @@ class Player:
                 angle,
                 self.planets,
                 self.all_spaceships,
+                self.base_position,
             ),
             Collector(
                 8,

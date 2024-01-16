@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from space_collector.game.constants import DISTANCE_PLANET_COLLECTION, MAP_DIMENSION
+from space_collector.game.math import Vector
 from space_collector.game.planet import Planet
 
 
@@ -125,10 +126,12 @@ class Explorer(Spaceship):
         angle: int,
         planets: list[Planet],
         all_spaceships: Callable,
+        base: tuple[int, int],
     ) -> None:
         super().__init__(id_, x, y, angle)
         self.planets = planets
         self.all_spaceships = all_spaceships
+        self.base = base
 
     def radar(self) -> str:
         # TODO limit distance
@@ -138,4 +141,5 @@ class Explorer(Spaceship):
         for team_id, team in enumerate(self.all_spaceships()):
             for spaceship in team:
                 ret.append(spaceship.radar_result(team_id))
+        ret.append(f"B {self.base[0]} {self.base[1]}")
         return ",".join(ret)
