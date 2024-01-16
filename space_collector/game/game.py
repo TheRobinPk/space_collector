@@ -40,7 +40,8 @@ class Game:
 
     def manage_command(self, player_id: int, command: str) -> str:
         if player_id >= len(self.players):
-            raise ValueError(f"Unknown player ID: {player_id}")
+            logging.error("Unknown player ID: %d", player_id)
+            return "BLOCKED"
         try:
             return self.players[player_id].manage_command(command)
         except ValueError as e:
