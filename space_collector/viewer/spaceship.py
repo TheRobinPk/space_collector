@@ -46,7 +46,7 @@ class SpaceShip:
         self.sprite.draw()
 
     def update(self, server_data: dict, duration: float) -> None:
-        logging.info(server_data)
+        # logging.info(server_data)
         self.id = server_data["id"]
         self.x.add_animation(
             Animation(
