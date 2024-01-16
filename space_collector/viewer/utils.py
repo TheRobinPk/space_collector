@@ -73,6 +73,7 @@ def hue(image_path: str) -> int:
     return counter.most_common(1)[0][0]
 
 
+@cache
 def hue_changed_texture(image_path: str, target_hue: int) -> arcade.Texture:
     logging.info("Managing %s", image_path)
     original_image = Image.open(image_path)
