@@ -79,7 +79,7 @@ class Player:
         if self.blocked:
             return
         for spaceship in self.spaceships:
-            spaceship.update(delta_time)
+            spaceship.update(delta_time, self.planets)
 
     def state(self) -> dict:
         return {
