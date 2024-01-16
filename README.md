@@ -40,6 +40,12 @@ Space collector game
   - `{angle}`: integer, degrees, between 0 and 359, counter clockwise, 0 pointing right
   - `{speed}`: integer, between 0 and 2 000 kms/s
 
+Each command returns a response, made with:
+
+- `{planet_id}` is between 0 and 65535
+- `{ship_id}` is between 1 and 9
+- 
+
 ### Move
 
 `MOVE {ship_id} {angle} {speed}`
@@ -52,11 +58,29 @@ Maximum speed:
 - 2 000 kms/s for explorers
 - 3 000 kms/s for attackers
 
+Response is `OK`.
+
 ### Fire
 
-`Fire {ship_id} {angle}`
+`FIRE {ship_id} {angle}`
 
 Fire a high energy attack, at `{angle}` angle. Length of the attack is 5 000 kms.
+
+This command is only valid for an attacker.
+
+Response is `OK`.
+
+### Radar
+
+TODO limiter dans la fréquence des radars
+
+`RADAR {ship_id}`
+
+Starts the radar of an explorer.
+
+Response is a one line string. It is composed of several elements, separated by commas. Those are based on entities at a distance less than 5 000 kms from the explorer. The elements are:
+
+- `P {planet_id} {abscissa} {ordinate} {ship_id}`: one of your not yet collected planets, at a given position, the `ship_id` is the ID of the collector that collected the plane, or -1 if not collected
 
 ## Commands
 

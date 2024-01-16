@@ -17,3 +17,6 @@ class Planet:
             "size": self.size,
             "collected_by": self.collected_by,
         }
+
+    def radar_result(self) -> str:
+        return f"P {self.id} {int(self.x)} {int(self.y)} {self.collected_by}"

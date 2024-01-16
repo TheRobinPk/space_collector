@@ -31,8 +31,20 @@ class Player:
             Attacker(3, base_x - 1500 * x_unit.x, base_y - 1500 * x_unit.y, angle),
             Attacker(4, base_x + 3000 * x_unit.x, base_y + 3000 * x_unit.y, angle),
             Attacker(5, base_x - 3000 * x_unit.x, base_y - 3000 * x_unit.y, angle),
-            Explorer(6, base_x + 4500 * x_unit.x, base_y + 4500 * x_unit.y, angle),
-            Explorer(7, base_x - 4500 * x_unit.x, base_y - 4500 * x_unit.y, angle),
+            Explorer(
+                6,
+                base_x + 4500 * x_unit.x,
+                base_y + 4500 * x_unit.y,
+                angle,
+                self.planets,
+            ),
+            Explorer(
+                7,
+                base_x - 4500 * x_unit.x,
+                base_y - 4500 * x_unit.y,
+                angle,
+                self.planets,
+            ),
             Collector(
                 8,
                 base_x + 6000 * x_unit.x,
@@ -59,7 +71,7 @@ class Player:
         if self.blocked:
             return "BLOCKED"
         command = command_str.split()
-        for command_type in ("MOVE", "FIRE"):
+        for command_type in ("MOVE", "FIRE", "RADAR"):
             if command[0] == command_type:
                 return getattr(self, command_type.lower())(command[1:])
         raise ValueError(f"Unknown command: {command_str}")
@@ -84,8 +96,17 @@ class Player:
     def fire(self, parameters: list[str]) -> str:
         ship_id, angle = (int(param) for param in parameters)
         spaceship = self.spaceship_by_id(ship_id)
+        if not isinstance(spaceship, Attacker):
+            raise ValueError("The spaceship that fired is not an attacker")
         spaceship.fire(angle)
         return "OK"
+
+    def radar(self, parameters: list[str]) -> str:
+        (ship_id,) = (int(param) for param in parameters)
+        spaceship = self.spaceship_by_id(ship_id)
+        if not isinstance(spaceship, Explorer):
+            raise ValueError("The spaceship that fired is not an attacker")
+        return spaceship.radar()
 
     def update(self, delta_time: float) -> None:
         if self.blocked:

@@ -1,7 +1,6 @@
 import logging
 import math
 from dataclasses import dataclass
-from typing import ClassVar
 
 from space_collector.game.constants import DISTANCE_PLANET_COLLECTION, MAP_DIMENSION
 from space_collector.game.planet import Planet
@@ -113,3 +112,16 @@ class Attacker(Spaceship):
 class Explorer(Spaceship):
     MAX_SPEED = 2000
     TYPE = "explorer"
+
+    def __init__(
+        self, id_: int, x: int, y: int, angle: int, planets: list[Planet]
+    ) -> None:
+        super().__init__(id_, x, y, angle)
+        self.planets = planets
+
+    def radar(self) -> str:
+        # TODO limit distance
+        ret = []
+        for planet in self.planets:
+            ret.append(planet.radar_result())
+        return ",".join(ret)
