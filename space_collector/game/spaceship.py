@@ -12,37 +12,26 @@ def distance(item, other) -> float:
 
 @dataclass
 class Spaceship:
-    MAX_SPEED: ClassVar[int]
-    id: int
-    x: float
-    y: float
-    angle: int
-    speed: int
-    broken: bool
-    type: str
-    fire_started: bool = False
-    fire_angle: int = 0
-    collected: int = -1
+    MAX_SPEED = 1000
+    TYPE = "spaceship"
 
-    def update(self, delta_time: float, planets: list[Planet]) -> None:
+    def __init__(self, id_: int, x: float, y: float, angle: int) -> None:
+        self.id = id_
+        self.x = x
+        self.y = y
+        self.angle = angle
+        self.speed: int = 0
+        self.broken: bool = False
+
+    def update(self, delta_time: float) -> None:
         self.x += delta_time * self.speed * math.cos(math.radians(self.angle))
         self.x = max(0, min(self.x, MAP_DIMENSION))
         self.y += delta_time * self.speed * math.sin(math.radians(self.angle))
         self.y = max(0, min(self.y, MAP_DIMENSION))
-        if self.type == "collector" and self.collected == -1 and planets:
-            nearest_planet = min(planets, key=lambda p: distance(self, p))
-            if distance(self, nearest_planet) < DISTANCE_PLANET_COLLECTION:
-                self.collected = nearest_planet.id
 
     def move(self, angle: int, speed: int) -> None:
         self.angle = angle
         self.speed = speed
-
-    def fire(self, angle: int) -> None:
-        if self.type != "attacker":
-            return
-        self.fire_started = True
-        self.fire_angle = angle
 
     def state(self) -> dict:
         state = {
@@ -52,31 +41,56 @@ class Spaceship:
             "angle": self.angle,
             "speed": self.speed,
             "broken": self.broken,
-            "type": self.type,
-            "fire": self.fire_started,
-            "fire_angle": self.fire_angle,
-            "collected": self.collected,
+            "type": self.TYPE,
         }
-        self.fire_started = False  # TODO fix ugly hack
         return state
 
 
 class Collector(Spaceship):
-    MAX_SPEED: ClassVar[int] = 1000
+    MAX_SPEED = 1000
+    TYPE = "collector"
 
-    def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
-        super().__init__(id_, x, y, angle, 0, False, "collector")
+    def __init__(
+        self, id_: int, x: int, y: int, angle: int, planets: list[Planet]
+    ) -> None:
+        super().__init__(id_, x, y, angle)
+        self.collected: int = -1
+        self.planets = planets
+
+    def update(self, delta_time: float) -> None:
+        super().update(delta_time)
+        if self.collected == -1:
+            nearest_planet = min(self.planets, key=lambda p: distance(self, p))
+            if distance(self, nearest_planet) < DISTANCE_PLANET_COLLECTION:
+                self.collected = nearest_planet.id
+
+    def state(self) -> dict:
+        state = super().state()
+        state["collected"] = self.collected
+        return state
 
 
 class Attacker(Spaceship):
-    MAX_SPEED: ClassVar[int] = 3000
+    MAX_SPEED = 3000
+    TYPE = "attacker"
 
     def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
-        super().__init__(id_, x, y, angle, 0, False, "attacker")
+        super().__init__(id_, x, y, angle)
+        self.fire_started: bool = False
+        self.fire_angle: int = 0
+
+    def fire(self, angle: int) -> None:
+        self.fire_started = True
+        self.fire_angle = angle
+
+    def state(self) -> dict:
+        state = super().state()
+        state["fire"] = self.fire_started
+        state["fire_angle"] = self.fire_angle
+        self.fire_started = False  # TODO fix ugly hack
+        return state
 
 
 class Explorer(Spaceship):
-    MAX_SPEED: ClassVar[int] = 2000
-
-    def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
-        super().__init__(id_, x, y, angle, 0, False, "explorer")
+    MAX_SPEED = 2000
+    TYPE = "explorer"

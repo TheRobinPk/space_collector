@@ -33,8 +33,20 @@ class Player:
             Attacker(5, base_x - 3000 * x_unit.x, base_y - 3000 * x_unit.y, angle),
             Explorer(6, base_x + 4500 * x_unit.x, base_y + 4500 * x_unit.y, angle),
             Explorer(7, base_x - 4500 * x_unit.x, base_y - 4500 * x_unit.y, angle),
-            Collector(8, base_x + 6000 * x_unit.x, base_y + 6000 * x_unit.y, angle),
-            Collector(9, base_x - 6000 * x_unit.x, base_y - 6000 * x_unit.y, angle),
+            Collector(
+                8,
+                base_x + 6000 * x_unit.x,
+                base_y + 6000 * x_unit.y,
+                angle,
+                self.planets,
+            ),
+            Collector(
+                9,
+                base_x - 6000 * x_unit.x,
+                base_y - 6000 * x_unit.y,
+                angle,
+                self.planets,
+            ),
         ]
 
         for planet_data in planets_data:
@@ -79,7 +91,7 @@ class Player:
         if self.blocked:
             return
         for spaceship in self.spaceships:
-            spaceship.update(delta_time, self.planets)
+            spaceship.update(delta_time)
 
     def state(self) -> dict:
         return {

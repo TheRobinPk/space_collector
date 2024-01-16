@@ -44,6 +44,7 @@ class SpaceShip:
         self.sprite.draw()
 
     def update(self, server_data: dict, duration: float) -> None:
+        logging.info(server_data)
         self.x.add_animation(
             Animation(
                 start_value=self.x.value,
@@ -59,8 +60,6 @@ class SpaceShip:
             )
         )
         self.angle = server_data["angle"]
-        self.fire = server_data["fire"]
-        self.fire_angle = server_data["fire_angle"]
 
 
 class Attacker(SpaceShip):
@@ -85,7 +84,8 @@ class Attacker(SpaceShip):
 
     def update(self, server_data: dict, duration: float) -> None:
         super().update(server_data, duration)
-        if server_data["fire"]:
+        self.fire = server_data["fire"]
+        if self.fire:
             self.lightning_alpha.add_animations(
                 initial_value=self.lightning_alpha.value,
                 steps=[
