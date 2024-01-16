@@ -89,15 +89,19 @@ class Collector(Spaceship):
                     break
             if planet is None:
                 logging.error("Collected planet not found: %d", self.collected)
+            elif planet.saved:
+                planet.collected_by = -1
+                self.collected = -1
             else:
                 planet.x = self.x
                 planet.y = self.y
                 planet.collected_by = self.id
                 if distance(self, self.base) < DISTANCE_PLANET_COLLECTION:
+                    planet.saved = True
+                    planet.collected_by = -1
                     self.collected = -1
                     logging.error("PLANET AT HOME")
                     # TODO manage score
-                    self.planets.remove(planet)
 
     def state(self) -> dict:
         state = super().state()

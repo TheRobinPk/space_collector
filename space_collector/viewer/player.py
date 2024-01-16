@@ -79,11 +79,5 @@ class Player:
                 )
                 self.planets[planet.id] = planet
                 planet.setup()
-        seen = set()
         for planet_data in server_data["planets"]:
-            id_ = planet_data["id"]
-            self.planets[id_].update(planet_data, duration)
-            seen.add(id_)
-        for planet_id in list(self.planets):
-            if planet_id not in seen:
-                self.planets.pop(planet_id)
+            self.planets[planet_data["id"]].update(planet_data, duration)

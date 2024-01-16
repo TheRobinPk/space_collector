@@ -25,6 +25,7 @@ class Planet:
         self.y = AnimatedValue(y)
         self.size = AnimatedValue(COLLECTED_SIZE)
         self.id = id_
+        self.saved = False
         self.collected_by = -1
         self.spaceships = spaceships
         images = find_image_files("space_collector/viewer/images/planets")
@@ -39,11 +40,15 @@ class Planet:
         self.sprite.height = self.sprite.width
 
     def animate(self) -> None:
+        if self.saved:
+            return
         self.sprite.position = map_coord_to_window_coord(self.x.value, self.y.value)
         self.sprite.width = self.size.value
         self.sprite.height = self.size.value
 
     def draw(self) -> None:
+        if self.saved:
+            return
         self.animate()
         arcade.draw_circle_outline(
             self.sprite.position[0],
@@ -55,7 +60,10 @@ class Planet:
         self.sprite.draw()
 
     def update(self, server_data: dict, duration: float) -> None:
+        if self.saved:
+            return
         self.collected_by = server_data["collected_by"]
+        self.saved = server_data["saved"]
         if self.collected_by == -1:
             self.x.add_animation(
                 Animation(
