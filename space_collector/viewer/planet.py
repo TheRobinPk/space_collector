@@ -5,6 +5,7 @@ import arcade
 
 from space_collector.viewer.animation import AnimatedValue, Animation
 from space_collector.viewer.constants import TEAM_HUES, TEAM_COLORS
+from space_collector.viewer.spaceship import SpaceShip
 from space_collector.viewer.utils import (
     hue_changed_texture,
     map_coord_to_window_coord,
@@ -12,16 +13,19 @@ from space_collector.viewer.utils import (
 )
 
 
-COLLECTED_SIZE = 1000
+COLLECTED_SIZE = 20
 
 
 class Planet:
-    def __init__(self, x: int, y: int, id: int, team: int) -> None:
+    def __init__(
+        self, x: int, y: int, id: int, team: int, spaceships: list[SpaceShip]
+    ) -> None:
         self.team = team
         self.x = AnimatedValue(x)
         self.y = AnimatedValue(y)
         self.size = AnimatedValue(COLLECTED_SIZE)
         self.collected_by = -1
+        self.spaceships = spaceships
         images = find_image_files("space_collector/viewer/images/planets")
         self.image_path = images[id % len(images)]
         logging.info("planet %d, %d", x, y)
@@ -50,34 +54,61 @@ class Planet:
         self.sprite.draw()
 
     def update(self, server_data: dict, duration: float) -> None:
-        self.x.add_animation(
-            Animation(
-                start_value=self.x.value,
-                end_value=server_data["x"],
-                duration=duration,
-            )
-        )
-        self.y.add_animation(
-            Animation(
-                start_value=self.y.value,
-                end_value=server_data["y"],
-                duration=duration,
-            )
-        )
         self.collected_by = server_data["collected_by"]
-        if self.collected_by != -1 and self.size.value == server_data["size"]:
-            self.size.add_animation(
+        if self.collected_by == -1:
+            self.x.add_animation(
                 Animation(
-                    start_value=self.size.value,
-                    end_value=COLLECTED_SIZE,
-                    duration=1,
+                    start_value=self.x.value,
+                    end_value=server_data["x"],
+                    duration=duration,
                 )
             )
-        elif self.collected_by == -1 and self.size.value == COLLECTED_SIZE:
-            self.size.add_animation(
+            self.y.add_animation(
                 Animation(
-                    start_value=self.size.value,
-                    end_value=server_data["size"],
-                    duration=1,
+                    start_value=self.y.value,
+                    end_value=server_data["y"],
+                    duration=duration,
                 )
             )
+            if self.size.value == COLLECTED_SIZE:
+                self.size.add_animation(
+                    Animation(
+                        start_value=self.size.value,
+                        end_value=server_data["size"],
+                        duration=1,
+                    )
+                )
+
+        else:  # collected
+            spaceship = None
+            for s in self.spaceships:
+                if s.id == self.collected_by:
+                    spaceship = s
+                    break
+            if spaceship is None:
+                logging.error("Collector not found: %d", self.collected_by)
+            else:
+                position = spaceship.collected_planet_position()
+                self.x.add_animation(
+                    Animation(
+                        start_value=self.x.value,
+                        end_value=position.x,
+                        duration=duration,
+                    )
+                )
+                self.y.add_animation(
+                    Animation(
+                        start_value=self.y.value,
+                        end_value=position.y,
+                        duration=duration,
+                    )
+                )
+
+            if self.size.value == server_data["size"]:
+                self.size.add_animation(
+                    Animation(
+                        start_value=self.size.value,
+                        end_value=COLLECTED_SIZE,
+                        duration=0.2,
+                    )
+                )

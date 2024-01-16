@@ -4,6 +4,7 @@ import math
 import arcade
 
 from space_collector.game.constants import MAP_DIMENSION
+from space_collector.game.math import Matrix, Vector
 from space_collector.viewer.animation import AnimatedValue, Animation, Step
 from space_collector.viewer.utils import (
     MAP_WIDTH,
@@ -27,6 +28,7 @@ class SpaceShip:
         self.height = 100
         self.fire = False
         self.fire_angle = 0
+        self.id = -1
 
     def setup(self) -> None:
         self.sprite = arcade.Sprite(
@@ -45,6 +47,7 @@ class SpaceShip:
 
     def update(self, server_data: dict, duration: float) -> None:
         logging.info(server_data)
+        self.id = server_data["id"]
         self.x.add_animation(
             Animation(
                 start_value=self.x.value,
@@ -127,6 +130,15 @@ class Collector(SpaceShip):
         super().__init__(x, y, angle, team)
         self.width = 50
         self.height = 50
+
+    def collected_planet_position(self) -> Vector:
+        angle = math.radians(self.angle)
+        offset = Vector([600, 0])
+        rotation_matrix = Matrix(
+            [[math.cos(angle), -math.sin(angle)], [math.sin(angle), math.cos(angle)]]
+        )
+        rotated_offset = rotation_matrix @ offset
+        return Vector([self.x.value, self.y.value]) + rotated_offset
 
 
 class Explorator(SpaceShip):

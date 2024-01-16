@@ -76,6 +76,7 @@ class Player:
                         planet_data["y"],
                         planet_data["id"],
                         self.team,
+                        self.spaceships,
                     )
                 )
                 self.planets[-1].setup()
