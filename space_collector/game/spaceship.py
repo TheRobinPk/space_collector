@@ -1,6 +1,7 @@
 import logging
 import math
 from dataclasses import dataclass
+from typing import Callable
 
 from space_collector.game.constants import DISTANCE_PLANET_COLLECTION, MAP_DIMENSION
 from space_collector.game.planet import Planet
@@ -32,6 +33,9 @@ class Spaceship:
     def move(self, angle: int, speed: int) -> None:
         self.angle = angle
         self.speed = speed
+
+    def radar_result(self, team: int) -> str:
+        return f"S {team} {self.id} {int(self.x)} {int(self.y)} {int(self.broken)}"
 
     def state(self) -> dict:
         state = {
@@ -114,14 +118,24 @@ class Explorer(Spaceship):
     TYPE = "explorer"
 
     def __init__(
-        self, id_: int, x: int, y: int, angle: int, planets: list[Planet]
+        self,
+        id_: int,
+        x: int,
+        y: int,
+        angle: int,
+        planets: list[Planet],
+        all_spaceships: Callable,
     ) -> None:
         super().__init__(id_, x, y, angle)
         self.planets = planets
+        self.all_spaceships = all_spaceships
 
     def radar(self) -> str:
         # TODO limit distance
         ret = []
         for planet in self.planets:
             ret.append(planet.radar_result())
+        for team_id, team in enumerate(self.all_spaceships()):
+            for spaceship in team:
+                ret.append(spaceship.radar_result(team_id))
         return ",".join(ret)

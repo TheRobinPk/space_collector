@@ -8,16 +8,19 @@ from space_collector.game.player_orientations import player_orientations
 
 
 class Player:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, game) -> None:
         self.name = name
         self.blocked = False
         self.spaceships: list[Spaceship] = []
         self.planets: list[Planet] = []
         self.base_position = (0, 0)
+        self.game = game
+        self.team = -1
 
     def reset_spaceships_and_planets(
         self, team: int, planets_data: list[Planet]
     ) -> None:
+        self.team = team
         orientation = player_orientations[team]
         angle = orientation.angle
         self.base_position = orientation.base_position
@@ -37,6 +40,7 @@ class Player:
                 base_y + 4500 * x_unit.y,
                 angle,
                 self.planets,
+                self.all_spaceships,
             ),
             Explorer(
                 7,
@@ -44,6 +48,7 @@ class Player:
                 base_y - 4500 * x_unit.y,
                 angle,
                 self.planets,
+                self.all_spaceships,
             ),
             Collector(
                 8,
@@ -66,6 +71,15 @@ class Player:
             rotated_planet = orientation.rotate_around_base(planet_position)
             planet = Planet(*(rotated_planet), planet_data.size, planet_data.id)
             self.planets.append(planet)
+
+    def all_spaceships(self) -> list[list[Spaceship]]:
+        """List spaceships per team, my team is always the first."""
+        spaceships = []
+        for player in self.game.players:
+            spaceships.append(player.spaceships)
+        my_spaceships = spaceships.pop(self.team)
+        spaceships.insert(0, my_spaceships)
+        return spaceships
 
     def manage_command(self, command_str: str) -> str:
         if self.blocked:

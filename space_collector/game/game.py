@@ -52,7 +52,7 @@ class Game:
     def add_player(self, player_name: str) -> None:
         if len(self.players) >= 4:
             return
-        player = Player(player_name)
+        player = Player(player_name, self)
         player.reset_spaceships_and_planets(len(self.players), self.planets_positions)
         self.players.append(player)
 
