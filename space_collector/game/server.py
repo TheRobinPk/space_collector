@@ -23,11 +23,11 @@ class GameServer(Server):
 
     @property
     def players(self):
-        return [client for client in self.clients if not client.spectator]
+        return [client for client in list(self.clients) if not client.spectator]
 
     @property
     def spectators(self):
-        return [client for client in self.clients if client.spectator]
+        return [client for client in list(self.clients) if client.spectator]
 
     def remove_client(self: "GameServer", client: ClientData) -> None:
         self.clients.remove(client)
