@@ -44,7 +44,7 @@ Each command returns a response, made with:
 
 - `{planet_id}` is between 0 and 65535
 - `{ship_id}` is between 1 and 9
-- 
+- `{abscissa}` and `{ordinate}` are between 0 and 19 999
 
 ### Move
 
@@ -59,6 +59,8 @@ Maximum speed:
 - 3 000 kms/s for attackers
 
 Response is `OK`.
+
+If a collector is less than 200 kms far from one of its planets, it collects the planet if it is not yet carrying a planet and it is not broken.
 
 ### Fire
 
@@ -80,7 +82,9 @@ Starts the radar of an explorer.
 
 Response is a one line string. It is composed of several elements, separated by commas. Those are based on entities at a distance less than 5 000 kms from the explorer. The elements are:
 
-- `P {planet_id} {abscissa} {ordinate} {ship_id}`: one of your not yet collected planets, at a given position, the `ship_id` is the ID of the collector that collected the plane, or -1 if not collected
+- `P {planet_id} {abscissa} {ordinate} {ship_id} {saved}`: one of your not yet collected planets, at a given position, the `ship_id` is the ID of the collector that collected the plane, or -1 if not collected, `saved` is 1 when planet is at base station, otherwise 0
+- `S {team} {ship_id} {abscissa} {ordinate} {broken}`: a spaceship, team 0 is yours, team 1 to 3 are opponents, broken is 0 or 1, 1 meaning that the ship was targeted by a high energy attack
+- `B {abscissa} {ordinate}`: your base station's position (always present in radar information)
 
 ## Commands
 
