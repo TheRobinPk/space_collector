@@ -3,6 +3,7 @@ import random
 import uuid
 from collections import Counter
 from pathlib import Path
+from functools import cache
 
 import arcade
 from PIL import Image
@@ -47,15 +48,17 @@ def random_sprite(path: str) -> arcade.Sprite:
     return sprite
 
 
-def hue(image: Image) -> int:
+@cache
+def hue(image_path: str) -> int:
     """Get most common hue in important pixels (saturated, not transparent…)
 
     Args:
-        image: the image to analyze
+        image_path: path of the image to analyze
 
     Returns:
         the most common hue (rounded to tens)
     """
+    image = Image.open(image_path)
     alphas = image.getdata(band=3)
     hsv_image = image.convert("HSV")
     hues = hsv_image.getdata(band=0)
@@ -73,7 +76,7 @@ def hue(image: Image) -> int:
 def hue_changed_texture(image_path: str, target_hue: int) -> arcade.Texture:
     logging.info("Managing %s", image_path)
     original_image = Image.open(image_path)
-    original_hue = hue(original_image)
+    original_hue = hue(image_path)
     offset_hue = 256 + target_hue - original_hue
     alpha_channel = original_image.split()[-1]
     hsv_image = original_image.convert("HSV")
