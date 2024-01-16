@@ -22,7 +22,7 @@ class Player:
         self.blocked = True
         self.orientation = "S"
         self.spaceships: list[SpaceShip] = []
-        self.planets: list[Planet] = []
+        self.planets: dict[int, Planet] = {}
         self.team = team
 
     def setup(self) -> None:
@@ -42,7 +42,7 @@ class Player:
 
     def draw(self) -> None:
         self.base_sprite.draw()
-        for planet in self.planets:
+        for planet in self.planets.values():
             planet.draw()
         if not self.blocked:
             for spaceship in self.spaceships:
@@ -70,15 +70,20 @@ class Player:
 
         if not self.planets:
             for planet_data in server_data["planets"]:
-                self.planets.append(
-                    Planet(
-                        planet_data["x"],
-                        planet_data["y"],
-                        planet_data["id"],
-                        self.team,
-                        self.spaceships,
-                    )
+                planet = Planet(
+                    planet_data["x"],
+                    planet_data["y"],
+                    planet_data["id"],
+                    self.team,
+                    self.spaceships,
                 )
-                self.planets[-1].setup()
-        for index, planet_data in enumerate(server_data["planets"]):
-            self.planets[index].update(planet_data, duration)
+                self.planets[planet.id] = planet
+                planet.setup()
+        seen = set()
+        for planet_data in server_data["planets"]:
+            id_ = planet_data["id"]
+            self.planets[id_].update(planet_data, duration)
+            seen.add(id_)
+        for planet_id in list(self.planets):
+            if planet_id not in seen:
+                self.planets.pop(planet_id)

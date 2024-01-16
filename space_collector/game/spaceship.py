@@ -56,11 +56,18 @@ class Collector(Spaceship):
     TYPE = "collector"
 
     def __init__(
-        self, id_: int, x: int, y: int, angle: int, planets: list[Planet]
+        self,
+        id_: int,
+        x: int,
+        y: int,
+        angle: int,
+        planets: list[Planet],
+        base: tuple[int, int],
     ) -> None:
         super().__init__(id_, x, y, angle)
         self.collected: int = -1
         self.planets = planets
+        self.base = Vector(base)
 
     def update(self, delta_time: float) -> None:
         super().update(delta_time)
@@ -86,6 +93,11 @@ class Collector(Spaceship):
                 planet.x = self.x
                 planet.y = self.y
                 planet.collected_by = self.id
+                if distance(self, self.base) < DISTANCE_PLANET_COLLECTION:
+                    self.collected = -1
+                    logging.error("PLANET AT HOME")
+                    # TODO manage score
+                    self.planets.remove(planet)
 
     def state(self) -> dict:
         state = super().state()

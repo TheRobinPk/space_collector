@@ -18,16 +18,17 @@ COLLECTED_SIZE = 20
 
 class Planet:
     def __init__(
-        self, x: int, y: int, id: int, team: int, spaceships: list[SpaceShip]
+        self, x: int, y: int, id_: int, team: int, spaceships: list[SpaceShip]
     ) -> None:
         self.team = team
         self.x = AnimatedValue(x)
         self.y = AnimatedValue(y)
         self.size = AnimatedValue(COLLECTED_SIZE)
+        self.id = id_
         self.collected_by = -1
         self.spaceships = spaceships
         images = find_image_files("space_collector/viewer/images/planets")
-        self.image_path = images[id % len(images)]
+        self.image_path = images[id_ % len(images)]
         logging.info("planet %d, %d", x, y)
 
     def setup(self) -> None:

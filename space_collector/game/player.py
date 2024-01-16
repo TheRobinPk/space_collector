@@ -58,6 +58,7 @@ class Player:
                 base_y + 6000 * x_unit.y,
                 angle,
                 self.planets,
+                self.base_position,
             ),
             Collector(
                 9,
@@ -65,6 +66,7 @@ class Player:
                 base_y - 6000 * x_unit.y,
                 angle,
                 self.planets,
+                self.base_position,
             ),
         ]
 
