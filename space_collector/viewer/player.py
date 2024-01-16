@@ -1,7 +1,13 @@
 import logging
 
+import arcade
+from space_collector.game.math import Vector
+
+from space_collector.viewer.constants import TEAM_HUES
 from space_collector.viewer.planet import Planet
 from space_collector.viewer.spaceship import SpaceShip, Collector, Attacker, Explorator
+from space_collector.viewer.utils import hue_changed_texture, map_coord_to_window_coord
+from space_collector.game.player_orientations import player_orientations
 
 type_name_to_class = {
     "collector": Collector,
@@ -20,9 +26,22 @@ class Player:
         self.team = team
 
     def setup(self) -> None:
-        pass
+        self.base_sprite = arcade.Sprite(
+            texture=hue_changed_texture(
+                "space_collector/viewer/images/station.png", TEAM_HUES[self.team]
+            )
+        )
+        self.base_sprite.width = 200
+        self.base_sprite.height = 200
+        orientation = player_orientations[self.team]
+        self.base_sprite.angle = orientation.angle - 90
+        base_offset = orientation.matrix @ Vector([0, -2500])
+        self.base_sprite.position = map_coord_to_window_coord(
+            *(Vector(orientation.base_position) + base_offset)
+        )
 
     def draw(self) -> None:
+        self.base_sprite.draw()
         for planet in self.planets:
             planet.draw()
         if not self.blocked:
