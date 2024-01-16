@@ -7,6 +7,7 @@ class Planet:
     y: int
     size: int
     id: int
+    collected_by: int = -1
 
     def state(self) -> dict:
         return {
@@ -14,4 +15,5 @@ class Planet:
             "x": self.x,
             "y": self.y,
             "size": self.size,
+            "collected_by": self.collected_by,
         }

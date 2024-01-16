@@ -1,3 +1,4 @@
+import logging
 import math
 from dataclasses import dataclass
 from typing import ClassVar
@@ -60,9 +61,27 @@ class Collector(Spaceship):
     def update(self, delta_time: float) -> None:
         super().update(delta_time)
         if self.collected == -1:
-            nearest_planet = min(self.planets, key=lambda p: distance(self, p))
-            if distance(self, nearest_planet) < DISTANCE_PLANET_COLLECTION:
-                self.collected = nearest_planet.id
+            not_collected_planets = [
+                planet for planet in self.planets if planet.collected_by == -1
+            ]
+            if not_collected_planets:
+                nearest_planet = min(
+                    not_collected_planets, key=lambda p: distance(self, p)
+                )
+                if distance(self, nearest_planet) < DISTANCE_PLANET_COLLECTION:
+                    self.collected = nearest_planet.id
+        if self.collected != -1:
+            planet = None
+            for p in self.planets:
+                if p.id == self.collected:
+                    planet = p
+                    break
+            if planet is None:
+                logging.error("Collected planet not found: %d", p.id)
+            else:
+                planet.x = self.x
+                planet.y = self.y
+                planet.collected_by = self.id
 
     def state(self) -> dict:
         state = super().state()
