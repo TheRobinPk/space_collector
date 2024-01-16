@@ -12,12 +12,16 @@ from space_collector.viewer.utils import (
 )
 
 
+COLLECTED_SIZE = 1000
+
+
 class Planet:
     def __init__(self, x: int, y: int, id: int, team: int) -> None:
         self.team = team
         self.x = AnimatedValue(x)
         self.y = AnimatedValue(y)
-        self.size = AnimatedValue(200)
+        self.size = AnimatedValue(COLLECTED_SIZE)
+        self.collected_by = -1
         images = find_image_files("space_collector/viewer/images/planets")
         self.image_path = images[id % len(images)]
         logging.info("planet %d, %d", x, y)
@@ -60,10 +64,20 @@ class Planet:
                 duration=duration,
             )
         )
-        self.size.add_animation(
-            Animation(
-                start_value=self.size.value,
-                end_value=server_data["size"],
-                duration=duration,
+        self.collected_by = server_data["collected_by"]
+        if self.collected_by != -1 and self.size.value == server_data["size"]:
+            self.size.add_animation(
+                Animation(
+                    start_value=self.size.value,
+                    end_value=COLLECTED_SIZE,
+                    duration=1,
+                )
             )
-        )
+        elif self.collected_by == -1 and self.size.value == COLLECTED_SIZE:
+            self.size.add_animation(
+                Animation(
+                    start_value=self.size.value,
+                    end_value=server_data["size"],
+                    duration=1,
+                )
+            )
