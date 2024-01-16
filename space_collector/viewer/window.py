@@ -39,7 +39,7 @@ class Window(arcade.Window):
             set_date(date_server)
             for player, player_data in zip(self.players, data["players"]):
                 player.update(player_data, duration)
-            # self.score.update(data)
+            self.score.update(data)
 
         self.clear()
         self.background.draw()
