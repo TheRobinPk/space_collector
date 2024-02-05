@@ -29,11 +29,35 @@ class Player:
         origin_x_unit = Vector([1, 0])
         x_unit = orientation.matrix @ origin_x_unit
         self.spaceships = [
-            Attacker(1, base_x, base_y, angle),
-            Attacker(2, base_x + 1500 * x_unit.x, base_y + 1500 * x_unit.y, angle),
-            Attacker(3, base_x - 1500 * x_unit.x, base_y - 1500 * x_unit.y, angle),
-            Attacker(4, base_x + 3000 * x_unit.x, base_y + 3000 * x_unit.y, angle),
-            Attacker(5, base_x - 3000 * x_unit.x, base_y - 3000 * x_unit.y, angle),
+            Attacker(1, base_x, base_y, angle, self.all_spaceships),
+            Attacker(
+                2,
+                base_x + 1500 * x_unit.x,
+                base_y + 1500 * x_unit.y,
+                angle,
+                self.all_spaceships,
+            ),
+            Attacker(
+                3,
+                base_x - 1500 * x_unit.x,
+                base_y - 1500 * x_unit.y,
+                angle,
+                self.all_spaceships,
+            ),
+            Attacker(
+                4,
+                base_x + 3000 * x_unit.x,
+                base_y + 3000 * x_unit.y,
+                angle,
+                self.all_spaceships,
+            ),
+            Attacker(
+                5,
+                base_x - 3000 * x_unit.x,
+                base_y - 3000 * x_unit.y,
+                angle,
+                self.all_spaceships,
+            ),
             Explorer(
                 6,
                 base_x + 4500 * x_unit.x,

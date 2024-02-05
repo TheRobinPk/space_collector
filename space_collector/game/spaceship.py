@@ -3,8 +3,12 @@ import math
 from dataclasses import dataclass
 from typing import Callable
 
-from space_collector.game.constants import DISTANCE_PLANET_COLLECTION, MAP_DIMENSION
-from space_collector.game.math import Vector
+from space_collector.game.constants import (
+    DISTANCE_PLANET_COLLECTION,
+    MAP_DIMENSION,
+    HIGH_ENERGY_LENGTH,
+)
+from space_collector.game.math import Vector, distance_point_to_segment
 from space_collector.game.planet import Planet
 
 
@@ -12,7 +16,6 @@ def distance(item, other) -> float:
     return math.hypot(other.x - item.x, other.y - item.y)
 
 
-@dataclass
 class Spaceship:
     MAX_SPEED = 1000
     TYPE = "spaceship"
@@ -24,6 +27,9 @@ class Spaceship:
         self.angle = angle
         self.speed: int = 0
         self.broken: bool = False
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(id={self.id}, x={self.x}, y={self.y})"
 
     def update(self, delta_time: float) -> None:
         self.x += delta_time * self.speed * math.cos(math.radians(self.angle))
@@ -113,14 +119,43 @@ class Attacker(Spaceship):
     MAX_SPEED = 3000
     TYPE = "attacker"
 
-    def __init__(self, id_: int, x: int, y: int, angle: int) -> None:
+    def __init__(
+        self,
+        id_: int,
+        x: int,
+        y: int,
+        angle: int,
+        all_spaceships: Callable,
+    ) -> None:
         super().__init__(id_, x, y, angle)
         self.fire_started: bool = False
         self.fire_angle: int = 0
+        self.all_spaceships = all_spaceships
 
     def fire(self, angle: int) -> None:
         self.fire_started = True
         self.fire_angle = angle
+        angle_radians = math.radians(angle)
+        start = Vector([self.x, self.y])
+        end = Vector(
+            [
+                self.x + math.cos(angle_radians) * HIGH_ENERGY_LENGTH,
+                self.y + math.sin(angle_radians) * HIGH_ENERGY_LENGTH,
+            ]
+        )
+        logging.info("fire %s", str(self))
+        for team in self.all_spaceships()[1:]:
+            for spaceship in team:
+                logging.info("    to %s", str(spaceship))
+                if distance(self, spaceship) > HIGH_ENERGY_LENGTH:
+                    logging.info("        too far")
+                    continue
+                distance_to_high_energy = distance_point_to_segment(
+                    start, end, Vector([spaceship.x, spaceship.y])
+                )
+                logging.info("        distance: %f", distance_to_high_energy)
+                if distance_to_high_energy < 200:
+                    spaceship.broken = True
 
     def state(self) -> dict:
         state = super().state()

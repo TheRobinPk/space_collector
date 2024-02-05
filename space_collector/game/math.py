@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from math import hypot
 from typing import Iterable
 
 
@@ -19,6 +20,29 @@ class Vector:
     def __add__(self, other: Vector) -> Vector:
         if isinstance(other, Vector):
             return Vector(s + o for s, o in zip(self, other))
+        raise NotImplemented
+
+    def __sub__(self, other: Vector) -> Vector:
+        if isinstance(other, Vector):
+            return Vector(s - o for s, o in zip(self, other))
+        raise NotImplemented
+
+    def __mul__(self, other: int | float) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(s * other for s in self)
+        raise NotImplemented
+
+    def __truediv__(self, other: int | float) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(s / other for s in self)
+        raise NotImplemented
+
+    def length(self) -> float:
+        return hypot(*self.data)
+
+    def dot(self, other: Vector) -> float:
+        if isinstance(other, Vector):
+            return sum(s * o for s, o in zip(self, other))
         raise NotImplemented
 
     @property
@@ -54,3 +78,20 @@ class Matrix:
                 sum(mat * vec for mat, vec in zip(self.data[index], other))
             )
         return result
+
+
+def distance_point_to_segment(start: Vector, end: Vector, point: Vector) -> float:
+    """Distance between point and segment [start end]."""
+    start_to_end = end - start
+    start_to_point = point - start
+    segment_length = start_to_end.length()
+    unit_start_to_end = start_to_end / segment_length
+    unit_start_to_point = start_to_point / segment_length
+    t = unit_start_to_end.dot(unit_start_to_point)
+    # clamp orthogonal projection to segment boundaries
+    if t < 0:
+        t = 0
+    elif t > 1:
+        t = 1
+    nearest_point_from_point = start_to_end * t
+    return (nearest_point_from_point - point).length()
