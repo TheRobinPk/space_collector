@@ -41,6 +41,8 @@ class Spaceship:
         self.x = max(0, min(self.x, MAP_DIMENSION))
         self.y += delta_time * self.speed * math.sin(math.radians(self.angle))
         self.y = max(0, min(self.y, MAP_DIMENSION))
+        if distance(self, self.base) < 200:
+            self.broken = False
 
     def move(self, angle: int, speed: int) -> None:
         self.angle = angle
@@ -151,17 +153,13 @@ class Attacker(Spaceship):
                 self.y + math.sin(angle_radians) * HIGH_ENERGY_LENGTH,
             ]
         )
-        logging.info("fire %s", str(self))
         for team in self.player.all_spaceships()[1:]:
             for spaceship in team:
-                logging.info("    to %s", str(spaceship))
                 if distance(self, spaceship) > HIGH_ENERGY_LENGTH:
-                    logging.info("        too far")
                     continue
                 distance_to_high_energy = distance_point_to_segment(
                     start, end, Vector([spaceship.x, spaceship.y])
                 )
-                logging.info("        distance: %f", distance_to_high_energy)
                 if distance_to_high_energy < 200:
                     spaceship.broken = True
 
