@@ -1,7 +1,5 @@
 import logging
 import math
-from dataclasses import dataclass
-from typing import Callable
 
 from space_collector.game.constants import (
     DISTANCE_PLANET_COLLECTION,
