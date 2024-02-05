@@ -63,6 +63,12 @@ class SpaceShip:
             )
         )
         self.angle = server_data["angle"]
+        if server_data["broken"]:
+            self.sprite.width = self.width / 2
+            self.sprite.height = self.height / 2
+        else:
+            self.sprite.width = self.width
+            self.sprite.height = self.height
 
 
 class Attacker(SpaceShip):
