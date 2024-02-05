@@ -29,68 +29,30 @@ class Player:
         origin_x_unit = Vector([1, 0])
         x_unit = orientation.matrix @ origin_x_unit
         self.spaceships = [
-            Attacker(1, base_x, base_y, angle, self.all_spaceships),
+            Attacker(1, base_x, base_y, angle, self),
             Attacker(
-                2,
-                base_x + 1500 * x_unit.x,
-                base_y + 1500 * x_unit.y,
-                angle,
-                self.all_spaceships,
+                2, base_x + 1500 * x_unit.x, base_y + 1500 * x_unit.y, angle, self
             ),
             Attacker(
-                3,
-                base_x - 1500 * x_unit.x,
-                base_y - 1500 * x_unit.y,
-                angle,
-                self.all_spaceships,
+                3, base_x - 1500 * x_unit.x, base_y - 1500 * x_unit.y, angle, self
             ),
             Attacker(
-                4,
-                base_x + 3000 * x_unit.x,
-                base_y + 3000 * x_unit.y,
-                angle,
-                self.all_spaceships,
+                4, base_x + 3000 * x_unit.x, base_y + 3000 * x_unit.y, angle, self
             ),
             Attacker(
-                5,
-                base_x - 3000 * x_unit.x,
-                base_y - 3000 * x_unit.y,
-                angle,
-                self.all_spaceships,
+                5, base_x - 3000 * x_unit.x, base_y - 3000 * x_unit.y, angle, self
             ),
             Explorer(
-                6,
-                base_x + 4500 * x_unit.x,
-                base_y + 4500 * x_unit.y,
-                angle,
-                self.planets,
-                self.all_spaceships,
-                self.base_position,
+                6, base_x + 4500 * x_unit.x, base_y + 4500 * x_unit.y, angle, self
             ),
             Explorer(
-                7,
-                base_x - 4500 * x_unit.x,
-                base_y - 4500 * x_unit.y,
-                angle,
-                self.planets,
-                self.all_spaceships,
-                self.base_position,
+                7, base_x - 4500 * x_unit.x, base_y - 4500 * x_unit.y, angle, self
             ),
             Collector(
-                8,
-                base_x + 6000 * x_unit.x,
-                base_y + 6000 * x_unit.y,
-                angle,
-                self.planets,
-                self.base_position,
+                8, base_x + 6000 * x_unit.x, base_y + 6000 * x_unit.y, angle, self
             ),
             Collector(
-                9,
-                base_x - 6000 * x_unit.x,
-                base_y - 6000 * x_unit.y,
-                angle,
-                self.planets,
-                self.base_position,
+                9, base_x - 6000 * x_unit.x, base_y - 6000 * x_unit.y, angle, self
             ),
         ]
 

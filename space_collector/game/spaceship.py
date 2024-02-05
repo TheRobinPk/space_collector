@@ -20,16 +20,23 @@ class Spaceship:
     MAX_SPEED = 1000
     TYPE = "spaceship"
 
-    def __init__(self, id_: int, x: float, y: float, angle: int) -> None:
+    def __init__(
+        self, id_: int, x: float, y: float, angle: int, player: "Player"
+    ) -> None:
         self.id = id_
         self.x = x
         self.y = y
         self.angle = angle
         self.speed: int = 0
         self.broken: bool = False
+        self.player = player
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(id={self.id}, x={self.x}, y={self.y})"
+
+    @property
+    def base(self) -> Vector:
+        return Vector(self.player.base_position)
 
     def update(self, delta_time: float) -> None:
         self.x += delta_time * self.speed * math.cos(math.radians(self.angle))
@@ -61,19 +68,10 @@ class Collector(Spaceship):
     MAX_SPEED = 1000
     TYPE = "collector"
 
-    def __init__(
-        self,
-        id_: int,
-        x: int,
-        y: int,
-        angle: int,
-        planets: list[Planet],
-        base: tuple[int, int],
-    ) -> None:
-        super().__init__(id_, x, y, angle)
+    def __init__(self, id_: int, x: int, y: int, angle: int, player: "Player") -> None:
+        super().__init__(id_, x, y, angle, player)
         self.collected: int = -1
-        self.planets = planets
-        self.base = Vector(base)
+        self.planets = self.player.planets
 
     def update(self, delta_time: float) -> None:
         super().update(delta_time)
@@ -136,12 +134,11 @@ class Attacker(Spaceship):
         x: int,
         y: int,
         angle: int,
-        all_spaceships: Callable,
+        player: "Player",
     ) -> None:
-        super().__init__(id_, x, y, angle)
+        super().__init__(id_, x, y, angle, player)
         self.fire_started: bool = False
         self.fire_angle: int = 0
-        self.all_spaceships = all_spaceships
 
     def fire(self, angle: int) -> None:
         if self.broken:
@@ -157,7 +154,7 @@ class Attacker(Spaceship):
             ]
         )
         logging.info("fire %s", str(self))
-        for team in self.all_spaceships()[1:]:
+        for team in self.player.all_spaceships()[1:]:
             for spaceship in team:
                 logging.info("    to %s", str(spaceship))
                 if distance(self, spaceship) > HIGH_ENERGY_LENGTH:
@@ -182,29 +179,14 @@ class Explorer(Spaceship):
     MAX_SPEED = 2000
     TYPE = "explorer"
 
-    def __init__(
-        self,
-        id_: int,
-        x: int,
-        y: int,
-        angle: int,
-        planets: list[Planet],
-        all_spaceships: Callable,
-        base: tuple[int, int],
-    ) -> None:
-        super().__init__(id_, x, y, angle)
-        self.planets = planets
-        self.all_spaceships = all_spaceships
-        self.base = base
-
     def radar(self) -> str:
         # TODO limit distance
         ret = []
         if not self.broken:
-            for planet in self.planets:
+            for planet in self.player.planets:
                 ret.append(planet.radar_result())
-            for team_id, team in enumerate(self.all_spaceships()):
+            for team_id, team in enumerate(self.player.all_spaceships()):
                 for spaceship in team:
                     ret.append(spaceship.radar_result(team_id))
-        ret.append(f"B {self.base[0]} {self.base[1]}")
+        ret.append(f"B {self.base.x} {self.base.y}")
         return ",".join(ret)
