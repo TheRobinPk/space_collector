@@ -50,7 +50,7 @@ class DataHandler:
             if perf_counter() - start > timeout:
                 logging.debug("timeout")
                 raise NetworkError
-            sleep(0.1)
+            sleep(0.005)
         with self._input_lock:
             index = self._input.index("\n")
             line = self._input[:index]
