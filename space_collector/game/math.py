@@ -93,5 +93,5 @@ def distance_point_to_segment(start: Vector, end: Vector, point: Vector) -> floa
         t = 0
     elif t > 1:
         t = 1
-    nearest_point_from_point = start_to_end * t
+    nearest_point_from_point = start_to_end * t + start
     return (nearest_point_from_point - point).length()
