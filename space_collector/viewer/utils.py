@@ -24,8 +24,8 @@ MAP_HEIGHT = MAP_MAX_Y - MAP_MIN_Y
 
 def map_value_to_window(value: float) -> float:
     return max(
-        map_coord_to_window_coord(value, 0)[0],
-        map_coord_to_window_coord(0, value)[1],
+        int(value / MAP_DIMENSION * MAP_WIDTH),
+        int(value / MAP_DIMENSION * MAP_HEIGHT),
     )
 
 
