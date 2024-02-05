@@ -22,6 +22,8 @@ class DataHandler:
         while True:
             try:
                 data = self.socket.recv(self.BUFSIZ)
+            except TimeoutError:
+                continue  # same player try again
             except OSError:
                 return
             with self._input_lock:
@@ -37,6 +39,7 @@ class DataHandler:
         self._input = ""
         self._input_lock = Lock()
         self.socket = socket_
+        self.socket.settimeout(0.01)
 
         receive_thread = Thread(target=self._receive_data, args=(), daemon=True)
         receive_thread.start()
