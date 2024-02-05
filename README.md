@@ -5,6 +5,8 @@ Space collector game
 ## TODO
 
 - tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
+- limiter dans la fréquence des radars
+
 
 ## Rules
 
@@ -15,7 +17,7 @@ Space collector game
   - Fast speed
   - High energy attack < 5 000 kms
     - choose angle
-    - 1 second to wait between fires
+    - 1 second to wait between fires of an attacker
 - Explore with your explorer
   - Normal speed
   - See its planets and all spaceships around him < 5 000 kms
@@ -38,7 +40,7 @@ Space collector game
   - 8, 9: collectors
 - `{parameters}`: parameters of the command
   - `{angle}`: integer, degrees, between 0 and 359, counter clockwise, 0 pointing right
-  - `{speed}`: integer, between 0 and 2 000 kms/s
+  - `{speed}`: integer in kms/s
 
 Each command returns a response, made with:
 
@@ -74,8 +76,6 @@ Response is `OK`.
 
 ### Radar
 
-TODO limiter dans la fréquence des radars
-
 `RADAR {ship_id}`
 
 Starts the radar of an explorer.
@@ -83,7 +83,7 @@ Starts the radar of an explorer.
 Response is a one line string. It is composed of several elements, separated by commas. Those are based on entities at a distance less than 5 000 kms from the explorer. The elements are:
 
 - `P {planet_id} {abscissa} {ordinate} {ship_id} {saved}`: one of your not yet collected planets, at a given position, the `ship_id` is the ID of the collector that collected the plane, or -1 if not collected, `saved` is 1 when planet is at base station, otherwise 0
-- `S {team} {ship_id} {abscissa} {ordinate} {broken}`: a spaceship, team 0 is yours, team 1 to 3 are opponents, broken is 0 or 1, 1 meaning that the ship was targeted by a high energy attack
+- `S {team} {ship_id} {abscissa} {ordinate} {broken}`: a spaceship, team 0 is yours, team 1 to 3 are opponents, broken is 0 or 1, 1 meaning that the ship was targeted by a high energy attack (your spaceships are always present even if the explorer is broken)
 - `B {abscissa} {ordinate}`: your base station's position (always present in radar information)
 
 ## Commands

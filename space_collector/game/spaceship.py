@@ -184,5 +184,8 @@ class Explorer(Spaceship):
             for team_id, team in enumerate(self.player.all_spaceships()):
                 for spaceship in team:
                     ret.append(spaceship.radar_result(team_id))
+        else:
+            for spaceship in self.player.all_spaceships()[0]:
+                ret.append(spaceship.radar_result(0))
         ret.append(f"B {self.base.x} {self.base.y}")
         return ",".join(ret)
