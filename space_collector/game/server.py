@@ -10,7 +10,7 @@ from space_collector.network.data_handler import NetworkError
 from space_collector.network.server import ClientData, Server
 
 MAX_NB_PLAYERS = 4
-SERVER_CONNECTION_TIMEOUT = 1  # TODO remettre 5
+SERVER_CONNECTION_TIMEOUT = 10
 
 
 class GameServer(Server):
@@ -79,6 +79,7 @@ class GameServer(Server):
                     if player.network.input_empty():
                         continue
                     command = self.read(player)
+                    logging.info("Command [%s] %s", player.name, command)
                     self.write(player, self.game.manage_command(player_id, command))
             self.game.update()
             for spectator in self.spectators:
