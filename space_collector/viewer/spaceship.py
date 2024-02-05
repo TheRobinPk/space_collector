@@ -164,20 +164,13 @@ class Explorator(SpaceShip):
     def setup(self) -> None:
         super().setup()
         self.radar_radius = AnimatedValue(0)
-        self.radar_alpha = AnimatedValue(0)
+        self.radar_color = list(TEAM_COLORS[self.team])
+        self.radar_color.append(50)
 
     def update(self, server_data: dict, duration: float) -> None:
         super().update(server_data, duration)
         self.radar = server_data["radar"]
         if self.radar:
-            self.radar_alpha.add_animations(
-                initial_value=self.radar_alpha.value,
-                steps=[
-                    Step(value=255, duration=0.05),
-                    Step(value=255, duration=0.4),
-                    Step(value=0, duration=0.05),
-                ],
-            )
             self.radar_radius.add_animations(
                 initial_value=self.radar_radius.value,
                 steps=[
@@ -187,11 +180,10 @@ class Explorator(SpaceShip):
             )
 
     def draw(self) -> None:
-        center = map_coord_to_window_coord(self.x.value, self.y.value)
-        arcade.draw_circle_filled(
-            *center,
-            self.radar_radius.value,
-            TEAM_COLORS[self.team],
-        )
-        # TODO map coord to window pour le RADIUS
+        # center = map_coord_to_window_coord(self.x.value, self.y.value)
+        # arcade.draw_circle_filled(
+        #     *center,
+        #     self.radar_radius.value,
+        #     self.radar_color,
+        # )
         super().draw()
