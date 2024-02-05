@@ -77,6 +77,10 @@ class Collector(Spaceship):
 
     def update(self, delta_time: float) -> None:
         super().update(delta_time)
+        if self.broken:
+            if self.collected_planet is not None:
+                self.uncollect_planet()
+            return
         if self.collected == -1:
             not_collected_planets = [
                 planet for planet in self.planets if planet.collected_by == -1
@@ -88,26 +92,33 @@ class Collector(Spaceship):
                 if distance(self, nearest_planet) < DISTANCE_PLANET_COLLECTION:
                     self.collected = nearest_planet.id
         if self.collected != -1:
-            planet = None
-            for p in self.planets:
-                if p.id == self.collected:
-                    planet = p
-                    break
+            planet = self.collected_planet
             if planet is None:
                 logging.error("Collected planet not found: %d", self.collected)
             elif planet.saved:
-                planet.collected_by = -1
-                self.collected = -1
+                self.uncollect_planet()
             else:
                 planet.x = self.x
                 planet.y = self.y
                 planet.collected_by = self.id
                 if distance(self, self.base) < DISTANCE_PLANET_COLLECTION:
                     planet.saved = True
-                    planet.collected_by = -1
-                    self.collected = -1
+                    self.uncollect_planet()
                     logging.error("PLANET AT HOME")
                     # TODO manage score
+
+    @property
+    def collected_planet(self) -> Planet | None:
+        for planet in self.planets:
+            if planet.id == self.collected:
+                return planet
+        return None
+
+    def uncollect_planet(self):
+        planet = self.collected_planet
+        if planet is not None:
+            planet.collected_by = -1
+            self.collected = -1
 
     def state(self) -> dict:
         state = super().state()
@@ -133,6 +144,8 @@ class Attacker(Spaceship):
         self.all_spaceships = all_spaceships
 
     def fire(self, angle: int) -> None:
+        if self.broken:
+            return
         self.fire_started = True
         self.fire_angle = angle
         angle_radians = math.radians(angle)
@@ -187,10 +200,11 @@ class Explorer(Spaceship):
     def radar(self) -> str:
         # TODO limit distance
         ret = []
-        for planet in self.planets:
-            ret.append(planet.radar_result())
-        for team_id, team in enumerate(self.all_spaceships()):
-            for spaceship in team:
-                ret.append(spaceship.radar_result(team_id))
+        if not self.broken:
+            for planet in self.planets:
+                ret.append(planet.radar_result())
+            for team_id, team in enumerate(self.all_spaceships()):
+                for spaceship in team:
+                    ret.append(spaceship.radar_result(team_id))
         ret.append(f"B {self.base[0]} {self.base[1]}")
         return ",".join(ret)
