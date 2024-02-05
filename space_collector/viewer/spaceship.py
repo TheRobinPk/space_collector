@@ -3,7 +3,7 @@ import math
 
 import arcade
 
-from space_collector.game.constants import MAP_DIMENSION
+from space_collector.game.constants import MAP_DIMENSION, HIGH_ENERGY_LENGTH
 from space_collector.game.math import Matrix, Vector
 from space_collector.viewer.animation import AnimatedValue, Animation, Step
 from space_collector.viewer.utils import (
@@ -13,7 +13,7 @@ from space_collector.viewer.utils import (
 )
 from space_collector.viewer.constants import TEAM_HUES
 
-HIGH_ENERGY_LENGTH = int(5000 / MAP_DIMENSION * MAP_WIDTH)
+HIGH_ENERGY_SPRITE_LENGTH = int(HIGH_ENERGY_LENGTH / MAP_DIMENSION * MAP_WIDTH)
 
 
 class SpaceShip:
@@ -100,7 +100,7 @@ class Attacker(SpaceShip):
             self.lightning_length.add_animations(
                 initial_value=self.lightning_length.value,
                 steps=[
-                    Step(value=HIGH_ENERGY_LENGTH, duration=0.25),
+                    Step(value=HIGH_ENERGY_SPRITE_LENGTH, duration=0.25),
                     Step(value=0, duration=0.25),
                 ],
             )
