@@ -3,15 +3,20 @@ import math
 
 import arcade
 
-from space_collector.game.constants import MAP_DIMENSION, HIGH_ENERGY_LENGTH
+from space_collector.game.constants import (
+    MAP_DIMENSION,
+    HIGH_ENERGY_LENGTH,
+    RADAR_RADIUS,
+)
 from space_collector.game.math import Matrix, Vector
 from space_collector.viewer.animation import AnimatedValue, Animation, Step
 from space_collector.viewer.utils import (
     MAP_WIDTH,
     map_coord_to_window_coord,
     hue_changed_texture,
+    map_value_to_window,
 )
-from space_collector.viewer.constants import TEAM_HUES
+from space_collector.viewer.constants import TEAM_COLORS, TEAM_HUES
 
 HIGH_ENERGY_SPRITE_LENGTH = int(HIGH_ENERGY_LENGTH / MAP_DIMENSION * MAP_WIDTH)
 
@@ -149,8 +154,44 @@ class Collector(SpaceShip):
 
 class Explorator(SpaceShip):
     image_path = "space_collector/viewer/images/spaceships/explorator.png"
+    RADAR_RADIUS = map_value_to_window(RADAR_RADIUS)
 
     def __init__(self, x: int, y: int, angle: int, team: int) -> None:
         super().__init__(x, y, angle, team)
         self.width = 40
         self.height = 40
+
+    def setup(self) -> None:
+        super().setup()
+        self.radar_radius = AnimatedValue(0)
+        self.radar_alpha = AnimatedValue(0)
+
+    def update(self, server_data: dict, duration: float) -> None:
+        super().update(server_data, duration)
+        self.radar = server_data["radar"]
+        if self.radar:
+            self.radar_alpha.add_animations(
+                initial_value=self.radar_alpha.value,
+                steps=[
+                    Step(value=255, duration=0.05),
+                    Step(value=255, duration=0.4),
+                    Step(value=0, duration=0.05),
+                ],
+            )
+            self.radar_radius.add_animations(
+                initial_value=self.radar_radius.value,
+                steps=[
+                    Step(value=self.RADAR_RADIUS, duration=0.25),
+                    Step(value=0, duration=0.25),
+                ],
+            )
+
+    def draw(self) -> None:
+        center = map_coord_to_window_coord(self.x.value, self.y.value)
+        arcade.draw_circle_filled(
+            *center,
+            self.radar_radius.value,
+            TEAM_COLORS[self.team],
+        )
+        # TODO map coord to window pour le RADIUS
+        super().draw()

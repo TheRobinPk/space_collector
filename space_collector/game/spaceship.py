@@ -175,8 +175,20 @@ class Explorer(Spaceship):
     MAX_SPEED = 2000
     TYPE = "explorer"
 
+    def __init__(
+        self,
+        id_: int,
+        x: int,
+        y: int,
+        angle: int,
+        player: "Player",
+    ) -> None:
+        super().__init__(id_, x, y, angle, player)
+        self.radar_started: bool = False
+
     def radar(self) -> str:
         # TODO limit distance
+        self.radar_started = True
         ret = []
         if not self.broken:
             for planet in self.player.planets:
@@ -189,3 +201,9 @@ class Explorer(Spaceship):
                 ret.append(spaceship.radar_result(0))
         ret.append(f"B {self.base.x} {self.base.y}")
         return ",".join(ret)
+
+    def state(self) -> dict:
+        state = super().state()
+        state["radar"] = self.radar_started
+        self.radar_started = False  # TODO fix ugly hack
+        return state
