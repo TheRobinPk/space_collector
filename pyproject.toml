@@ -50,6 +50,7 @@ dependencies = [
     "pytest-cov",
     "python-dev-tools >= 2023",
     "pre-commit >=3,<4",
+    "pyinstrument",
 ]
 
 [tool.hatch.envs.default.scripts]
