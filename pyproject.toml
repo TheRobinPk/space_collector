@@ -15,7 +15,7 @@ classifiers = [
 authors = [{ name = "Vincent Poulailleau", email = "vpoulailleau@gmail.com" }]
 readme = "README.md"
 keywords = ["space", "collector", "game"]
-license = "BSD-3-Clause"
+license = { text = "BSD-3-Clause" }
 requires-python = ">=3.10"
 dependencies = ["arcade==2.6.17"]
 
@@ -35,15 +35,6 @@ no-accept-encodings = true
 max-line-length = 88
 extend-ignore = ["AAA05", "ANN101", "ANN102", "PLC116", "SCS108"]
 
-[tool.hatch.build.targets.sdist]
-exclude = [".gitignore", "/.github", "/docs"]
-
-[tool.hatch.build.targets.wheel]
-packages = ["space_collector"]
-
-[[tool.hatch.envs.default.matrix]]
-python = ["3.11"]
-
 [tool.hatch.envs.default]
 dependencies = [
     "pytest",
@@ -57,8 +48,6 @@ dependencies = [
 test = "pytest --cov-config=pyproject.toml {args}"
 format = "black {args}"
 lint = "ruff check {args}"
-viewer = "python -m space_collector.viewer {args}"
-server = "python -m space_collector.game.server {args}"
 
 [tool.interrogate]
 fail-under = 100
@@ -82,5 +71,5 @@ extend-select = ["D400"]
 convention = "google"
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
