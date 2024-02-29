@@ -15,25 +15,27 @@ from space_collector.viewer.player import Player
 from space_collector.viewer.space_background import SpaceBackground
 from space_collector.viewer.score import Score
 
+input_queue: Queue = Queue()
+
 
 class Window(arcade.Window):
     def __init__(self) -> None:
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.csscolor.BLACK)
-        self.input_queue: Queue = Queue()
         self.background = SpaceBackground()
         self.score = Score()
         self.players: list[Player] = [Player(team) for team in range(4)]
 
     def setup(self) -> None:
+        pass
         self.background.setup()
         self.score.setup()
         for player in self.players:
             player.setup()
 
     def on_draw(self):
-        if not self.input_queue.empty():
-            data = self.input_queue.get()
+        if not input_queue.empty():
+            data = input_queue.get()
             date_server = data["time"]
             duration = max(0, date_server - date())
             set_date(date_server)
@@ -48,7 +50,8 @@ class Window(arcade.Window):
         self.score.draw()
 
 
-def gui_thread(window: Window) -> None:
+def gui_thread() -> None:
+    window = Window()
     try:
         window.setup()
         arcade.run()
