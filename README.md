@@ -7,7 +7,9 @@ Space collector game
 - tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
 - limiter dans la fréquence des radars
 - Planet destruction with high energy attack?
-
+- Des points si on tire sur quelqu'un ?
+- When a team has collected all its planets, the game stops
+- When the game ran 5 minutes, the game stops
 
 ## Rules
 
@@ -27,6 +29,8 @@ Space collector game
     - Attacker can't attack
     - Explorators can't use their radar
     - Collectors can't collect planets, they loose the collected planets (left in place)
+- When a team has collected all its planets, the game stops
+- When the game ran 5 minutes, the game stops
 
 ## Commands
 
