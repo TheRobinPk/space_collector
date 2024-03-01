@@ -18,6 +18,19 @@ keywords = ["space", "collector", "game"]
 license = { text = "BSD-3-Clause" }
 requires-python = ">=3.10"
 dependencies = ["arcade==2.6.17"]
+# dependencies = [
+#     "Package-A @ git+https://example.net/package-a.git@main",
+#     "Package-B @ https://example.net/archives/package-b.whl",
+# ]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "python-dev-tools >= 2023",
+    "pre-commit >=3,<4",
+    "pyinstrument",
+]
 
 [project.urls]
 "Source code" = "https://github.com/vpoulailleau/space_collector"
@@ -34,20 +47,6 @@ exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
 no-accept-encodings = true
 max-line-length = 88
 extend-ignore = ["AAA05", "ANN101", "ANN102", "PLC116", "SCS108"]
-
-[tool.hatch.envs.default]
-dependencies = [
-    "pytest",
-    "pytest-cov",
-    "python-dev-tools >= 2023",
-    "pre-commit >=3,<4",
-    "pyinstrument",
-]
-
-[tool.hatch.envs.default.scripts]
-test = "pytest --cov-config=pyproject.toml {args}"
-format = "black {args}"
-lint = "ruff check {args}"
 
 [tool.interrogate]
 fail-under = 100
