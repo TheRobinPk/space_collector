@@ -6,6 +6,7 @@ Space collector game
 
 - tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
 - limiter dans la fréquence des radars
+- Planet destruction with high energy attack?
 
 
 ## Rules
@@ -26,7 +27,6 @@ Space collector game
     - Attacker can't attack
     - Explorators can't use their radar
     - Collectors can't collect planets, they loose the collected planets (left in place)
-- Planet destruction with high energy attack?
 
 ## Commands
 
