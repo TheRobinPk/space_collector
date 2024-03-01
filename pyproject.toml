@@ -19,8 +19,7 @@ license = { text = "BSD-3-Clause" }
 requires-python = ">=3.10"
 dependencies = ["arcade==2.6.17"]
 # dependencies = [
-#     "Package-A @ git+https://example.net/package-a.git@main",
-#     "Package-B @ https://example.net/archives/package-b.whl",
+#     "arcade @ git+https://github.com/pythonarcade/arcade.git@development",
 # ]
 
 [project.optional-dependencies]
