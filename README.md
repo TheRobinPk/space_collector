@@ -92,20 +92,28 @@ Response is a one line string. It is composed of several elements, separated by 
 
 ## Commands
 
+### Installation
+
+```
+python3.11 -m venv venv
+. venv/bin/activate
+pip install -e .[dev]  # to get the dev dependencies
+```
+
 ### Install git hook
 
 ```
-hatch run pre-commit install
+pre-commit install
 ```
 
 ### Lint
 
 ```
-hatch run pre-commit run --all-files
+flake8
 ```
 
 ### Launch test
 
 ```
-hatch run test
+pytest
 ```

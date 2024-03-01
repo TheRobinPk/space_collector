@@ -17,7 +17,7 @@ readme = "README.md"
 keywords = ["space", "collector", "game"]
 license = { text = "BSD-3-Clause" }
 requires-python = ">=3.10"
-dependencies = ["arcade==2.6.17"]
+dependencies = ["arcade==2.6.17", "pyserial==3.5"]
 # dependencies = [
 #     "arcade @ git+https://github.com/pythonarcade/arcade.git@development",
 # ]
