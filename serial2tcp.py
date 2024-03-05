@@ -25,6 +25,9 @@ class PlayerGameClient(Client):
         self.serial_port = serial.Serial(serial_port_name, 115200, timeout=1)
 
     def run(self) -> NoReturn:
+        logging.info(self.readline())
+        self.serial_port.write(b"START\n")
+        self.serial_port.flush()
         while True:
             with suppress(serial.SerialTimeoutException):
                 command = self.serial_port.readline()
@@ -39,7 +42,7 @@ class PlayerGameClient(Client):
             command += "\n"
         logging.info("Command: %s", command)
         self.send(command)
-        response = self.readline()
+        response = self.readline() + "\n"
         logging.info(response)
         return response
 
