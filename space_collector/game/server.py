@@ -48,6 +48,8 @@ class GameServer(Server):
             sleep(1)
 
         print("Players ready: START!!!")
+        for player in self.players:
+            self.write(player, "START")
 
     def read(self, client: ClientData) -> str:
         try:
