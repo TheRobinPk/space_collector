@@ -40,10 +40,10 @@ class PlayerGameClient(Client):
     def send_command(self, command: str) -> str:
         if not command.endswith("\n"):
             command += "\n"
-        logging.info("Command: %s", command)
+        logging.info("Command: %s", command.strip())
         self.send(command)
         response = self.readline() + "\n"
-        logging.info(response)
+        logging.info(response.strip())
         return response
 
 
