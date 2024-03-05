@@ -42,12 +42,7 @@ class Game:
         if player_id >= len(self.players):
             logging.error("Unknown player ID: %d", player_id)
             return "BLOCKED"
-        try:
-            return self.players[player_id].manage_command(command)
-        except ValueError as e:
-            self.players[player_id].blocked = True
-            logging.warning("Problem for %s: %s", self.players[player_id].name, str(e))
-            return "BLOCKED"
+        return self.players[player_id].manage_command(command)
 
     def add_player(self, player_name: str) -> None:
         if len(self.players) >= 4:

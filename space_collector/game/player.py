@@ -10,12 +10,16 @@ from space_collector.game.player_orientations import player_orientations
 class Player:
     def __init__(self, name: str, game) -> None:
         self.name = name
-        self.blocked = False
+        self.blocked_counter = 0
         self.spaceships: list[Spaceship] = []
         self.planets: list[Planet] = []
         self.base_position = (0, 0)
         self.game = game
         self.team = -1
+
+    @property
+    def blocked(self):
+        return self.blocked_counter > 3
 
     def reset_spaceships_and_planets(
         self, team: int, planets_data: list[Planet]
@@ -75,10 +79,17 @@ class Player:
         if self.blocked:
             return "BLOCKED"
         command = command_str.split()
-        for command_type in ("MOVE", "FIRE", "RADAR"):
-            if command[0] == command_type:
-                return getattr(self, command_type.lower())(command[1:])
-        raise ValueError(f"Unknown command: {command_str}")
+        try:
+            for command_type in ("MOVE", "FIRE", "RADAR"):
+                if command[0] == command_type:
+                    return getattr(self, command_type.lower())(command[1:])
+            raise ValueError(f"Unknown command: {command_str}")
+        except ValueError as e:
+            logging.warning("Problem for %s: %s", self.name, str(e))
+            self.blocked_counter += 1
+            if self.blocked:
+                return "BLOCKED"
+            return "KO"
 
     def spaceship_by_id(self, id_: int) -> Spaceship:
         try:
