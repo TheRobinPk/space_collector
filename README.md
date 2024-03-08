@@ -16,7 +16,7 @@ Space collector game
 - Square 20 000 x 20 000 kms
 - Collect your planets with your collector
   - Slow speed
-- Attack enemies with your three attackers
+- Attack enemies with your five attackers
   - Fast speed
   - High energy attack < 5 000 kms
     - choose angle
@@ -27,7 +27,7 @@ Space collector game
 - When a unit is touched by a high energy attack
   - Must return to its base to be repaired
     - Attacker can't attack
-    - Explorators can't use their radar
+    - Explorators can't use their radar to see enemy spaceships
     - Collectors can't collect planets, they loose the collected planets (left in place)
 - When a team has collected all its planets, the game stops
 - When the game ran 5 minutes, the game stops
@@ -89,6 +89,8 @@ Response is a one line string. It is composed of several elements, separated by 
 - `P {planet_id} {abscissa} {ordinate} {ship_id} {saved}`: one of your not yet collected planets, at a given position, the `ship_id` is the ID of the collector that collected the plane, or -1 if not collected, `saved` is 1 when planet is at base station, otherwise 0
 - `S {team} {ship_id} {abscissa} {ordinate} {broken}`: a spaceship, team 0 is yours, team 1 to 3 are opponents, broken is 0 or 1, 1 meaning that the ship was targeted by a high energy attack (your spaceships are always present even if the explorer is broken)
 - `B {abscissa} {ordinate}`: your base station's position (always present in radar information)
+
+If an explorer is broken, it can't see enemy spaceships.
 
 ## Commands
 
