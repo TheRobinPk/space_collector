@@ -99,7 +99,7 @@ If an explorer is broken, it can't see enemy spaceships.
 ```
 python3.11 -m venv venv
 . venv/bin/activate
-pip install -e .[dev]  # to get the dev dependencies
+pip install -e '.[dev]' # to get the dev dependencies
 ```
 
 ### Install git hook
