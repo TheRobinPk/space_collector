@@ -1,6 +1,6 @@
 [project]
 name = "space_collector"
-version = "0.0.2"
+version = "0.0.3"
 description = "Description"
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -24,11 +24,13 @@ dependencies = ["arcade==2.6.17", "pyserial==3.5"]
 
 [project.optional-dependencies]
 dev = [
+    "build",
     "pytest",
     "pytest-cov",
     "python-dev-tools >= 2023",
     "pre-commit >=3,<4",
     "pyinstrument",
+    "twine",
 ]
 
 [project.urls]
