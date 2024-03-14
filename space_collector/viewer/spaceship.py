@@ -1,5 +1,7 @@
 import logging
 import math
+from importlib.resources import files
+
 
 import arcade
 
@@ -36,8 +38,9 @@ class SpaceShip:
         self.id = -1
 
     def setup(self) -> None:
+        image_file = files("space_collector.viewer").joinpath(self.image_path)
         self.sprite = arcade.Sprite(
-            texture=hue_changed_texture(self.image_path, TEAM_HUES[self.team])
+            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
         )
         self.sprite.width = self.width
         self.sprite.height = self.height
@@ -77,7 +80,7 @@ class SpaceShip:
 
 
 class Attacker(SpaceShip):
-    image_path = "space_collector/viewer/images/spaceships/attacker.png"
+    image_path = "images/spaceships/attacker.png"
 
     def __init__(self, x: int, y: int, angle: int, team: int) -> None:
         super().__init__(x, y, angle, team)
@@ -135,7 +138,7 @@ class Attacker(SpaceShip):
 
 
 class Collector(SpaceShip):
-    image_path = "space_collector/viewer/images/spaceships/collector.png"
+    image_path = "images/spaceships/collector.png"
 
     def __init__(self, x: int, y: int, angle: int, team: int) -> None:
         super().__init__(x, y, angle, team)
@@ -153,7 +156,7 @@ class Collector(SpaceShip):
 
 
 class Explorator(SpaceShip):
-    image_path = "space_collector/viewer/images/spaceships/explorator.png"
+    image_path = "images/spaceships/explorator.png"
     RADAR_RADIUS = map_value_to_window(RADAR_RADIUS)
 
     def __init__(self, x: int, y: int, angle: int, team: int) -> None:
