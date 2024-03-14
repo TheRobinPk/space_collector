@@ -7,20 +7,23 @@ from space_collector.network.client import Client
 from space_collector.viewer.window import input_queue, gui_thread
 
 
-class Viewer(Client):
-    def __init__(self: "Viewer", server_addr: str, port: int) -> None:
-        super().__init__(server_addr, port, spectator=True)
-        self.window_queue = input_queue
-        Thread(target=gui_thread, daemon=True).start()
+def network_thread(server_addr: str, port: int) -> None:
+    client = Client(server_addr, port, spectator=True)
+    while True:
+        try:
+            data = client.read_json()
+            input_queue.put(data)
+        except NetworkError:
+            logging.exception("End of network communication")
+            break
+    for _ in range(6):
+        sleep(10)
+        logging.info("sleeping")
 
-    def run(self: "Viewer") -> None:
-        while True:
-            try:
-                data = self.read_json()
-                self.window_queue.put(data)
-            except NetworkError:
-                logging.exception("End of network communication")
-                break
-        for _ in range(6):
-            sleep(10)
-            logging.info("sleeping")
+
+class Viewer:
+    def __init__(self, server_addr: str, port: int) -> None:
+        logging.info("Start network")
+        Thread(target=network_thread, daemon=True, args=[server_addr, port]).start()
+        logging.info("Start GUI")
+        gui_thread()

@@ -33,6 +33,6 @@ parser.add_argument(
 args = parser.parse_args()
 
 try:
-    Viewer(args.address, args.port).run()
+    Viewer(args.address, args.port)
 except Exception:  # noqa: PIE786,PLW718
     logging.exception("uncaught exception")
