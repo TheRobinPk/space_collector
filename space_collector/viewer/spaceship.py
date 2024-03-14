@@ -91,10 +91,9 @@ class Attacker(SpaceShip):
         super().setup()
         self.lightning_length = AnimatedValue(0)
         self.lightning_alpha = AnimatedValue(0)
+        image_file = files("space_collector.viewer").joinpath("images/high_energy.png")
         self.lightning_sprite = arcade.Sprite(
-            texture=hue_changed_texture(
-                "space_collector/viewer/images/high_energy.png", TEAM_HUES[self.team]
-            )
+            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
         )
         self.lightning_sprite.width = 20
         self.lightning_sprite.height = 1
