@@ -100,7 +100,7 @@ If an explorer is broken, it can't see enemy spaceships. If not, it can see enem
 
 ### Installation
 
-```
+```shell
 python3.11 -m venv venv
 . venv/bin/activate
 pip install space_collector  # to play
@@ -109,25 +109,25 @@ pip install space_collector[dev]  # to get dev dependencies
 
 ### Install git hook
 
-```
+```shell
 pre-commit install
 ```
 
 ### Lint
 
-```
+```shell
 flake8
 ```
 
 ### Launch test
 
-```
+```shell
 pytest
 ```
 
 ### Publish
 
-```
+```shell
 python -m build
 python3 -m twine upload dist/*
 ```
