@@ -10,6 +10,7 @@ Space collector game
 - Des points si on tire sur quelqu'un ?
 - When a team has collected all its planets, the game stops
 - When the game ran 5 minutes, the game stops
+- Limiter le rayon des radars pour les vaisseaux ennemis
 
 ## Rules
 
@@ -23,7 +24,8 @@ Space collector game
     - 1 second to wait between fires of an attacker
 - Explore with your explorer
   - Normal speed
-  - See its planets and all spaceships around him < 5 000 kms
+  - See its planets and its spaceships
+  - See enemy spaceships around him < 5 000 kms
 - When a unit is touched by a high energy attack
   - Must return to its base to be repaired
     - Attacker can't attack
@@ -84,13 +86,13 @@ Response is `OK`.
 
 Starts the radar of an explorer.
 
-Response is a one line string. It is composed of several elements, separated by commas. Those are based on entities at a distance less than 5 000 kms from the explorer. The elements are:
+Response is a one line string. It is composed of several elements, separated by commas. The elements are:
 
 - `P {planet_id} {abscissa} {ordinate} {ship_id} {saved}`: one of your not yet collected planets, at a given position, the `ship_id` is the ID of the collector that collected the plane, or -1 if not collected, `saved` is 1 when planet is at base station, otherwise 0
 - `S {team} {ship_id} {abscissa} {ordinate} {broken}`: a spaceship, team 0 is yours, team 1 to 3 are opponents, broken is 0 or 1, 1 meaning that the ship was targeted by a high energy attack (your spaceships are always present even if the explorer is broken)
 - `B {abscissa} {ordinate}`: your base station's position (always present in radar information)
 
-If an explorer is broken, it can't see enemy spaceships.
+If an explorer is broken, it can't see enemy spaceships. If not, it can see enemy spaceships less than 5 000 kms far from the explorer.
 
 ## Commands
 
