@@ -105,8 +105,10 @@ If an explorer is broken, it can't see enemy spaceships. If not, it can see enem
 ```shell
 python3.11 -m venv venv
 . venv/bin/activate
-pip install --upgrade space_collector  # to play
-pip install --upgrade space_collector[dev]  # to get dev dependencies
+# to play
+pip install --upgrade space_collector
+# to get development dependencies and improve the game
+pip install --upgrade space_collector[dev]
 ```
 
 ### Kill all clients and server
