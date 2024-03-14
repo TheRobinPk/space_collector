@@ -2,7 +2,6 @@ import logging
 import random
 import uuid
 from collections import Counter
-from pathlib import Path
 from functools import cache
 from importlib.resources import files
 from importlib.resources.abc import Traversable

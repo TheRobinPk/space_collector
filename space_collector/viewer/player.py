@@ -1,4 +1,5 @@
 import logging
+from importlib.resources import files
 
 import arcade
 from space_collector.game.math import Vector
@@ -26,10 +27,9 @@ class Player:
         self.team = team
 
     def setup(self) -> None:
+        image_file = files("space_collector.viewer").joinpath("images/station.png")
         self.base_sprite = arcade.Sprite(
-            texture=hue_changed_texture(
-                "space_collector/viewer/images/station.png", TEAM_HUES[self.team]
-            )
+            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
         )
         self.base_sprite.width = 200
         self.base_sprite.height = 200

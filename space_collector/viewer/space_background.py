@@ -1,5 +1,6 @@
 import logging
 import random
+from importlib.resources import files
 from time import perf_counter
 
 import arcade
@@ -13,7 +14,9 @@ class Comet:
     FADE_IN_DURATION = 0.3
 
     def __init__(self) -> None:
-        self.sprite = arcade.Sprite("space_collector/viewer/images/comet.png")
+        self.sprite = arcade.Sprite(
+            files("space_collector.viewer").joinpath("images/comet.png")
+        )
         self.x = AnimatedValue(random.randint(SCORE_WIDTH, SCREEN_WIDTH))
         self.y = AnimatedValue(random.randint(0, SCREEN_HEIGHT))
         self.alpha = AnimatedValue(0)

@@ -1,3 +1,5 @@
+from importlib.resources import files
+
 import arcade
 
 from space_collector.viewer.constants import SCORE_WIDTH, SCORE_HEIGHT, TEAM_COLORS
@@ -24,9 +26,14 @@ class Score:
         self.teams = []
 
     def setup(self) -> None:
-        arcade.load_font("space_collector/viewer/images/Sportrop.ttf")
+        font_file = files("space_collector.viewer").joinpath("images/Sportrop.ttf")
+        image_file = files("space_collector.viewer").joinpath(
+            "images/score_background.png"
+        )
+
+        arcade.load_font(font_file)
         self.sprite_list = arcade.SpriteList()
-        background = arcade.Sprite("space_collector/viewer/images/score_background.png")
+        background = arcade.Sprite(image_file)
         background.width = SCORE_WIDTH
         background.height = SCORE_HEIGHT
         background.position = SCORE_WIDTH // 2, SCORE_HEIGHT // 2

@@ -1,5 +1,6 @@
 import logging
 import random
+from importlib.resources import files
 
 import arcade
 
@@ -33,8 +34,9 @@ class Planet:
         logging.info("planet %d, %d", x, y)
 
     def setup(self) -> None:
+        image_file = files("space_collector.viewer").joinpath(self.image_path)
         self.sprite = arcade.Sprite(
-            texture=hue_changed_texture(self.image_path, TEAM_HUES[self.team])
+            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
         )
         self.sprite.width = random.randint(30, 70)
         self.sprite.height = self.sprite.width
