@@ -28,7 +28,7 @@ class Planet:
         self.saved = False
         self.collected_by = -1
         self.spaceships = spaceships
-        images = find_image_files("space_collector/viewer/images/planets")
+        images = find_image_files("images/planets")
         self.image_path = images[id_ % len(images)]
         logging.info("planet %d, %d", x, y)
 

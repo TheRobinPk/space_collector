@@ -61,12 +61,10 @@ class SpaceBackground:
 
     def setup(self) -> None:
         self.sprite_list = arcade.SpriteList()
-        self.sprite_list.append(
-            random_sprite("space_collector/viewer/images/backgrounds")
-        )
-        self.starfield1 = random_sprite("space_collector/viewer/images/starfields")
+        self.sprite_list.append(random_sprite("images/backgrounds"))
+        self.starfield1 = random_sprite("images/starfields")
         self.sprite_list.append(self.starfield1)
-        self.starfield2 = random_sprite("space_collector/viewer/images/starfields")
+        self.starfield2 = random_sprite("images/starfields")
         self.sprite_list.append(self.starfield2)
         self.comet1 = Comet()
         self.sprite_list.append(self.comet1.sprite)

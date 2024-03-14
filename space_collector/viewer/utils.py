@@ -4,6 +4,9 @@ import uuid
 from collections import Counter
 from pathlib import Path
 from functools import cache
+from importlib.resources import files
+from importlib.resources.abc import Traversable
+
 
 import arcade
 from PIL import Image
@@ -36,13 +39,12 @@ def map_coord_to_window_coord(x: float, y: float) -> tuple[int, int]:
     )
 
 
-def find_image_files(directory: Path | str) -> list[Path]:
-    if isinstance(directory, str):
-        directory = Path(directory)
+def find_image_files(directory: str) -> list[Traversable]:
+    resource_directory = files("space_collector.viewer").joinpath(directory)
     return [
         path
-        for path in directory.iterdir()
-        if path.is_file() and path.suffix in (".jpg", ".png", ".jpeg")
+        for path in resource_directory.iterdir()
+        if path.is_file() and path.name.endswith((".jpg", ".png", ".jpeg"))
     ]
 
 
