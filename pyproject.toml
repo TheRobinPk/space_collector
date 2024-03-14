@@ -37,7 +37,7 @@ Repository = "https://github.com/vpoulailleau/space_collector"
 Documentation = "https://github.com/vpoulailleau/space_collector/README.md"
 
 [tool.setuptools.packages.find]
-include = ["space_collector"]
+include = ["space_collector*"]
 
 [tool.bandit.assert_used]
 skips = ["*_test.py", "*test_*.py"]
