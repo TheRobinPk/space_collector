@@ -15,6 +15,8 @@ Space collector game
 ## Rules
 
 - Square 20 000 x 20 000 kms
+- Random number of planets (between 2 and 8) and positions of planets, central symmetry
+  so that every team "see" the same map
 - Collect your planets with your collector
   - Slow speed
 - Attack enemies with your five attackers
@@ -52,7 +54,7 @@ Each command returns a response, made with:
 
 - `{planet_id}` is between 0 and 65535
 - `{ship_id}` is between 1 and 9
-- `{abscissa}` and `{ordinate}` are between 0 and 19 999
+- `{abscissa}` and `{ordinate}` are between 0 and 19 999 ((0, 0) is the top left corner)
 
 ### Move
 
@@ -101,7 +103,8 @@ If an explorer is broken, it can't see enemy spaceships. If not, it can see enem
 ```
 python3.11 -m venv venv
 . venv/bin/activate
-pip install -e '.[dev]' # to get the dev dependencies
+pip install space_collector  # to play
+pip install space_collector[dev]  # to get dev dependencies
 ```
 
 ### Install git hook
@@ -120,4 +123,11 @@ flake8
 
 ```
 pytest
+```
+
+### Publish
+
+```
+python -m build
+python3 -m twine upload dist/*
 ```
