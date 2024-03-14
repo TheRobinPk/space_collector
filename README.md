@@ -78,6 +78,8 @@ If a collector is less than 200 kms far from one of its planets, it collects the
 
 Fire a high energy attack, at `{angle}` angle. Length of the attack is 5 000 kms.
 
+Any enemy spaceship less than 200 kms far from the high enery attack is now broken.
+
 This command is only valid for an attacker.
 
 Response is `OK` (even if the fire rate is not respected, and in this case the command is ignored).
