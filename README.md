@@ -109,6 +109,13 @@ pip install --upgrade space_collector  # to play
 pip install --upgrade space_collector[dev]  # to get dev dependencies
 ```
 
+### Kill all clients and server
+
+```shell
+# For Linux and Mac
+python -m space_collector.killall
+```
+
 ### Install git hook
 
 ```shell
