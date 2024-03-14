@@ -80,7 +80,7 @@ Fire a high energy attack, at `{angle}` angle. Length of the attack is 5 000 km
 
 This command is only valid for an attacker.
 
-Response is `OK`.
+Response is `OK` (even if the fire rate is not respected, and in this case the command is ignored).
 
 ### Radar
 
