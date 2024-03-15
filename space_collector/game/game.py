@@ -14,6 +14,7 @@ class Game:
     def __init__(self) -> None:
         self.start_time = perf_counter()
         self.last_update_time = self.start_time
+        self.cumulated_time = 0
         self.players: list[Player] = []
 
         nb_planets = random.randint(2, MAX_NB_PLANETS)
@@ -57,9 +58,11 @@ class Game:
         for player in self.players:
             player.update(delta_time)
         self.last_update_time += delta_time
+        self.cumulated_time += delta_time
+        logging.error(self.cumulated_time)
 
     def state(self) -> dict:
         return {
-            "time": self.last_update_time,
+            "time": self.cumulated_time,
             "players": [player.state() for player in self.players],
         }
