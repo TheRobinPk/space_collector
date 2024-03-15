@@ -11,6 +11,7 @@ Space collector game
 - When a team has collected all its planets, the game stops
 - When the game ran 5 minutes, the game stops
 - Limiter le rayon des radars pour les vaisseaux ennemis
+- Version fenêtre moins grande
 
 ## Rules
 
@@ -160,3 +161,30 @@ pytest
 python -m build
 python3 -m twine upload dist/*
 ```
+
+## Auto-évaluation
+
+Voici un barème pour évaluer le projet :
+
+| Critère                                                           | Points |
+| ----------------------------------------------------------------- | ------ |
+| Utilisation de CMSIS RTOS v2                                      | 1      |
+| Un thread par vaisseau                                            | 1      |
+| Communication robuste par liaison série                           | 1      |
+| Communication entre threads                                       | 1      |
+| Récupération de planete                                           | 1      |
+| Déplacement avec gestion de vitesse max                           | 1      |
+| Attaque avec rayon de haute énergie                               | 1      |
+| Limitation de fréquence de tir                                    | 1      |
+| Utilisation de radar                                              | 2      |
+| Réparation de vaisseau                                            | 1      |
+| Documentation (installation des dépendances, lancement)           | 1      |
+| Écriture de tests                                                 | 4      |
+| Qualimétrie                                                       | 1      |
+| Automatisation avec GitHub action                                 | 2      |
+| Refus de pull request / push si baisse de qualité ou tests KO     | 1      |
+| Classement compétition                                            | 2      |
+| Pre-commit en local et intégration continue                       | 1      |
+| Rapport : démarche étape par étape                                | 3      |
+| Rapport : 3 plus grandes difficultés, et solutions mises en place | 6      |
+| Rapport : notions apprises, retour d'expérience                   | 1      |
