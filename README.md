@@ -9,7 +9,6 @@ Space collector game
 - Des points si on tire sur quelqu'un ?
 - When a team has collected all its planets, the game stops
 - When the game ran 5 minutes, the game stops
-- Limiter le rayon des radars pour les vaisseaux ennemis
 - Version fenêtre moins grande (bug sur les rayons de haute énergie)
 - Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
 
