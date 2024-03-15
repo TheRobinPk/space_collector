@@ -7,6 +7,7 @@ from space_collector.game.constants import (
     MAP_DIMENSION,
     HIGH_ENERGY_LENGTH,
     FIRE_RATE,
+    RADAR_RADIUS,
 )
 from space_collector.game.math import Vector, distance_point_to_segment
 from space_collector.game.planet import Planet
@@ -200,16 +201,18 @@ class Explorer(Spaceship):
         # TODO limit distance
         self.radar_started = True
         ret = []
-        if not self.broken:
-            for planet in self.player.planets:
-                ret.append(planet.radar_result())
-            for team_id, team in enumerate(self.player.all_spaceships()):
-                for spaceship in team:
-                    ret.append(spaceship.radar_result(team_id))
-        else:
-            for spaceship in self.player.all_spaceships()[0]:
-                ret.append(spaceship.radar_result(0))
+        for planet in self.player.planets:
+            ret.append(planet.radar_result())
+        for spaceship in self.player.all_spaceships()[0]:
+            ret.append(spaceship.radar_result(0))
         ret.append(f"B {self.base.x} {self.base.y}")
+        if not self.broken:
+            for team_id, team in enumerate(self.player.all_spaceships()):
+                if team_id == 0:  # always present, managed earlier
+                    continue
+                for spaceship in team:
+                    if distance(self, spaceship) < RADAR_RADIUS:
+                        ret.append(spaceship.radar_result(team_id))
         return ",".join(ret)
 
     def state(self) -> dict:
