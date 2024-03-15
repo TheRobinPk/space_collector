@@ -111,10 +111,28 @@ pip install --upgrade space_collector
 pip install --upgrade space_collector[dev]
 ```
 
+### Launch game
+
+```shell
+# In an activated virtual environment
+
+# choose a free port
+PORT=12345
+# start the server
+python -m space_collector.game.server -p $PORT &
+# start the viewer
+python -m space_collector.viewer -p $PORT &
+# start players
+# using serial port
+SERIAL=COM8          # on Windows
+SERIAL=/dev/ttyUSB0  # on Linux
+python -m serial2tcp -p $PORT --serial $SERIAL
+```
+
 ### Kill all clients and server
 
 ```shell
-# For Linux and Mac
+# For Linux and Mac, in an activated virtual environment
 python -m space_collector.killall
 ```
 
