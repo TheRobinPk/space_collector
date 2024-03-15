@@ -6,11 +6,7 @@ from typing import NoReturn
 import arcade
 
 from space_collector.viewer.animation import set_date, date
-from space_collector.viewer.constants import (
-    SCREEN_HEIGHT,
-    SCREEN_TITLE,
-    SCREEN_WIDTH,
-)
+from space_collector.viewer import constants
 from space_collector.viewer.player import Player
 from space_collector.viewer.space_background import SpaceBackground
 from space_collector.viewer.score import Score
@@ -20,7 +16,9 @@ input_queue: Queue = Queue()
 
 class Window(arcade.Window):
     def __init__(self) -> None:
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        super().__init__(
+            constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE
+        )
         arcade.set_background_color(arcade.csscolor.BLACK)
         self.background = SpaceBackground()
         self.score = Score()

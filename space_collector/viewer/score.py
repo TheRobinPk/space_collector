@@ -2,7 +2,7 @@ from importlib.resources import files
 
 import arcade
 
-from space_collector.viewer.constants import SCORE_WIDTH, SCORE_HEIGHT, TEAM_COLORS
+from space_collector.viewer import constants
 
 
 def draw_text(text: str, x: int, y: int, team: int, size: int, font: str) -> None:
@@ -17,7 +17,9 @@ def draw_text(text: str, x: int, y: int, team: int, size: int, font: str) -> Non
                 font_size=size,
                 font_name=font,
             )
-    arcade.draw_text(text, x, y, TEAM_COLORS[team], font_size=size, font_name=font)
+    arcade.draw_text(
+        text, x, y, constants.TEAM_COLORS[team], font_size=size, font_name=font
+    )
 
 
 class Score:
@@ -34,9 +36,9 @@ class Score:
         arcade.load_font(font_file)
         self.sprite_list = arcade.SpriteList()
         background = arcade.Sprite(image_file)
-        background.width = SCORE_WIDTH
-        background.height = SCORE_HEIGHT
-        background.position = SCORE_WIDTH // 2, SCORE_HEIGHT // 2
+        background.width = constants.SCORE_WIDTH
+        background.height = constants.SCORE_HEIGHT
+        background.position = constants.SCORE_WIDTH // 2, constants.SCORE_HEIGHT // 2
         self.sprite_list.append(background)
 
     def draw(self) -> None:
