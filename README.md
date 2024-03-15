@@ -13,7 +13,6 @@ Space collector game
 - Limiter le rayon des radars pour les vaisseaux ennemis
 - Version fenêtre moins grande (bug sur les rayons de haute énergie)
 - Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
-- mettre serial2tcp dans le package space_collector
 
 ## Rules
 
@@ -131,7 +130,7 @@ python -m space_collector.viewer -p $PORT --small-window&
 # using serial port
 SERIAL=COM8          # on Windows
 SERIAL=/dev/ttyUSB0  # on Linux
-python -m serial2tcp -p $PORT --serial $SERIAL
+python -m space_collector.serial2tcp -p $PORT --serial $SERIAL --team-name "CHANGE ME"
 ```
 
 ### Kill all clients and server

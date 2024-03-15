@@ -10,10 +10,11 @@ from space_collector.network.client import Client
 
 
 class PlayerGameClient(Client):
-    def __init__(self, server_addr: str, port: int, serial_port_name: str) -> None:
-        username = f"CHANGE_ME_{random.randint(1, 999):03d}"
+    def __init__(
+        self, server_addr: str, port: int, serial_port_name: str, team_name: str
+    ) -> None:
         logging.basicConfig(
-            filename=f"client_{username}.log",
+            filename=f"client_{team_name.replace(' ', '_')}.log",
             level=logging.INFO,
             format=(
                 "%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: "
@@ -21,7 +22,7 @@ class PlayerGameClient(Client):
             ),
             datefmt="%m/%d/%Y %H:%M:%S",
         )
-        super().__init__(server_addr, port, username, spectator=False)
+        super().__init__(server_addr, port, team_name, spectator=False)
         self.serial_port = serial.Serial(serial_port_name, 115200, timeout=1)
 
     def run(self) -> NoReturn:
@@ -70,6 +71,13 @@ if __name__ == "__main__":
         help="serial port (115200 8N1)",
         default="/dev/ttyUSB0",
     )
+    parser.add_argument(
+        "-n",
+        "--team-name",
+        type=str,
+        help="team name",
+        default="Default team name",
+    )
     args = parser.parse_args()
 
-    PlayerGameClient(args.address, args.port, args.serial).run()
+    PlayerGameClient(args.address, args.port, args.serial, args.team_name).run()
