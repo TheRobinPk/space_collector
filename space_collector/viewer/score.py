@@ -26,6 +26,7 @@ class Score:
     def __init__(self):
         self.sprite_list = arcade.SpriteList()
         self.teams = []
+        self.time = 0
 
     def setup(self) -> None:
         font_file = files("space_collector.viewer").joinpath("images/Sportrop.ttf")
@@ -43,14 +44,22 @@ class Score:
 
     def draw(self) -> None:
         self.sprite_list.draw()
+        draw_text(
+            f"Time: {self.time:0.2f}",
+            100,
+            constants.SCORE_HEIGHT - 100,
+            0,
+            size=20,
+            font="Sportrop",
+        )
         for index, team in enumerate(self.teams):
             name, blocked, nb_saved_planets, nb_planets = team
             team_offset = 200 + index * 200
 
-            draw_text(name[:30], 100, team_offset, index, size=25, font="Sportrop")
+            draw_text(name[:30], 100, team_offset, index, size=20, font="Sportrop")
             if blocked:
                 draw_text(
-                    "BLOCKED", 100, team_offset - 40, index, size=20, font="Sportrop"
+                    "BLOCKED", 100, team_offset - 40, index, size=15, font="Sportrop"
                 )
             else:
                 draw_text(
@@ -58,11 +67,12 @@ class Score:
                     100,
                     team_offset - 40,
                     index,
-                    size=20,
+                    size=15,
                     font="Sportrop",
                 )
 
     def update(self, server_data: dict) -> None:
+        self.time = server_data["time"]
         self.teams.clear()
         for player_data in server_data["players"]:
             nb_planets = len(player_data["planets"])
