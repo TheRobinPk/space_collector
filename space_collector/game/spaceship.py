@@ -1,10 +1,12 @@
 import logging
 import math
+from time import time
 
 from space_collector.game.constants import (
     DISTANCE_PLANET_COLLECTION,
     MAP_DIMENSION,
     HIGH_ENERGY_LENGTH,
+    FIRE_RATE,
 )
 from space_collector.game.math import Vector, distance_point_to_segment
 from space_collector.game.planet import Planet
@@ -139,10 +141,18 @@ class Attacker(Spaceship):
         super().__init__(id_, x, y, angle, player)
         self.fire_started: bool = False
         self.fire_angle: int = 0
+        self.last_fire_start = time() - FIRE_RATE
 
     def fire(self, angle: int) -> None:
         if self.broken:
             return
+        fire_start = time()
+        if fire_start - self.last_fire_start < FIRE_RATE:
+            logging.info(
+                "too fast fire, slow down! %f", fire_start - self.last_fire_start
+            )
+            return
+        self.last_fire_start = fire_start
         self.fire_started = True
         self.fire_angle = angle
         angle_radians = math.radians(angle)

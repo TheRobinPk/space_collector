@@ -60,6 +60,6 @@ class Game:
 
     def state(self) -> dict:
         return {
-            "time": perf_counter() - self.start_time,
+            "time": self.last_update_time,
             "players": [player.state() for player in self.players],
         }
