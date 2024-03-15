@@ -5,7 +5,6 @@ Space collector game
 ## TODO
 
 - tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
-- limiter dans la fréquence des radars
 - Planet destruction with high energy attack?
 - Des points si on tire sur quelqu'un ?
 - When a team has collected all its planets, the game stops
