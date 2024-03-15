@@ -46,28 +46,40 @@ class Score:
         self.sprite_list.draw()
         draw_text(
             f"Time: {self.time:0.2f}",
-            100,
+            constants.SCORE_MARGIN,
             constants.SCORE_HEIGHT - 100,
             0,
-            size=20,
+            size=constants.SCORE_FONT_SIZE,
             font="Sportrop",
         )
         for index, team in enumerate(self.teams):
             name, blocked, nb_saved_planets, nb_planets = team
             team_offset = 200 + index * 200
 
-            draw_text(name[:30], 100, team_offset, index, size=20, font="Sportrop")
+            draw_text(
+                name[:30],
+                constants.SCORE_MARGIN,
+                team_offset,
+                index,
+                size=constants.SCORE_FONT_SIZE,
+                font="Sportrop",
+            )
             if blocked:
                 draw_text(
-                    "BLOCKED", 100, team_offset - 40, index, size=15, font="Sportrop"
+                    "BLOCKED",
+                    constants.SCORE_MARGIN,
+                    team_offset - 40,
+                    index,
+                    size=constants.SCORE_FONT_SIZE - 5,
+                    font="Sportrop",
                 )
             else:
                 draw_text(
                     f"Planets: {nb_saved_planets}/{nb_planets}",
-                    100,
+                    constants.SCORE_MARGIN,
                     team_offset - 40,
                     index,
-                    size=15,
+                    size=constants.SCORE_FONT_SIZE - 5,
                     font="Sportrop",
                 )
 

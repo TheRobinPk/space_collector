@@ -21,11 +21,15 @@ class Constants:
             self.SCREEN_WIDTH = 1777
             self.SCREEN_HEIGHT = 1000
             self.SCORE_WIDTH = 500
+            self.SCORE_MARGIN = 100
+            self.SCORE_FONT_SIZE = 24
             self.MAP_MARGIN = 170
         else:
             self.SCREEN_WIDTH = 800
             self.SCREEN_HEIGHT = 600
             self.SCORE_WIDTH = 300
+            self.SCORE_MARGIN = 50
+            self.SCORE_FONT_SIZE = 20
             self.MAP_MARGIN = 50
 
         self.SCORE_HEIGHT = self.SCREEN_HEIGHT
