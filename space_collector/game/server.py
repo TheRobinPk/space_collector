@@ -5,6 +5,7 @@ import logging
 import sys
 from time import sleep, perf_counter
 
+from space_collector.game.constants import MAX_GAME_DURATION
 from space_collector.game.game import Game
 from space_collector.network.data_handler import NetworkError
 from space_collector.network.server import ClientData, Server
@@ -86,6 +87,10 @@ class GameServer(Server):
             self.game.update()
             for spectator in self.spectators:
                 self.write(spectator, json.dumps(self.game.state()))
+
+            if self.game.cumulated_time > MAX_GAME_DURATION:
+                logging.info("Reached time limit for the game")
+                break
         sys.exit(0)
 
 
