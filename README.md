@@ -11,7 +11,9 @@ Space collector game
 - When a team has collected all its planets, the game stops
 - When the game ran 5 minutes, the game stops
 - Limiter le rayon des radars pour les vaisseaux ennemis
-- Version fenêtre moins grande
+- Version fenêtre moins grande (bug sur les rayons de haute énergie)
+- Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
+- mettre serial2tcp dans le package space_collector
 
 ## Rules
 
@@ -123,6 +125,8 @@ PORT=12345
 python -m space_collector.game.server -p $PORT &
 # start the viewer
 python -m space_collector.viewer -p $PORT &
+# start the viewer on small screens
+python -m space_collector.viewer -p $PORT --small-window&
 # start players
 # using serial port
 SERIAL=COM8          # on Windows

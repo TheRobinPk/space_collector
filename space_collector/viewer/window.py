@@ -6,7 +6,7 @@ from typing import NoReturn
 import arcade
 
 from space_collector.viewer.animation import set_date, date
-from space_collector.viewer import constants
+from space_collector.viewer.constants import constants
 from space_collector.viewer.player import Player
 from space_collector.viewer.space_background import SpaceBackground
 from space_collector.viewer.score import Score

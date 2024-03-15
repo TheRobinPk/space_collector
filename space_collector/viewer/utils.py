@@ -11,30 +11,20 @@ import arcade
 from PIL import Image
 
 from space_collector.game.constants import MAP_DIMENSION
-from space_collector.viewer.constants import (
-    MAP_MIN_X,
-    MAP_MAX_X,
-    MAP_MIN_Y,
-    MAP_MAX_Y,
-    SCREEN_HEIGHT,
-    SCREEN_WIDTH,
-)
-
-MAP_WIDTH = MAP_MAX_X - MAP_MIN_X
-MAP_HEIGHT = MAP_MAX_Y - MAP_MIN_Y
+from space_collector.viewer.constants import constants
 
 
 def map_value_to_window(value: float) -> float:
     return max(
-        int(value / MAP_DIMENSION * MAP_WIDTH),
-        int(value / MAP_DIMENSION * MAP_HEIGHT),
+        int(value / MAP_DIMENSION * constants.MAP_WIDTH),
+        int(value / MAP_DIMENSION * constants.MAP_HEIGHT),
     )
 
 
 def map_coord_to_window_coord(x: float, y: float) -> tuple[int, int]:
     return (
-        int(x / MAP_DIMENSION * MAP_WIDTH) + MAP_MIN_X,
-        int(y / MAP_DIMENSION * MAP_HEIGHT) + MAP_MIN_Y,
+        int(x / MAP_DIMENSION * constants.MAP_WIDTH) + constants.MAP_MIN_X,
+        int(y / MAP_DIMENSION * constants.MAP_HEIGHT) + constants.MAP_MIN_Y,
     )
 
 
@@ -50,9 +40,9 @@ def find_image_files(directory: str) -> list[Traversable]:
 def random_sprite(path: str) -> arcade.Sprite:
     sprite_image = random.choice(find_image_files(path))
     sprite = arcade.Sprite(sprite_image)
-    sprite.position = SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2
-    sprite.width = SCREEN_WIDTH
-    sprite.height = SCREEN_HEIGHT
+    sprite.position = constants.SCREEN_WIDTH // 2, constants.SCREEN_HEIGHT // 2
+    sprite.width = constants.SCREEN_WIDTH
+    sprite.height = constants.SCREEN_HEIGHT
     return sprite
 
 

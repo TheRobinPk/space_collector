@@ -2,7 +2,7 @@ from importlib.resources import files
 
 import arcade
 
-from space_collector.viewer import constants
+from space_collector.viewer.constants import constants
 
 
 def draw_text(text: str, x: int, y: int, team: int, size: int, font: str) -> None:

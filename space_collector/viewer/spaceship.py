@@ -13,14 +13,11 @@ from space_collector.game.constants import (
 from space_collector.game.math import Matrix, Vector
 from space_collector.viewer.animation import AnimatedValue, Animation, Step
 from space_collector.viewer.utils import (
-    MAP_WIDTH,
     map_coord_to_window_coord,
     hue_changed_texture,
     map_value_to_window,
 )
-from space_collector.viewer.constants import TEAM_COLORS, TEAM_HUES
-
-HIGH_ENERGY_SPRITE_LENGTH = int(HIGH_ENERGY_LENGTH / MAP_DIMENSION * MAP_WIDTH)
+from space_collector.viewer.constants import constants
 
 
 class SpaceShip:
@@ -40,7 +37,7 @@ class SpaceShip:
     def setup(self) -> None:
         image_file = files("space_collector.viewer").joinpath(self.image_path)
         self.sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
+            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
         )
         self.sprite.width = self.width
         self.sprite.height = self.height
@@ -93,7 +90,7 @@ class Attacker(SpaceShip):
         self.lightning_alpha = AnimatedValue(0)
         image_file = files("space_collector.viewer").joinpath("images/high_energy.png")
         self.lightning_sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
+            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
         )
         self.lightning_sprite.width = 20
         self.lightning_sprite.height = 1
@@ -113,7 +110,7 @@ class Attacker(SpaceShip):
             self.lightning_length.add_animations(
                 initial_value=self.lightning_length.value,
                 steps=[
-                    Step(value=HIGH_ENERGY_SPRITE_LENGTH, duration=0.25),
+                    Step(value=constants.HIGH_ENERGY_SPRITE_LENGTH, duration=0.25),
                     Step(value=0, duration=0.25),
                 ],
             )
@@ -156,17 +153,17 @@ class Collector(SpaceShip):
 
 class Explorator(SpaceShip):
     image_path = "images/spaceships/explorator.png"
-    RADAR_RADIUS = map_value_to_window(RADAR_RADIUS)
 
     def __init__(self, x: int, y: int, angle: int, team: int) -> None:
         super().__init__(x, y, angle, team)
         self.width = 40
         self.height = 40
+        self.max_radar_radius = map_value_to_window(RADAR_RADIUS)
 
     def setup(self) -> None:
         super().setup()
         self.radar_radius = AnimatedValue(0)
-        self.radar_color = list(TEAM_COLORS[self.team])
+        self.radar_color = list(constants.TEAM_COLORS[self.team])
         self.radar_color.append(50)
 
     def update(self, server_data: dict, duration: float) -> None:
@@ -176,7 +173,7 @@ class Explorator(SpaceShip):
             self.radar_radius.add_animations(
                 initial_value=self.radar_radius.value,
                 steps=[
-                    Step(value=self.RADAR_RADIUS, duration=0.25),
+                    Step(value=self.max_radar_radius, duration=0.25),
                     Step(value=0, duration=0.25),
                 ],
             )

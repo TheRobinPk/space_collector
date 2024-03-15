@@ -1,44 +1,43 @@
 import colorsys
-import sys
 
-small_window = False
+from space_collector.game.constants import HIGH_ENERGY_LENGTH, MAP_DIMENSION
 
 
-# what an ugly hack… TODO
-def __getattr__(name: str):
-    if name == "__path__":
-        return __name__
-    if name == "SCREEN_WIDTH":
-        return 800 if small_window else 1777
-    if name == "SCREEN_HEIGHT" or name == "SCORE_HEIGHT":
-        return 600 if small_window else 1000
-    if name == "SCORE_WIDTH":
-        return 300 if small_window else 500
-    if name == "MAP_MARGIN":
-        return 50 if small_window else 170
-    if name == "MAP_MIN_X":
-        return (
-            sys.modules[__name__].SCORE_WIDTH + sys.modules[__name__].MAP_MARGIN * 1.2
+class Constants:
+    SCREEN_TITLE = "Space collector"
+    TEAM_HUES = {
+        0: 0,
+        1: 30,
+        2: 65,
+        3: 130,
+    }
+    TEAM_COLORS = {
+        team: tuple(int(c * 255) for c in colorsys.hsv_to_rgb(hue / 360, 1, 1))
+        for team, hue in TEAM_HUES.items()
+    }
+
+    def resize(self, small_window: bool):
+        if not small_window:
+            self.SCREEN_WIDTH = 1777
+            self.SCREEN_HEIGHT = 1000
+            self.SCORE_WIDTH = 500
+            self.MAP_MARGIN = 170
+        else:
+            self.SCREEN_WIDTH = 800
+            self.SCREEN_HEIGHT = 600
+            self.SCORE_WIDTH = 300
+            self.MAP_MARGIN = 50
+
+        self.SCORE_HEIGHT = self.SCREEN_HEIGHT
+        self.MAP_MIN_X = int(self.SCORE_WIDTH + self.MAP_MARGIN * 1.2)
+        self.MAP_MAX_X = int(self.SCREEN_WIDTH - self.MAP_MARGIN * 1.2)
+        self.MAP_MIN_Y = self.MAP_MARGIN
+        self.MAP_MAX_Y = self.SCREEN_HEIGHT - self.MAP_MARGIN
+        self.MAP_WIDTH = self.MAP_MAX_X - self.MAP_MIN_X
+        self.MAP_HEIGHT = self.MAP_MAX_Y - self.MAP_MIN_Y
+        self.HIGH_ENERGY_SPRITE_LENGTH = int(
+            HIGH_ENERGY_LENGTH / MAP_DIMENSION * self.MAP_WIDTH
         )
-    if name == "MAP_MAX_X":
-        return int(
-            sys.modules[__name__].SCREEN_WIDTH - sys.modules[__name__].MAP_MARGIN * 1.2
-        )
-    if name == "MAP_MIN_Y":
-        return sys.modules[__name__].MAP_MARGIN
-    if name == "MAP_MAX_Y":
-        return sys.modules[__name__].SCREEN_HEIGHT - sys.modules[__name__].MAP_MARGIN
-    return globals()[name]
 
 
-SCREEN_TITLE = "Space collector"
-TEAM_HUES = {
-    0: 0,
-    1: 30,
-    2: 65,
-    3: 130,
-}
-TEAM_COLORS = {
-    team: tuple(int(c * 255) for c in colorsys.hsv_to_rgb(hue / 360, 1, 1))
-    for team, hue in TEAM_HUES.items()
-}
+constants: Constants = Constants()

@@ -5,7 +5,7 @@ from importlib.resources import files
 import arcade
 
 from space_collector.viewer.animation import AnimatedValue, Animation
-from space_collector.viewer.constants import TEAM_HUES, TEAM_COLORS
+from space_collector.viewer.constants import constants
 from space_collector.viewer.spaceship import SpaceShip
 from space_collector.viewer.utils import (
     hue_changed_texture,
@@ -36,7 +36,7 @@ class Planet:
     def setup(self) -> None:
         image_file = files("space_collector.viewer").joinpath(self.image_path)
         self.sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
+            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
         )
         self.sprite.width = random.randint(30, 70)
         self.sprite.height = self.sprite.width
@@ -56,7 +56,7 @@ class Planet:
             self.sprite.position[0],
             self.sprite.position[1],
             self.size.value // 2 + 2,
-            (*TEAM_COLORS[self.team], 150),
+            (*constants.TEAM_COLORS[self.team], 150),
             4,
         )
         self.sprite.draw()

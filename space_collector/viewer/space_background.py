@@ -6,7 +6,7 @@ from time import perf_counter
 import arcade
 
 from space_collector.viewer.animation import AnimatedValue, Animation, Step
-from space_collector.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SCORE_WIDTH
+from space_collector.viewer.constants import constants
 from space_collector.viewer.utils import random_sprite
 
 
@@ -17,8 +17,10 @@ class Comet:
         self.sprite = arcade.Sprite(
             files("space_collector.viewer").joinpath("images/comet.png")
         )
-        self.x = AnimatedValue(random.randint(SCORE_WIDTH, SCREEN_WIDTH))
-        self.y = AnimatedValue(random.randint(0, SCREEN_HEIGHT))
+        self.x = AnimatedValue(
+            random.randint(constants.SCORE_WIDTH, constants.SCREEN_WIDTH)
+        )
+        self.y = AnimatedValue(random.randint(0, constants.SCREEN_HEIGHT))
         self.alpha = AnimatedValue(0)
         self.new_trajectory()
 
@@ -29,14 +31,14 @@ class Comet:
         self.x.add_animation(
             Animation(
                 start_value=self.x.value,
-                end_value=random.randint(SCORE_WIDTH, SCREEN_WIDTH),
+                end_value=random.randint(constants.SCORE_WIDTH, constants.SCREEN_WIDTH),
                 duration=self.duration,
             )
         )
         self.y.add_animation(
             Animation(
                 start_value=self.y.value,
-                end_value=random.randint(0, SCREEN_HEIGHT),
+                end_value=random.randint(0, constants.SCREEN_HEIGHT),
                 duration=self.duration,
             )
         )

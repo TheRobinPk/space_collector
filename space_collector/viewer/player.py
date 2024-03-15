@@ -4,7 +4,7 @@ from importlib.resources import files
 import arcade
 from space_collector.game.math import Vector
 
-from space_collector.viewer.constants import TEAM_HUES
+from space_collector.viewer.constants import constants
 from space_collector.viewer.planet import Planet
 from space_collector.viewer.spaceship import SpaceShip, Collector, Attacker, Explorator
 from space_collector.viewer.utils import hue_changed_texture, map_coord_to_window_coord
@@ -29,7 +29,7 @@ class Player:
     def setup(self) -> None:
         image_file = files("space_collector.viewer").joinpath("images/station.png")
         self.base_sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, TEAM_HUES[self.team])
+            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
         )
         self.base_sprite.width = 200
         self.base_sprite.height = 200

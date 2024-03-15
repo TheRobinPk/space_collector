@@ -2,7 +2,8 @@ import argparse
 import logging
 
 from space_collector.viewer.viewer import Viewer
-from space_collector.viewer import constants
+from space_collector.viewer.constants import constants
+
 
 logging.basicConfig(
     filename="viewer.log",
@@ -40,7 +41,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 try:
-    constants.small_window = args.small_window
+    constants.resize(args.small_window)
     Viewer(args.address, args.port)
 except Exception:  # noqa: PIE786,PLW718
     logging.exception("uncaught exception")
