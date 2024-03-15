@@ -9,10 +9,10 @@ class Constants:
         0: 0,
         1: 30,
         2: 65,
-        3: 130,
+        3: 120,
     }
     TEAM_COLORS = {
-        team: tuple(int(c * 255) for c in colorsys.hsv_to_rgb(hue / 360, 1, 1))
+        team: tuple(int(c * 255) for c in colorsys.hsv_to_rgb((hue * 2) / 360, 1, 1))
         for team, hue in TEAM_HUES.items()
     }
 
