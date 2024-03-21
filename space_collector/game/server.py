@@ -11,7 +11,7 @@ from space_collector.network.data_handler import NetworkError
 from space_collector.network.server import ClientData, Server
 
 MAX_NB_PLAYERS = 4
-SERVER_CONNECTION_TIMEOUT = 10
+server_connection_timeout = 10
 
 
 class GameServer(Server):
@@ -42,8 +42,8 @@ class GameServer(Server):
             print("Waiting for player clients")
             sleep(1)
 
-        for second in range(1, SERVER_CONNECTION_TIMEOUT + 1):
-            print(f"Waiting other players ({second}/{SERVER_CONNECTION_TIMEOUT})")
+        for second in range(1, server_connection_timeout + 1):
+            print(f"Waiting other players ({second}/{server_connection_timeout})")
             if len(self.players) == MAX_NB_PLAYERS:
                 break
             sleep(1)
@@ -112,8 +112,16 @@ if __name__ == "__main__":
         help="fast simulation",
         action="store_true",
     )
+    parser.add_argument(
+        "-t",
+        "--timeout",
+        help="timeout in seconds while waiting 2nd, 3rd and 4th players",
+        type=int,
+        default=10,
+    )
 
     args = parser.parse_args()
+    server_connection_timeout = args.timeout
 
     if args.fast:
         logging.basicConfig(handlers=[logging.NullHandler()])

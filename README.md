@@ -118,7 +118,7 @@ pip install --upgrade space_collector[dev]
 # choose a free port
 PORT=12345
 # start the server
-python -m space_collector.game.server -p $PORT &
+python -m space_collector.game.server -p $PORT --timeout 10 &
 # start the viewer
 python -m space_collector.viewer -p $PORT &
 # start the viewer on small screens
