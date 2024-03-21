@@ -57,9 +57,9 @@ class PlayerGameClient(Client):
         self.serial_port.flush()
 
     def serial_read(self) -> str:
-        read = self.serial_port.readline().decode("utf-8")
-        logging.info("serial read: %s", read)
-        return read
+        read = self.serial_port.readline()
+        logging.info("serial read: %s", str(read))
+        return read.decode("utf-8")
 
 
 if __name__ == "__main__":
