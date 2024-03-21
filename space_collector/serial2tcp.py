@@ -1,6 +1,5 @@
 import argparse
 import logging
-import random
 from contextlib import suppress
 from typing import NoReturn
 
