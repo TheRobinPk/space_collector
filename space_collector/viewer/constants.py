@@ -15,6 +15,10 @@ class Constants:
         team: tuple(int(c * 255) for c in colorsys.hsv_to_rgb((hue * 2) / 360, 1, 1))
         for team, hue in TEAM_HUES.items()
     }
+    # TODO why this hack is necessary?
+    TEAM_COLORS[3] = tuple(
+        int(c * 255) for c in colorsys.hsv_to_rgb((90 * 2) / 360, 1, 1)
+    )
 
     def resize(self, small_window: bool):
         if not small_window:
