@@ -21,6 +21,12 @@ class PlayerGameClient(Client):
             ),
             datefmt="%m/%d/%Y %H:%M:%S",
         )
+        logger = logging.getLogger()
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        console_handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
+        logger.addHandler(console_handler)
+
         super().__init__(server_addr, port, team_name, spectator=False)
         logging.info("opening %s", serial_port_name)
         self.serial_port = serial.Serial(serial_port_name, 115200, timeout=1)
