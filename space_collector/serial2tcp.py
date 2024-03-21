@@ -22,29 +22,38 @@ class PlayerGameClient(Client):
             datefmt="%m/%d/%Y %H:%M:%S",
         )
         super().__init__(server_addr, port, team_name, spectator=False)
+        logging.info("opening %s", serial_port_name)
         self.serial_port = serial.Serial(serial_port_name, 115200, timeout=1)
+        logging.info("port opened")
 
     def run(self) -> NoReturn:
         logging.info(self.readline())
-        self.serial_port.write(b"START\n")
-        self.serial_port.flush()
+        self.serial_write("START\n")
         while True:
             with suppress(serial.SerialTimeoutException):
-                command = self.serial_port.readline()
-                command = command.decode("utf-8").strip()
+                command = self.serial_read().strip()
                 if command:
                     response = self.send_command(command)
-                    self.serial_port.write(response.encode("utf-8"))
-                    self.serial_port.flush()
+                    self.serial_write(response)
 
     def send_command(self, command: str) -> str:
         if not command.endswith("\n"):
             command += "\n"
-        logging.info("Command: %s", command.strip())
+        logging.info("Command TCP: %s", command.strip())
         self.send(command)
         response = self.readline() + "\n"
-        logging.info(response.strip())
+        logging.info("Response TCP: %s", response.strip())
         return response
+
+    def serial_write(self, text: str) -> None:
+        logging.info("serial write: %s", text)
+        self.serial_port.write(text.encode("utf-8"))
+        self.serial_port.flush()
+
+    def serial_read(self) -> str:
+        read = self.serial_port.readline().decode("utf-8")
+        logging.info("serial read: %s", read)
+        return read
 
 
 if __name__ == "__main__":
