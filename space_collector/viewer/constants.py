@@ -27,6 +27,7 @@ class Constants:
             self.SCORE_WIDTH = 500
             self.SCORE_MARGIN = 100
             self.SCORE_FONT_SIZE = 24
+            self.SCORE_TEAM_SIZE = 200
             self.MAP_MARGIN = 170
         else:
             self.SCREEN_WIDTH = 800
@@ -34,8 +35,10 @@ class Constants:
             self.SCORE_WIDTH = 300
             self.SCORE_MARGIN = 50
             self.SCORE_FONT_SIZE = 20
+            self.SCORE_TEAM_SIZE = 100
             self.MAP_MARGIN = 50
 
+        self.SCORE_TIME_MARGIN = 100
         self.SCORE_HEIGHT = self.SCREEN_HEIGHT
         self.MAP_MIN_X = int(self.SCORE_WIDTH + self.MAP_MARGIN * 1.2)
         self.MAP_MAX_X = int(self.SCREEN_WIDTH - self.MAP_MARGIN * 1.2)

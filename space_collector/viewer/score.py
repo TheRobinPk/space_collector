@@ -47,14 +47,14 @@ class Score:
         draw_text(
             f"Time: {self.time:0.2f}",
             constants.SCORE_MARGIN,
-            constants.SCORE_HEIGHT - 100,
-            0,
+            constants.SCORE_HEIGHT - constants.SCORE_TIME_MARGIN,
+            1,
             size=constants.SCORE_FONT_SIZE,
             font="Sportrop",
         )
         for index, team in enumerate(self.teams):
             name, blocked, nb_saved_planets, nb_planets = team
-            team_offset = 200 + index * 200
+            team_offset = constants.SCORE_TEAM_SIZE + index * constants.SCORE_TEAM_SIZE
 
             draw_text(
                 name[:30],
@@ -68,7 +68,7 @@ class Score:
                 draw_text(
                     "BLOCKED",
                     constants.SCORE_MARGIN,
-                    team_offset - 40,
+                    team_offset - constants.SCORE_TEAM_SIZE // 5,
                     index,
                     size=constants.SCORE_FONT_SIZE - 5,
                     font="Sportrop",
@@ -77,7 +77,7 @@ class Score:
                 draw_text(
                     f"Planets: {nb_saved_planets}/{nb_planets}",
                     constants.SCORE_MARGIN,
-                    team_offset - 40,
+                    team_offset - constants.SCORE_TEAM_SIZE // 5,
                     index,
                     size=constants.SCORE_FONT_SIZE - 5,
                     font="Sportrop",
