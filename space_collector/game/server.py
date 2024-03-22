@@ -91,6 +91,9 @@ class GameServer(Server):
             if self.game.cumulated_time > MAX_GAME_DURATION:
                 logging.info("Reached time limit for the game")
                 break
+            if self.game.all_planets_collected:
+                logging.info("A player collected all planets, end of the game")
+                break
         sys.exit(0)
 
 

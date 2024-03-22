@@ -40,6 +40,10 @@ class Game:
             all_planets_positions.update(planets_positions)
             self.planets_positions.append(planet)
 
+    @property
+    def all_planets_collected(self) -> bool:
+        return any(player.all_planets_collected for player in self.players)
+
     def manage_command(self, player_id: int, command: str) -> str:
         if player_id >= len(self.players):
             logging.error("Unknown player ID: %d", player_id)

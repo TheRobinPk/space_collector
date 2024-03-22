@@ -130,6 +130,10 @@ class Player:
         for spaceship in self.spaceships:
             spaceship.update(delta_time)
 
+    @property
+    def all_planets_collected(self) -> bool:
+        return all(planet.saved for planet in self.planets)
+
     def state(self) -> dict:
         return {
             "name": self.name,

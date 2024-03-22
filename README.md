@@ -5,8 +5,6 @@ Space collector game
 ## TODO
 
 - tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
-- Planet destruction with high energy attack?
-- When a team has collected all its planets, the game stops
 - When the game ran 5 minutes, the game stops
 - Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
 
