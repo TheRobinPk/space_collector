@@ -6,21 +6,44 @@ import arcade
 from space_collector.viewer.constants import constants
 
 
-def draw_text(text: str, x: int, y: int, team: int, size: int, font: str) -> None:
-    halo_color = (0, 0, 0, 50)
-    for offset_x in range(-2, 3):
-        for offset_y in range(-2, 3):
-            arcade.draw_text(
-                text,
-                x + offset_x,
-                y + offset_y,
-                halo_color,
-                font_size=size,
-                font_name=font,
+class TextDrawer:
+    # TODO implement LRU
+    def __init__(self) -> None:
+        self.cache: dict[tuple, list[arcade.Text]] = {}
+
+    def draw(self, text: str, x: int, y: int, team: int, size: int, font: str) -> None:
+        key = (text, x, y, team, size, font)
+        if key not in self.cache:
+            texts: list[arcade.Text] = []
+            halo_color = (0, 0, 0, 50)
+            for offset_x in range(-2, 3):
+                for offset_y in range(-2, 3):
+                    texts.append(
+                        arcade.Text(
+                            text,
+                            x + offset_x,
+                            y + offset_y,
+                            halo_color,
+                            font_size=size,
+                            font_name=font,
+                        )
+                    )
+            texts.append(
+                arcade.Text(
+                    text,
+                    x,
+                    y,
+                    constants.TEAM_COLORS[team],
+                    font_size=size,
+                    font_name=font,
+                )
             )
-    arcade.draw_text(
-        text, x, y, constants.TEAM_COLORS[team], font_size=size, font_name=font
-    )
+            self.cache[key] = texts
+        for predrawn_text in self.cache[key]:
+            predrawn_text.draw()
+
+
+text = TextDrawer()
 
 
 @dataclass(frozen=True)
@@ -55,7 +78,7 @@ class Score:
 
     def draw(self) -> None:
         self.sprite_list.draw()
-        draw_text(
+        text.draw(
             f"Time: {self.time:0.2f}",
             constants.SCORE_MARGIN,
             constants.SCORE_HEIGHT - constants.SCORE_TIME_MARGIN,
@@ -68,7 +91,7 @@ class Score:
         ):
             team_offset = constants.SCORE_TEAM_SIZE + index * constants.SCORE_TEAM_SIZE
 
-            draw_text(
+            text.draw(
                 team_data.name[:30],
                 constants.SCORE_MARGIN,
                 team_offset,
@@ -77,7 +100,7 @@ class Score:
                 font="Sportrop",
             )
             if team_data.blocked:
-                draw_text(
+                text.draw(
                     "BLOCKED",
                     constants.SCORE_MARGIN,
                     team_offset - constants.SCORE_TEAM_SIZE // 5,
@@ -86,7 +109,7 @@ class Score:
                     font="Sportrop",
                 )
             else:
-                draw_text(
+                text.draw(
                     f"Score: {team_data.score}",
                     constants.SCORE_MARGIN,
                     team_offset - constants.SCORE_TEAM_SIZE // 5,
@@ -94,7 +117,7 @@ class Score:
                     size=constants.SCORE_FONT_SIZE - 5,
                     font="Sportrop",
                 )
-                draw_text(
+                text.draw(
                     f"Planets: {team_data.nb_saved_planets}/{team_data.nb_planets}",
                     constants.SCORE_MARGIN,
                     team_offset - 2 * constants.SCORE_TEAM_SIZE // 5,
