@@ -11,8 +11,8 @@ class TextDrawer:
     def __init__(self) -> None:
         self.cache: dict[tuple, list[arcade.Text]] = {}
 
-    def draw(self, text: str, x: int, y: int, team: int, size: int, font: str) -> None:
-        key = (text, x, y, team, size, font)
+    def draw(self, text: str, x: int, y: int, team: int, size: int) -> None:
+        key = (text, x, y, team)
         if key not in self.cache:
             texts: list[arcade.Text] = []
             halo_color = (0, 0, 0, 50)
@@ -25,7 +25,7 @@ class TextDrawer:
                             y + offset_y,
                             halo_color,
                             font_size=size,
-                            font_name=font,
+                            font_name="Sportrop",
                         )
                     )
             texts.append(
@@ -35,7 +35,7 @@ class TextDrawer:
                     y,
                     constants.TEAM_COLORS[team],
                     font_size=size,
-                    font_name=font,
+                    font_name="Sportrop",
                 )
             )
             self.cache[key] = texts
@@ -84,7 +84,6 @@ class Score:
             constants.SCORE_HEIGHT - constants.SCORE_TIME_MARGIN,
             1,
             size=constants.SCORE_FONT_SIZE,
-            font="Sportrop",
         )
         for index, team_data in enumerate(
             sorted(self.teams_data, key=lambda td: td.score)
@@ -97,7 +96,6 @@ class Score:
                 team_offset,
                 team_data.team,
                 size=constants.SCORE_FONT_SIZE,
-                font="Sportrop",
             )
             if team_data.blocked:
                 text.draw(
@@ -106,7 +104,6 @@ class Score:
                     team_offset - constants.SCORE_TEAM_SIZE // 5,
                     index,
                     size=constants.SCORE_FONT_SIZE - 5,
-                    font="Sportrop",
                 )
             else:
                 text.draw(
@@ -115,7 +112,6 @@ class Score:
                     team_offset - constants.SCORE_TEAM_SIZE // 5,
                     team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
-                    font="Sportrop",
                 )
                 text.draw(
                     f"Planets: {team_data.nb_saved_planets}/{team_data.nb_planets}",
@@ -123,7 +119,6 @@ class Score:
                     team_offset - 2 * constants.SCORE_TEAM_SIZE // 5,
                     team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
-                    font="Sportrop",
                 )
 
     def update(self, server_data: dict) -> None:
