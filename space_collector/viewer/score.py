@@ -63,7 +63,9 @@ class Score:
             size=constants.SCORE_FONT_SIZE,
             font="Sportrop",
         )
-        for index, team_data in enumerate(self.teams_data):
+        for index, team_data in enumerate(
+            sorted(self.teams_data, key=lambda td: td.score)
+        ):
             team_offset = constants.SCORE_TEAM_SIZE + index * constants.SCORE_TEAM_SIZE
 
             draw_text(
