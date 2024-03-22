@@ -40,10 +40,12 @@ class Player:
             *(Vector(orientation.base_position) + base_offset)
         )
 
-    def draw(self) -> None:
+    def background_draw(self) -> None:
         self.base_sprite.draw()
         for planet in self.planets.values():
             planet.draw()
+
+    def foreground_draw(self) -> None:
         if not self.blocked:
             for spaceship in self.spaceships:
                 spaceship.draw()

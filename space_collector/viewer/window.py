@@ -44,7 +44,9 @@ class Window(arcade.Window):
         self.clear()
         self.background.draw()
         for player in self.players:
-            player.draw()
+            player.background_draw()
+        for player in self.players:
+            player.foreground_draw()
         self.score.draw()
 
 

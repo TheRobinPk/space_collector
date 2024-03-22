@@ -4,7 +4,6 @@ Space collector game
 
 ## TODO
 
-- tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
 - When the game ran 5 minutes, the game stops
 - Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
 
