@@ -30,6 +30,7 @@ class TeamData:
     nb_saved_planets: int
     nb_planets: int
     score: int
+    team: int
 
 
 class Score:
@@ -69,7 +70,7 @@ class Score:
                 team_data.name[:30],
                 constants.SCORE_MARGIN,
                 team_offset,
-                index,
+                team_data.team,
                 size=constants.SCORE_FONT_SIZE,
                 font="Sportrop",
             )
@@ -87,7 +88,7 @@ class Score:
                     f"Score: {team_data.score}",
                     constants.SCORE_MARGIN,
                     team_offset - constants.SCORE_TEAM_SIZE // 5,
-                    index,
+                    team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
                     font="Sportrop",
                 )
@@ -95,7 +96,7 @@ class Score:
                     f"Planets: {team_data.nb_saved_planets}/{team_data.nb_planets}",
                     constants.SCORE_MARGIN,
                     team_offset - 2 * constants.SCORE_TEAM_SIZE // 5,
-                    index,
+                    team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
                     font="Sportrop",
                 )
@@ -103,7 +104,7 @@ class Score:
     def update(self, server_data: dict) -> None:
         self.time = server_data["time"]
         self.teams_data.clear()
-        for player_data in server_data["players"]:
+        for team, player_data in enumerate(server_data["players"]):
             nb_planets = len(player_data["planets"])
             nb_saved_planets = len(
                 [
@@ -119,5 +120,6 @@ class Score:
                     nb_saved_planets=nb_saved_planets,
                     nb_planets=nb_planets,
                     score=player_data["score"],
+                    team=team,
                 )
             )
