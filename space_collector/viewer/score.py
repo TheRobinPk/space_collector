@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from importlib.resources import files
 
 import arcade
@@ -22,10 +23,19 @@ def draw_text(text: str, x: int, y: int, team: int, size: int, font: str) -> Non
     )
 
 
+@dataclass(frozen=True)
+class TeamData:
+    name: str
+    blocked: bool
+    nb_saved_planets: int
+    nb_planets: int
+    score: int
+
+
 class Score:
     def __init__(self):
         self.sprite_list = arcade.SpriteList()
-        self.teams = []
+        self.teams_data: list[TeamData] = []
         self.time = 0
 
     def setup(self) -> None:
@@ -52,19 +62,18 @@ class Score:
             size=constants.SCORE_FONT_SIZE,
             font="Sportrop",
         )
-        for index, team in enumerate(self.teams):
-            name, blocked, nb_saved_planets, nb_planets, score = team
+        for index, team_data in enumerate(self.teams_data):
             team_offset = constants.SCORE_TEAM_SIZE + index * constants.SCORE_TEAM_SIZE
 
             draw_text(
-                name[:30],
+                team_data.name[:30],
                 constants.SCORE_MARGIN,
                 team_offset,
                 index,
                 size=constants.SCORE_FONT_SIZE,
                 font="Sportrop",
             )
-            if blocked:
+            if team_data.blocked:
                 draw_text(
                     "BLOCKED",
                     constants.SCORE_MARGIN,
@@ -75,7 +84,7 @@ class Score:
                 )
             else:
                 draw_text(
-                    f"Score: {score}",
+                    f"Score: {team_data.score}",
                     constants.SCORE_MARGIN,
                     team_offset - constants.SCORE_TEAM_SIZE // 5,
                     index,
@@ -83,7 +92,7 @@ class Score:
                     font="Sportrop",
                 )
                 draw_text(
-                    f"Planets: {nb_saved_planets}/{nb_planets}",
+                    f"Planets: {team_data.nb_saved_planets}/{team_data.nb_planets}",
                     constants.SCORE_MARGIN,
                     team_offset - 2 * constants.SCORE_TEAM_SIZE // 5,
                     index,
@@ -93,7 +102,7 @@ class Score:
 
     def update(self, server_data: dict) -> None:
         self.time = server_data["time"]
-        self.teams.clear()
+        self.teams_data.clear()
         for player_data in server_data["players"]:
             nb_planets = len(player_data["planets"])
             nb_saved_planets = len(
@@ -103,12 +112,12 @@ class Score:
                     if planet_data["saved"]
                 ]
             )
-            self.teams.append(
-                (
-                    player_data["name"],
-                    player_data["blocked"],
-                    nb_saved_planets,
-                    nb_planets,
-                    player_data["score"],
+            self.teams_data.append(
+                TeamData(
+                    name=player_data["name"],
+                    blocked=player_data["blocked"],
+                    nb_saved_planets=nb_saved_planets,
+                    nb_planets=nb_planets,
+                    score=player_data["score"],
                 )
             )
