@@ -5,18 +5,6 @@ from space_collector.viewer.viewer import Viewer
 from space_collector.viewer.constants import constants
 
 
-logging.basicConfig(
-    filename="viewer.log",
-    encoding="utf-8",
-    level=logging.INFO,
-    format=(
-        "%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: "
-        "%(message)s"
-    ),
-    datefmt="%m/%d/%Y %H:%M:%S",
-)
-logging.info("Launching viewer")
-
 parser = argparse.ArgumentParser(description="Game client.")
 parser.add_argument(
     "-a",
@@ -39,6 +27,18 @@ parser.add_argument(
     action="store_true",
 )
 args = parser.parse_args()
+logging.basicConfig(
+    filename="viewer_small.log" if args.small_window else "viewer.log",
+    encoding="utf-8",
+    level=logging.INFO,
+    format=(
+        "%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: "
+        "%(message)s"
+    ),
+    datefmt="%m/%d/%Y %H:%M:%S",
+)
+logging.info("Launching viewer")
+
 
 try:
     constants.resize(args.small_window)

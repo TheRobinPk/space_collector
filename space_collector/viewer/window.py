@@ -1,7 +1,5 @@
 import logging
-import random
 from queue import Queue
-from typing import NoReturn
 
 import arcade
 

@@ -4,7 +4,7 @@ Space collector game
 
 ## TODO
 
-- When the game ran 5 minutes, the game stops
+- lenteur viewer
 - Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
 
 ## Rules
