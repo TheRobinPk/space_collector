@@ -15,9 +15,9 @@ class TextDrawer:
         key = (text, x, y, team)
         if key not in self.cache:
             texts: list[arcade.Text] = []
-            halo_color = (0, 0, 0, 50)
-            for offset_x in range(-2, 3):
-                for offset_y in range(-2, 3):
+            halo_color = (255, 255, 255, 50)
+            for offset_x in (-1, 1):
+                for offset_y in (-1, 1):
                     texts.append(
                         arcade.Text(
                             text,
