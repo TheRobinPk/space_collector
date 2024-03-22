@@ -5,8 +5,8 @@ python  -m space_collector.killall.py
 find . -name "*.log" -exec rm \{} \;
 
 python -m space_collector.game.server -p $PORT &
-python -m space_collector.viewer -p $PORT --small-window &
 python -m space_collector.viewer -p $PORT &
+python -m space_collector.viewer -p $PORT --small-window &
 sleep 2
 # python -m space_collector.serial2tcp -p $PORT &
 python /home/vincent/Documents/programmation/space_collector_player/sample_player_client.py -p $PORT &
