@@ -16,6 +16,7 @@ class Player:
         self.base_position = (0, 0)
         self.game = game
         self.team = -1
+        self.score = 0
 
     @property
     def blocked(self):
@@ -136,4 +137,5 @@ class Player:
             "base_position": self.base_position,
             "spaceships": [spaceship.state() for spaceship in self.spaceships],
             "planets": [planet.state() for planet in self.planets],
+            "score": self.score,
         }

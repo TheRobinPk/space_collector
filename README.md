@@ -6,7 +6,6 @@ Space collector game
 
 - tracer les planetes puis les vaisseaux (pas par joueur, mais globalement)
 - Planet destruction with high energy attack?
-- Des points si on tire sur quelqu'un ?
 - When a team has collected all its planets, the game stops
 - When the game ran 5 minutes, the game stops
 - Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
@@ -71,13 +70,19 @@ Response is `OK`.
 
 If a collector is less than 200 kms far from one of its planets, it collects the planet if it is not yet carrying a planet and it is not broken.
 
+If a collector is less than 200 kms far from the base while carrying a planet, the planet is collected. 1000 points are added to player's score.
+
 ### Fire
 
 `FIRE {ship_id} {angle}`
 
 Fire a high energy attack, at `{angle}` angle. Length of the attack is 5 000 kms.
 
-Any enemy spaceship less than 200 kms far from the high enery attack is now broken.
+Any enemy spaceship less than 200 kms far from the high enery attack is now broken. Some points are added to player's score:
+
+- 15 points for an attacker
+- 20 points for an explorer
+- 30 points for a collector
 
 This command is only valid for an attacker.
 

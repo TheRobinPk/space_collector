@@ -8,6 +8,10 @@ from space_collector.game.constants import (
     HIGH_ENERGY_LENGTH,
     FIRE_RATE,
     RADAR_RADIUS,
+    SCORE_PLANET_COLLECTED,
+    SCORE_ATTACKER_BROKEN,
+    SCORE_EXPLORER_BROKEN,
+    SCORE_COLLECTOR_BROKEN,
 )
 from space_collector.game.math import Vector, distance_point_to_segment
 from space_collector.game.planet import Planet
@@ -106,7 +110,7 @@ class Collector(Spaceship):
                     planet.saved = True
                     self.uncollect_planet()
                     logging.error("PLANET AT HOME")
-                    # TODO manage score
+                    self.player.score += SCORE_PLANET_COLLECTED
 
     @property
     def collected_planet(self) -> Planet | None:
@@ -173,6 +177,12 @@ class Attacker(Spaceship):
                 )
                 if distance_to_high_energy < 200:
                     spaceship.broken = True
+                    if isinstance(spaceship, Attacker):
+                        self.player.score += SCORE_ATTACKER_BROKEN
+                    elif isinstance(spaceship, Explorer):
+                        self.player.score += SCORE_EXPLORER_BROKEN
+                    elif isinstance(spaceship, Collector):
+                        self.player.score += SCORE_COLLECTOR_BROKEN
 
     def state(self) -> dict:
         state = super().state()
