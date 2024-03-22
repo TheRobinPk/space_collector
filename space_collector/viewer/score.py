@@ -79,7 +79,7 @@ class Score:
     def draw(self) -> None:
         self.sprite_list.draw()
         text.draw(
-            f"Time: {self.time:0.2f}",
+            f"Time: {int(self.time)}",
             constants.SCORE_MARGIN,
             constants.SCORE_HEIGHT - constants.SCORE_TIME_MARGIN,
             1,
