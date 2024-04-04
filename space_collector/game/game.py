@@ -9,6 +9,15 @@ from space_collector.game.player_orientations import player_orientations
 from space_collector.game.math import Vector
 from space_collector.game.constants import MAX_NB_PLANETS
 
+planet_ids: set[int] = set()
+
+
+def generate_planet_id() -> int:
+    planet_id = random.randint(1, 65535)
+    while planet_id in planet_ids:
+        planet_id = random.randint(1, 65535)
+    return planet_id
+
 
 class Game:
     def __init__(self) -> None:
@@ -26,7 +35,7 @@ class Game:
                 x=random.randrange(-7000, 7001, 1000),
                 y=random.randrange(3000, 17001, 1000),
                 size=random.randint(20, 40),
-                id=random.randint(1, 65535),
+                id=generate_planet_id(),
             )
             planet_vector = Vector([planet.x, planet.y])
             for orientation in player_orientations:
