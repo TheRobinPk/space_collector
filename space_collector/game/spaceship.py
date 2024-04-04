@@ -208,7 +208,6 @@ class Explorer(Spaceship):
         self.radar_started: bool = False
 
     def radar(self) -> str:
-        # TODO limit distance
         self.radar_started = True
         ret = []
         for planet in self.player.planets:
