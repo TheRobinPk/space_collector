@@ -2,11 +2,6 @@
 
 Space collector game
 
-## TODO
-
-- lenteur viewer
-- Quand un player est bloqué, ne plus afficher ses commandes dans le log du serveur
-
 ## Rules
 
 - Square 20 000 x 20 000 kms
