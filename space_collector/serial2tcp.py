@@ -33,7 +33,7 @@ class PlayerGameClient(Client):
         logging.info("port opened")
 
     def run(self) -> NoReturn:
-        logging.info(self.readline())
+        logging.info(self.readline(timeout=3600))
         self.serial_write("START\n")
         while True:
             with suppress(serial.SerialTimeoutException):

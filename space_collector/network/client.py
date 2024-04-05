@@ -1,7 +1,7 @@
 import argparse
 from socket import AF_INET, SOCK_STREAM, socket
 
-from .data_handler import DataHandler
+from .data_handler import DataHandler, DEFAULT_TIMEOUT
 
 
 class Client:
@@ -34,8 +34,8 @@ class Client:
     def read_json(self) -> object:
         return self._data_handler.read_json()
 
-    def readline(self) -> str:
-        return self._data_handler.readline()
+    def readline(self, timeout: int = DEFAULT_TIMEOUT) -> str:
+        return self._data_handler.readline(timeout)
 
 
 if __name__ == "__main__":
