@@ -83,7 +83,7 @@ class Score:
             f"Time: {int(self.time)}",
             constants.SCORE_MARGIN,
             constants.SCORE_HEIGHT - constants.SCORE_TIME_MARGIN,
-            1,
+            2,
             size=constants.SCORE_FONT_SIZE,
         )
         for index, team_data in enumerate(
