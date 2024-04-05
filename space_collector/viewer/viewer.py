@@ -11,7 +11,7 @@ def network_thread(server_addr: str, port: int) -> None:
     client = Client(server_addr, port, spectator=True)
     while True:
         try:
-            data = client.read_json()
+            data = client.read_json(timeout=3600)
             input_queue.put(data)
         except NetworkError:
             logging.exception("End of network communication")

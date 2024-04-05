@@ -31,8 +31,8 @@ class Client:
     def send_json(self, data: object) -> None:
         self._data_handler.write_json(data)
 
-    def read_json(self) -> object:
-        return self._data_handler.read_json()
+    def read_json(self, timeout: int = DEFAULT_TIMEOUT) -> object:
+        return self._data_handler.read_json(timeout)
 
     def readline(self, timeout: int = DEFAULT_TIMEOUT) -> str:
         return self._data_handler.readline(timeout)
