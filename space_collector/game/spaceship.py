@@ -176,13 +176,14 @@ class Attacker(Spaceship):
                     start, end, Vector([spaceship.x, spaceship.y])
                 )
                 if distance_to_high_energy < 200:
+                    if not spaceship.broken:
+                        if isinstance(spaceship, Attacker):
+                            self.player.score += SCORE_ATTACKER_BROKEN
+                        elif isinstance(spaceship, Explorer):
+                            self.player.score += SCORE_EXPLORER_BROKEN
+                        elif isinstance(spaceship, Collector):
+                            self.player.score += SCORE_COLLECTOR_BROKEN
                     spaceship.broken = True
-                    if isinstance(spaceship, Attacker):
-                        self.player.score += SCORE_ATTACKER_BROKEN
-                    elif isinstance(spaceship, Explorer):
-                        self.player.score += SCORE_EXPLORER_BROKEN
-                    elif isinstance(spaceship, Collector):
-                        self.player.score += SCORE_COLLECTOR_BROKEN
 
     def state(self) -> dict:
         state = super().state()
