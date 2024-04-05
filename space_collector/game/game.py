@@ -75,7 +75,10 @@ class Game:
         logging.error(self.cumulated_time)
 
     def state(self) -> dict:
-        return {
+        data = {
             "time": self.cumulated_time,
             "players": [player.state() for player in self.players],
         }
+        for team, player in enumerate(data["players"]):
+            player["team"] = team
+        return data

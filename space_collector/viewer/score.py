@@ -61,6 +61,7 @@ class Score:
         self.sprite_list = arcade.SpriteList()
         self.teams_data: list[TeamData] = []
         self.time = 0
+        self.nb_planets = None
 
     def setup(self) -> None:
         font_file = files("space_collector.viewer").joinpath("images/Sportrop.ttf")
@@ -124,8 +125,9 @@ class Score:
     def update(self, server_data: dict) -> None:
         self.time = server_data["time"]
         self.teams_data.clear()
-        for team, player_data in enumerate(server_data["players"]):
-            nb_planets = len(player_data["planets"])
+        for player_data in server_data["players"]:
+            if self.nb_planets is None:
+                self.nb_planets = len(player_data["planets"])
             nb_saved_planets = len(
                 [
                     planet_data
@@ -138,8 +140,8 @@ class Score:
                     name=player_data["name"],
                     blocked=player_data["blocked"],
                     nb_saved_planets=nb_saved_planets,
-                    nb_planets=nb_planets,
+                    nb_planets=self.nb_planets,
                     score=player_data["score"],
-                    team=team,
+                    team=player_data["team"],
                 )
             )

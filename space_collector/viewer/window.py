@@ -35,7 +35,8 @@ class Window(arcade.Window):
             date_server = data["time"]
             duration = max(0, date_server - date())
             set_date(date_server)
-            for player, player_data in zip(self.players, data["players"]):
+            for player_data in data["players"]:
+                player = self.players[player_data["team"]]
                 player.update(player_data, duration)
             self.score.update(data)
 
