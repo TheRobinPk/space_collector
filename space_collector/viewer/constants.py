@@ -1,3 +1,5 @@
+import math
+
 import colorsys
 
 from space_collector.game.constants import HIGH_ENERGY_LENGTH, MAP_DIMENSION
@@ -12,13 +14,12 @@ class Constants:
         3: 120,
     }
     TEAM_COLORS = {
-        team: tuple(int(c * 255) for c in colorsys.hsv_to_rgb((hue * 2) / 360, 1, 1))
+        team: tuple(
+            int(c * 255)
+            for c in colorsys.hsv_to_rgb(((hue * math.pi / 2) % 360) / 360, 1, 1)
+        )
         for team, hue in TEAM_HUES.items()
     }
-    # TODO why this hack is necessary?
-    TEAM_COLORS[3] = tuple(
-        int(c * 255) for c in colorsys.hsv_to_rgb((90 * 2) / 360, 1, 1)
-    )
 
     def resize(self, small_window: bool):
         if not small_window:
