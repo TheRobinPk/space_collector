@@ -91,7 +91,7 @@ class Score:
             team_offset = constants.SCORE_TEAM_SIZE + index * constants.SCORE_TEAM_SIZE
 
             text.draw(
-                team_data.name[:30],
+                team_data.name[:18],
                 constants.SCORE_MARGIN,
                 team_offset,
                 team_data.team,
