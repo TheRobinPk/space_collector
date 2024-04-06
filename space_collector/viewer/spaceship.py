@@ -27,7 +27,7 @@ class SpaceShip:
         self.team = team
         self.x = AnimatedValue(x)
         self.y = AnimatedValue(y)
-        self.angle = angle  # TODO animation compliquée avec modulo ?
+        self.angle = AnimatedValue(angle)
         self.width = 100
         self.height = 100
         self.fire = False
@@ -43,7 +43,7 @@ class SpaceShip:
         self.sprite.height = self.height
 
     def animate(self) -> None:
-        self.sprite.angle = int(self.angle - 90)
+        self.sprite.angle = int(self.angle.value - 90)
         self.sprite.position = map_coord_to_window_coord(self.x.value, self.y.value)
 
     def draw(self) -> None:
@@ -67,7 +67,22 @@ class SpaceShip:
                 duration=duration,
             )
         )
-        self.angle = server_data["angle"]
+        target_angle = server_data["angle"]
+        best_start_angle = 0
+        best_angle_diff = 1000
+        for angle_offset in (-360, 0, 360):
+            start_angle = self.angle.value + angle_offset
+            angle_diff = abs(target_angle - start_angle)
+            if angle_diff < best_angle_diff:
+                best_angle_diff = angle_diff
+                best_start_angle = start_angle
+        self.angle.add_animation(
+            Animation(
+                start_value=best_start_angle,
+                end_value=target_angle,
+                duration=0.2,
+            )
+        )
         if server_data["broken"]:
             self.sprite.width = self.width / 2
             self.sprite.height = self.height / 2
@@ -142,7 +157,7 @@ class Collector(SpaceShip):
         self.height = 50
 
     def collected_planet_position(self) -> Vector:
-        angle = math.radians(self.angle)
+        angle = math.radians(self.angle.value)
         offset = Vector([600, 0])
         rotation_matrix = Matrix(
             [[math.cos(angle), -math.sin(angle)], [math.sin(angle), math.cos(angle)]]
