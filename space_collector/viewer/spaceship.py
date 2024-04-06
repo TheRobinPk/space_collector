@@ -33,6 +33,7 @@ class SpaceShip:
         self.fire = False
         self.fire_angle = 0
         self.id = -1
+        self.broken = False
 
     def setup(self) -> None:
         image_file = files("space_collector.viewer").joinpath(self.image_path)
@@ -53,6 +54,7 @@ class SpaceShip:
     def update(self, server_data: dict, duration: float) -> None:
         # logging.info(server_data)
         self.id = server_data["id"]
+        self.broken = server_data["broken"]
         self.x.add_animation(
             Animation(
                 start_value=self.x.value,
@@ -83,7 +85,7 @@ class SpaceShip:
                 duration=0.2,
             )
         )
-        if server_data["broken"]:
+        if self.broken:
             self.sprite.width = self.width / 2
             self.sprite.height = self.height / 2
         else:
@@ -174,30 +176,30 @@ class Explorator(SpaceShip):
         self.width = 40
         self.height = 40
         self.max_radar_radius = map_value_to_window(RADAR_RADIUS)
+        self.radar_color = list(constants.TEAM_COLORS[self.team])
+        self.radar_color.append(15)
 
     def setup(self) -> None:
         super().setup()
         self.radar_radius = AnimatedValue(0)
-        self.radar_color = list(constants.TEAM_COLORS[self.team])
-        self.radar_color.append(50)
 
     def update(self, server_data: dict, duration: float) -> None:
         super().update(server_data, duration)
         self.radar = server_data["radar"]
-        if self.radar:
+        if self.radar and not self.broken:
             self.radar_radius.add_animations(
-                initial_value=self.radar_radius.value,
+                initial_value=self.max_radar_radius,
                 steps=[
                     Step(value=self.max_radar_radius, duration=0.25),
-                    Step(value=0, duration=0.25),
+                    Step(value=0, duration=0.001),
                 ],
             )
 
     def draw(self) -> None:
-        # center = map_coord_to_window_coord(self.x.value, self.y.value)
-        # arcade.draw_circle_filled(
-        #     *center,
-        #     self.radar_radius.value,
-        #     self.radar_color,
-        # )
+        center = map_coord_to_window_coord(self.x.value, self.y.value)
+        arcade.draw_circle_filled(
+            *center,
+            self.radar_radius.value,
+            self.radar_color,
+        )
         super().draw()
