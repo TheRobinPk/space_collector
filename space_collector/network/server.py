@@ -1,4 +1,5 @@
 import argparse
+import logging
 from contextlib import suppress
 from dataclasses import dataclass
 from socket import AF_INET, SOCK_STREAM, socket
@@ -25,7 +26,7 @@ class ClientData:
 
 class Server:
     def __init__(self: "Server", host: str, port: int) -> None:
-        self.clients: set[ClientData] = set()
+        self.clients: list[ClientData] = []
         print("Waiting for connection...")
         accept_thread = Thread(
             target=self.accept_incoming_connections, args=(host, port), daemon=True
@@ -65,8 +66,9 @@ class Server:
         name = data_handler.readline().strip()
         print(" - Name", name)
         client = ClientData(spectator=spectator, name=name, network=data_handler)
-        self.clients.add(client)
+        self.clients.append(client)
         client.network.write("OK\n")
+        logging.info(self.clients)
         print(" - New client connected", client, flush=True)
 
 

@@ -19,8 +19,8 @@ class GameServer(Server):
         super().__init__(host, port)
         self.game = Game()
         self._wait_connections()
-        for player_name in {player.name for player in self.players}:
-            self.game.add_player(player_name)
+        for player in self.players:
+            self.game.add_player(player.name)
 
     @property
     def players(self):
