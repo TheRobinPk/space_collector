@@ -78,7 +78,7 @@ Any enemy spaceship less than 200 kms far from the high enery attack is now brok
 
 This command is only valid for an attacker.
 
-Response is `OK` (even if the fire rate is not respected, and in this case the command is ignored).
+Response is `OK` (even if the fire rate — at most one fire per second per spaceship — is not respected, and in this case the command is ignored).
 
 ### Radar
 
