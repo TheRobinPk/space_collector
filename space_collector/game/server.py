@@ -52,6 +52,7 @@ class GameServer(Server):
             sleep(1)
 
         print("Players ready: START!!!")
+        self.game.start()
         for player in self.players:
             self.write(player, "START")
 
