@@ -52,11 +52,13 @@ class TeamData:
 
 
 class Score:
-    def __init__(self):
+    def __init__(self, addr: str, port: int):
         self.sprite_list = arcade.SpriteList()
         self.teams_data: list[TeamData] = []
         self.time = 0
         self.nb_planets = None
+        self.port = port
+        self.addr = addr
 
     def setup(self) -> None:
         font_file = files("space_collector.viewer").joinpath("images/Sportrop.ttf")
@@ -81,6 +83,15 @@ class Score:
             2,
             size=constants.SCORE_FONT_SIZE,
         )
+        draw_text(
+            f"{self.addr}:{self.port}",
+            constants.SCORE_MARGIN,
+            constants.SCORE_HEIGHT
+            - constants.SCORE_TIME_MARGIN
+            - constants.SCORE_TEAM_SIZE // 4,
+            1,
+            size=constants.SCORE_FONT_SIZE,
+        )
         for index, team_data in enumerate(
             sorted(self.teams_data, key=lambda td: td.score)
         ):
@@ -97,7 +108,7 @@ class Score:
                 draw_text(
                     "BLOCKED",
                     constants.SCORE_MARGIN,
-                    team_offset - constants.SCORE_TEAM_SIZE // 5,
+                    team_offset - constants.SCORE_TEAM_SIZE // 4,
                     team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
                 )
@@ -105,14 +116,14 @@ class Score:
                 draw_text(
                     f"Score: {team_data.score}",
                     constants.SCORE_MARGIN,
-                    team_offset - constants.SCORE_TEAM_SIZE // 5,
+                    team_offset - constants.SCORE_TEAM_SIZE // 4,
                     team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
                 )
                 draw_text(
                     f"Planets: {team_data.nb_saved_planets}/{team_data.nb_planets}",
                     constants.SCORE_MARGIN,
-                    team_offset - 2 * constants.SCORE_TEAM_SIZE // 5,
+                    team_offset - 2 * constants.SCORE_TEAM_SIZE // 4,
                     team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
                 )

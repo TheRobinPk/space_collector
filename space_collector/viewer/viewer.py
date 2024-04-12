@@ -26,4 +26,4 @@ class Viewer:
         logging.info("Start network")
         Thread(target=network_thread, daemon=True, args=[server_addr, port]).start()
         logging.info("Start GUI")
-        gui_thread()
+        gui_thread(server_addr, port)
