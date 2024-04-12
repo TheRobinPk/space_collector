@@ -43,7 +43,10 @@ class GameServer(Server):
             sleep(1)
 
         for second in range(1, server_connection_timeout + 1):
-            print(f"Waiting other players ({second}/{server_connection_timeout})")
+            names = [player.name for player in self.players]
+            print(
+                f"Waiting other players ({second}/{server_connection_timeout}) {names}"
+            )
             if len(self.players) == MAX_NB_PLAYERS:
                 break
             sleep(1)
