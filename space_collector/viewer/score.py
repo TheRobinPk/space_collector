@@ -84,7 +84,7 @@ class Score:
             size=constants.SCORE_FONT_SIZE,
         )
         draw_text(
-            f"{self.addr}:{self.port}",
+            f"{self.addr} : {self.port}",
             constants.SCORE_MARGIN,
             constants.SCORE_HEIGHT
             - constants.SCORE_TIME_MARGIN
