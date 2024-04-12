@@ -89,8 +89,8 @@ class Score:
             constants.SCORE_HEIGHT
             - constants.SCORE_TIME_MARGIN
             - constants.SCORE_TEAM_SIZE // 4,
-            1,
-            size=constants.SCORE_FONT_SIZE,
+            2,
+            size=constants.SCORE_FONT_SIZE - 4,
         )
         for index, team_data in enumerate(
             sorted(self.teams_data, key=lambda td: td.score)
