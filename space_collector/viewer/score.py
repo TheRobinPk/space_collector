@@ -98,7 +98,7 @@ class Score:
                     "BLOCKED",
                     constants.SCORE_MARGIN,
                     team_offset - constants.SCORE_TEAM_SIZE // 5,
-                    index,
+                    team_data.team,
                     size=constants.SCORE_FONT_SIZE - 5,
                 )
             else:
