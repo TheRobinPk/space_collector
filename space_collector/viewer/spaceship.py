@@ -38,18 +38,20 @@ class SpaceShip:
     def setup(self) -> None:
         image_file = files("space_collector.viewer").joinpath(self.image_path)
         self.sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
+            path_or_texture=hue_changed_texture(
+                image_file, constants.TEAM_HUES[self.team]
+            )
         )
         self.sprite.width = self.width
         self.sprite.height = self.height
 
     def animate(self) -> None:
-        self.sprite.angle = int(self.angle.value - 90)
+        self.sprite.angle = -int(self.angle.value - 90)
         self.sprite.position = map_coord_to_window_coord(self.x.value, self.y.value)
 
     def draw(self) -> None:
         self.animate()
-        self.sprite.draw()
+        arcade.draw_sprite(self.sprite)
 
     def update(self, server_data: dict, duration: float) -> None:
         # logging.info(server_data)
@@ -57,16 +59,12 @@ class SpaceShip:
         self.broken = server_data["broken"]
         self.x.add_animation(
             Animation(
-                start_value=self.x.value,
-                end_value=server_data["x"],
-                duration=duration,
+                start_value=self.x.value, end_value=server_data["x"], duration=duration
             )
         )
         self.y.add_animation(
             Animation(
-                start_value=self.y.value,
-                end_value=server_data["y"],
-                duration=duration,
+                start_value=self.y.value, end_value=server_data["y"], duration=duration
             )
         )
         target_angle = server_data["angle"]
@@ -80,9 +78,7 @@ class SpaceShip:
                 best_start_angle = start_angle
         self.angle.add_animation(
             Animation(
-                start_value=best_start_angle,
-                end_value=target_angle,
-                duration=0.2,
+                start_value=best_start_angle, end_value=target_angle, duration=0.2
             )
         )
         if self.broken:
@@ -107,7 +103,9 @@ class Attacker(SpaceShip):
         self.lightning_alpha = AnimatedValue(0)
         image_file = files("space_collector.viewer").joinpath("images/high_energy.png")
         self.lightning_sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
+            path_or_texture=hue_changed_texture(
+                image_file, constants.TEAM_HUES[self.team]
+            )
         )
         self.lightning_sprite.width = 20
         self.lightning_sprite.height = 1
@@ -135,7 +133,7 @@ class Attacker(SpaceShip):
 
     def animate(self) -> None:
         super().animate()
-        self.lightning_sprite.angle = int(self.fire_angle - 90)
+        self.lightning_sprite.angle = -int(self.fire_angle - 90)
         self.lightning_sprite.height = self.lightning_length.value + 1
         fire_angle = math.radians(self.fire_angle)
         radius = self.lightning_sprite.height // 2
@@ -147,7 +145,7 @@ class Attacker(SpaceShip):
 
     def draw(self) -> None:
         super().draw()
-        self.lightning_sprite.draw()
+        arcade.draw_sprite(self.lightning_sprite)
 
 
 class Collector(SpaceShip):
@@ -197,9 +195,5 @@ class Explorator(SpaceShip):
 
     def draw(self) -> None:
         center = map_coord_to_window_coord(self.x.value, self.y.value)
-        arcade.draw_circle_filled(
-            *center,
-            self.radar_radius.value,
-            self.radar_color,
-        )
+        arcade.draw_circle_filled(*center, self.radar_radius.value, self.radar_color)
         super().draw()

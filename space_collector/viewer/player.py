@@ -29,19 +29,21 @@ class Player:
     def setup(self) -> None:
         image_file = files("space_collector.viewer").joinpath("images/station.png")
         self.base_sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
+            path_or_texture=hue_changed_texture(
+                image_file, constants.TEAM_HUES[self.team]
+            )
         )
         self.base_sprite.width = 200
         self.base_sprite.height = 200
         orientation = player_orientations[self.team]
-        self.base_sprite.angle = orientation.angle - 90
+        self.base_sprite.angle = -(orientation.angle - 90)
         base_offset = orientation.matrix @ Vector([0, -2500])
         self.base_sprite.position = map_coord_to_window_coord(
             *(Vector(orientation.base_position) + base_offset)
         )
 
     def background_draw(self) -> None:
-        self.base_sprite.draw()
+        arcade.draw_sprite(self.base_sprite)
         for planet in self.planets.values():
             planet.draw()
 

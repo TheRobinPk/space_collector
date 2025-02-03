@@ -36,7 +36,9 @@ class Planet:
     def setup(self) -> None:
         image_file = files("space_collector.viewer").joinpath(self.image_path)
         self.sprite = arcade.Sprite(
-            texture=hue_changed_texture(image_file, constants.TEAM_HUES[self.team])
+            path_or_texture=hue_changed_texture(
+                image_file, constants.TEAM_HUES[self.team]
+            )
         )
         self.sprite.width = random.randint(30, 70)
         self.sprite.height = self.sprite.width
@@ -59,7 +61,7 @@ class Planet:
             (*constants.TEAM_COLORS[self.team], 150),
             4,
         )
-        self.sprite.draw()
+        arcade.draw_sprite(self.sprite)
 
     def update(self, server_data: dict, duration: float) -> None:
         if self.saved:
