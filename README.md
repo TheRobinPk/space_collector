@@ -6,7 +6,7 @@ Space collector game
 
 - Square 20 000 x 20 000 kms
 - Random number of planets (between 2 and 8) and positions of planets, central symmetry
-  so that every team "see" the same map
+  so that every team "sees" the same map
 - Collect your planets with your collector
   - Slow speed
 - Attack enemies with your five attackers
@@ -16,15 +16,15 @@ Space collector game
     - 1 second to wait between fires of an attacker
 - Explore with your explorer
   - Normal speed
-  - See its planets and its spaceships
-  - See enemy spaceships around him < 5 000 kms
+  - Sees its planets and its spaceships
+  - Sees enemy spaceships around him < 5 000 kms
 - When a unit is touched by a high energy attack
   - Must return to its base to be repaired
     - Attacker can't attack
     - Explorators can't use their radar to see enemy spaceships
     - Collectors can't collect planets, they loose the collected planets (left in place)
 - When a team has collected all its planets, the game stops
-- When the game ran 5 minutes, the game stops
+- When the game has run 5 minutes, the game stops
 
 ## Commands
 
