@@ -157,8 +157,8 @@ pytest
 ### Publish
 
 ```shell
-python -m build
-python3 -m twine upload dist/*
+uv build
+uv publish
 ```
 
 ## Auto-évaluation
