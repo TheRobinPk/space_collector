@@ -2,6 +2,8 @@
 
 Space collector game
 
+![screenshot](screenshot.png)
+
 ## Rules
 
 - Square 20 000 x 20 000 kms
