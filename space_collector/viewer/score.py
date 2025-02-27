@@ -113,8 +113,9 @@ class Score:
                     size=constants.SCORE_FONT_SIZE - 5,
                 )
             else:
+                score = f"{team_data.score:_d}".replace("_", " ")
                 draw_text(
-                    f"Score: {team_data.score}",
+                    f"Score: {score}",
                     constants.SCORE_MARGIN,
                     team_offset - constants.SCORE_TEAM_SIZE // 4,
                     team_data.team,
