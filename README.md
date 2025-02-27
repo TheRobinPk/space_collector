@@ -7,7 +7,7 @@ Space collector game
 ## Rules
 
 - Square 20 000 x 20 000 kms
-- Random number of planets (between 2 and 8) and positions of planets, central symmetry
+- Random number of planets (between 7 and 15) and positions of planets, central symmetry
   so that every team "sees" the same map
 - Collect your planets with your collector
   - Slow speed
@@ -44,7 +44,7 @@ Space collector game
 
 Each command returns a response, made with:
 
-- `{planet_id}` is between 0 and 65535
+- `{planet_id}` is between 0 and 65 535
 - `{ship_id}` is between 1 and 9
 - `{abscissa}` and `{ordinate}` are between 0 and 19 999 ((0, 0) is the bottom left corner)
 
