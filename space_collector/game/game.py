@@ -7,7 +7,7 @@ from space_collector.game.player import Player
 from space_collector.game.planet import Planet
 from space_collector.game.player_orientations import player_orientations
 from space_collector.game.math import Vector
-from space_collector.game.constants import MAX_NB_PLANETS
+from space_collector.game.constants import MIN_NB_PLANETS, MAX_NB_PLANETS
 
 planet_ids: set[int] = set()
 
@@ -26,7 +26,7 @@ class Game:
         self.cumulated_time = 0
         self.players: list[Player] = []
 
-        nb_planets = random.randint(2, MAX_NB_PLANETS)
+        nb_planets = random.randint(MIN_NB_PLANETS, MAX_NB_PLANETS)
         all_planets_positions = set()
         self.planets_positions = []
         while len(self.planets_positions) < nb_planets:
