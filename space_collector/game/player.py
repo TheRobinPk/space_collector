@@ -93,6 +93,8 @@ class Player:
             return "KO"
 
     def spaceship_by_id(self, id_: int) -> Spaceship:
+        if id_ <= 0:
+            raise ValueError(f"Wrong spaceship ID: {id_}")
         try:
             return self.spaceships[id_ - 1]
         except IndexError:
