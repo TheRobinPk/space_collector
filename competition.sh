@@ -19,5 +19,5 @@ python /home/vincent/Documents/programmation/space_collector_player/sample_playe
 sleep 1
 python /home/vincent/Documents/programmation/space_collector_player/sample_player_client.py -p $PORT -u "INTERSTELLAR" &
 
-sleep 700
+sleep 330
 python -m space_collector.killall
