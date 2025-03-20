@@ -73,7 +73,7 @@ class GameServer(Server):
         logging.debug("sending to %s", client.name)
         try:
             client.network.write(text)
-        except NetworkError:
+        except (NetworkError, TimeoutError):
             logging.exception("Problem sending state to client")
             self.remove_client(client)
 
@@ -113,12 +113,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-p", "--port", type=int, help="location where server listens", default=16210
     )
-    parser.add_argument(
-        "-f",
-        "--fast",
-        help="fast simulation",
-        action="store_true",
-    )
+    parser.add_argument("-f", "--fast", help="fast simulation", action="store_true")
     parser.add_argument(
         "-t",
         "--timeout",
