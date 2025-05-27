@@ -62,9 +62,9 @@ Maximum speed:
 
 Response is `OK`.
 
-If a collector is less than 200 kms far from one of its planets, it collects the planet if it is not yet carrying a planet and it is not broken.
+If a collector is less than 200 kms away from one of its planets, it collects the planet if it is not yet carrying a planet and it is not broken.
 
-If a collector is less than 200 kms far from the base while carrying a planet, the planet is collected. 1000 points are added to player's score.
+If a collector is less than 200 kms away from the base while carrying a planet, the planet is collected. 1000 points are added to player's score.
 
 ### Fire
 
@@ -72,7 +72,7 @@ If a collector is less than 200 kms far from the base while carrying a planet, t
 
 Fire a high energy attack, at `{angle}` angle. Length of the attack is 5 000 kms.
 
-Any enemy spaceship less than 200 kms far from the high enery attack is now broken. Some points are added to player's score:
+Any enemy spaceship less than 200 kms away from the high enery attack is now broken. Some points are added to player's score:
 
 - 15 points for an attacker
 - 20 points for an explorer
@@ -94,7 +94,7 @@ Response is a one line string. It is composed of several elements, separated by 
 - `S {team} {ship_id} {abscissa} {ordinate} {broken}`: a spaceship, team 0 is yours, team 1 to 3 are opponents, broken is 0 or 1, 1 meaning that the ship was targeted by a high energy attack (your spaceships are always present even if the explorer is broken)
 - `B {abscissa} {ordinate}`: your base station's position (always present in radar information)
 
-If an explorer is broken, it can't see enemy spaceships. If not, it can see enemy spaceships less than 5 000 kms far from the explorer.
+If an explorer is broken, it can't see enemy spaceships. If not, it can see enemy spaceships less than 5 000 kms away from the explorer.
 
 ## Commands
 
