@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from math import hypot
-from typing import Iterable
+from collections.abc import Iterable
 
 
 class Vector:
@@ -20,22 +20,22 @@ class Vector:
     def __add__(self, other: Vector) -> Vector:
         if isinstance(other, Vector):
             return Vector(s + o for s, o in zip(self, other))
-        raise NotImplemented
+        raise NotImplementedError
 
     def __sub__(self, other: Vector) -> Vector:
         if isinstance(other, Vector):
             return Vector(s - o for s, o in zip(self, other))
-        raise NotImplemented
+        raise NotImplementedError
 
     def __mul__(self, other: int | float) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(s * other for s in self)
-        raise NotImplemented
+        raise NotImplementedError
 
     def __truediv__(self, other: int | float) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(s / other for s in self)
-        raise NotImplemented
+        raise NotImplementedError
 
     def length(self) -> float:
         return hypot(*self.data)
@@ -43,7 +43,7 @@ class Vector:
     def dot(self, other: Vector) -> float:
         if isinstance(other, Vector):
             return sum(s * o for s, o in zip(self, other))
-        raise NotImplemented
+        raise NotImplementedError
 
     @property
     def x(self):

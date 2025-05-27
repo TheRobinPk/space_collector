@@ -1,4 +1,3 @@
-import logging
 from importlib.resources import files
 
 import arcade

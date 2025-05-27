@@ -1,4 +1,3 @@
-import logging
 import random
 from importlib.resources import files
 from time import perf_counter
@@ -83,18 +82,12 @@ class SpaceBackground:
         if not self.starfield_alpha1:
             self.starfield_alpha1.add_animations(
                 initial_value=0,
-                steps=[
-                    Step(value=50, duration=3),
-                    Step(value=0, duration=3),
-                ],
+                steps=[Step(value=50, duration=3), Step(value=0, duration=3)],
             )
         if not self.starfield_alpha2:
             self.starfield_alpha2.add_animations(
                 initial_value=0,
-                steps=[
-                    Step(value=70, duration=4.1),
-                    Step(value=0, duration=4),
-                ],
+                steps=[Step(value=70, duration=4.1), Step(value=0, duration=4)],
             )
 
     def draw(self) -> None:

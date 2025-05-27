@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from time import perf_counter
-from typing import Iterable
+from collections.abc import Iterable
 
 _date_offset: float = 0
 

@@ -14,11 +14,7 @@ parser.add_argument(
     default="localhost",
 )
 parser.add_argument(
-    "-p",
-    "--port",
-    type=int,
-    help="location where server listens",
-    default=16210,
+    "-p", "--port", type=int, help="location where server listens", default=16210
 )
 parser.add_argument(
     "-s",

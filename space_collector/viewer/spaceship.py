@@ -1,15 +1,10 @@
-import logging
 import math
 from importlib.resources import files
 
 
 import arcade
 
-from space_collector.game.constants import (
-    MAP_DIMENSION,
-    HIGH_ENERGY_LENGTH,
-    RADAR_RADIUS,
-)
+from space_collector.game.constants import RADAR_RADIUS
 from space_collector.game.math import Matrix, Vector
 from space_collector.viewer.animation import AnimatedValue, Animation, Step
 from space_collector.viewer.utils import (

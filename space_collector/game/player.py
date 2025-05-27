@@ -1,9 +1,8 @@
 import logging
 
 from space_collector.game.spaceship import Spaceship, Collector, Attacker, Explorer
-from space_collector.game.constants import MAP_DIMENSION
 from space_collector.game.planet import Planet
-from space_collector.game.math import Matrix, Vector
+from space_collector.game.math import Vector
 from space_collector.game.player_orientations import player_orientations
 
 

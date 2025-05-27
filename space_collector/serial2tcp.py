@@ -72,11 +72,7 @@ if __name__ == "__main__":
         default="localhost",
     )
     parser.add_argument(
-        "-p",
-        "--port",
-        type=int,
-        help="location where server listens",
-        default=16210,
+        "-p", "--port", type=int, help="location where server listens", default=16210
     )
     parser.add_argument(
         "-s",
@@ -86,11 +82,7 @@ if __name__ == "__main__":
         default="/dev/ttyUSB0",
     )
     parser.add_argument(
-        "-n",
-        "--team-name",
-        type=str,
-        help="team name",
-        default="Default team name",
+        "-n", "--team-name", type=str, help="team name", default="Default team name"
     )
     args = parser.parse_args()
 

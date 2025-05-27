@@ -135,14 +135,7 @@ class Attacker(Spaceship):
     MAX_SPEED = 3000
     TYPE = "attacker"
 
-    def __init__(
-        self,
-        id_: int,
-        x: int,
-        y: int,
-        angle: int,
-        player: "Player",
-    ) -> None:
+    def __init__(self, id_: int, x: int, y: int, angle: int, player: "Player") -> None:
         super().__init__(id_, x, y, angle, player)
         self.fire_started: bool = False
         self.fire_angle: int = 0
@@ -197,14 +190,7 @@ class Explorer(Spaceship):
     MAX_SPEED = 2000
     TYPE = "explorer"
 
-    def __init__(
-        self,
-        id_: int,
-        x: int,
-        y: int,
-        angle: int,
-        player: "Player",
-    ) -> None:
+    def __init__(self, id_: int, x: int, y: int, angle: int, player: "Player") -> None:
         super().__init__(id_, x, y, angle, player)
         self.radar_started: bool = False
 

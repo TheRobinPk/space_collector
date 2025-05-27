@@ -7,12 +7,7 @@ from space_collector.game.constants import HIGH_ENERGY_LENGTH, MAP_DIMENSION
 
 class Constants:
     SCREEN_TITLE = "Space collector"
-    TEAM_HUES = {
-        0: 0,
-        1: 30,
-        2: 65,
-        3: 120,
-    }
+    TEAM_HUES = {0: 0, 1: 30, 2: 65, 3: 120}
     TEAM_COLORS = {
         team: tuple(
             int(c * 255)

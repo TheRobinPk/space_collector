@@ -47,7 +47,7 @@ class DataHandler:
     def input_empty(self) -> bool:
         return "\n" not in self._input
 
-    def readline(self: "DataHandler", timeout: int = DEFAULT_TIMEOUT) -> str:
+    def readline(self: DataHandler, timeout: int = DEFAULT_TIMEOUT) -> str:
         start = perf_counter()
         while "\n" not in self._input:
             if perf_counter() - start > timeout:
@@ -60,7 +60,7 @@ class DataHandler:
             self._input = self._input[index + 1 :]
             return line
 
-    def read_json(self: "DataHandler", timeout: int = DEFAULT_TIMEOUT) -> object:
+    def read_json(self: DataHandler, timeout: int = DEFAULT_TIMEOUT) -> object:
         start = perf_counter()
         logging.debug("read_json")
         json_text = ""
@@ -72,7 +72,7 @@ class DataHandler:
                 logging.debug("timeout")
                 raise NetworkError
 
-    def write(self: "DataHandler", message: str) -> None:
+    def write(self: DataHandler, message: str) -> None:
         logging.debug("write %s", message[:100])
         try:
             self.socket.send(bytes(message, "utf8"))
