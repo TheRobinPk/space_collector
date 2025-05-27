@@ -90,7 +90,7 @@ Starts the radar of an explorer.
 
 Response is a one line string. It is composed of several elements, separated by commas. The elements are:
 
-- `P {planet_id} {abscissa} {ordinate} {ship_id} {saved}`: one of your planets, at a given position, the `ship_id` is the ID of the collector that collected the plane, or -1 if not collected, `saved` is 1 when planet is at base station, otherwise 0
+- `P {planet_id} {abscissa} {ordinate} {ship_id} {saved}`: one of your planets, at a given position, the `ship_id` is the ID of the collector that collected the planet, or -1 if not collected, `saved` is 1 when planet is at base station, otherwise 0
 - `S {team} {ship_id} {abscissa} {ordinate} {broken}`: a spaceship, team 0 is yours, team 1 to 3 are opponents, broken is 0 or 1, 1 meaning that the ship was targeted by a high energy attack (your spaceships are always present even if the explorer is broken)
 - `B {abscissa} {ordinate}`: your base station's position (always present in radar information)
 
