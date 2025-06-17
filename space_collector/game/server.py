@@ -3,7 +3,7 @@ import contextlib
 import json
 import logging
 import sys
-from time import sleep, perf_counter
+from time import perf_counter, sleep
 
 from space_collector.game.constants import MAX_GAME_DURATION
 from space_collector.game.game import Game
@@ -15,7 +15,7 @@ server_connection_timeout = 10
 
 
 class GameServer(Server):
-    def __init__(self: "GameServer", host: str, port: int):
+    def __init__(self: "GameServer", host: str, port: int) -> None:
         super().__init__(host, port)
         self.game = Game()
         self._wait_connections()
@@ -23,11 +23,11 @@ class GameServer(Server):
             self.game.add_player(player.name)
 
     @property
-    def players(self):
+    def players(self) -> list[ClientData]:
         return [client for client in list(self.clients) if not client.spectator]
 
     @property
-    def spectators(self):
+    def spectators(self) -> list[ClientData]:
         return [client for client in list(self.clients) if client.spectator]
 
     def remove_client(self: "GameServer", client: ClientData) -> None:
@@ -45,7 +45,7 @@ class GameServer(Server):
         for second in range(1, server_connection_timeout + 1):
             names = [player.name for player in self.players]
             print(
-                f"Waiting other players ({second}/{server_connection_timeout}) {names}"
+                f"Waiting other players ({second}/{server_connection_timeout}) {names}",
             )
             if len(self.players) == MAX_NB_PLAYERS:
                 break
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         default="localhost",
     )
     parser.add_argument(
-        "-p", "--port", type=int, help="location where server listens", default=16210
+        "-p", "--port", type=int, help="location where server listens", default=16210,
     )
     parser.add_argument("-f", "--fast", help="fast simulation", action="store_true")
     parser.add_argument(

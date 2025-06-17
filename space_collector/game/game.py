@@ -2,12 +2,11 @@ import logging
 import random
 from time import perf_counter
 
-
-from space_collector.game.player import Player
-from space_collector.game.planet import Planet
-from space_collector.game.player_orientations import player_orientations
+from space_collector.game.constants import MAX_NB_PLANETS, MIN_NB_PLANETS
 from space_collector.game.math import Vector
-from space_collector.game.constants import MIN_NB_PLANETS, MAX_NB_PLANETS
+from space_collector.game.planet import Planet
+from space_collector.game.player import Player
+from space_collector.game.player_orientations import player_orientations
 
 planet_ids: set[int] = set()
 
@@ -53,7 +52,7 @@ class Game:
     def all_planets_collected(self) -> bool:
         return any(player.all_planets_collected for player in self.players)
 
-    def start(self):
+    def start(self) -> None:
         self.start_time = perf_counter()
 
     def manage_command(self, player_id: int, command: str) -> str:

@@ -7,7 +7,6 @@ from socket import socket
 from threading import Lock, Thread
 from time import perf_counter, sleep
 
-
 DEFAULT_TIMEOUT = 20  # seconds
 
 

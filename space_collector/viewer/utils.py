@@ -6,7 +6,6 @@ from functools import cache
 from importlib.resources import files
 from importlib.resources.abc import Traversable
 
-
 import arcade
 from PIL import Image
 
@@ -48,7 +47,7 @@ def random_sprite(path: str) -> arcade.Sprite:
 
 @cache
 def hue(image_path: str) -> int:
-    """Get most common hue in important pixels (saturated, not transparent…)
+    """Get most common hue in important pixels (saturated, not transparent…).
 
     Args:
         image_path: path of the image to analyze
@@ -64,7 +63,9 @@ def hue(image_path: str) -> int:
     values = hsv_image.getdata(band=2)
     important_hues = [
         hue // 10 * 10
-        for hue, saturation, value, alpha in zip(hues, saturations, values, alphas)
+        for hue, saturation, value, alpha in zip(
+            hues, saturations, values, alphas, strict=False
+        )
         if saturation > 50 and value > 50 and alpha != 0
     ]
     counter = Counter(important_hues)

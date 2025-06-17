@@ -132,7 +132,7 @@ python -m space_collector.serial2tcp -p $PORT --serial $SERIAL --team-name "CHAN
 ### Kill all clients and server
 
 ```shell
-# For Linux and Mac, in an activated virtual environment
+# In an activated virtual environment
 python -m space_collector.killall
 ```
 
